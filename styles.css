@@ -1077,7 +1077,7 @@ video::cue {
 }
 
 .sale-pop--pattern {
-  bottom: 22px;
+  bottom: -60px;
   left: -168px;
   background: #efe9dd;
   translate: -44px 0;
@@ -1090,7 +1090,7 @@ video::cue {
 }
 
 .sale-pop--tanktop {
-  bottom: 210px;
+  bottom: 260px;
   left: -110px;
   background: #b8e2ec;
   translate: -44px 0;
