@@ -928,14 +928,13 @@ video::cue {
 }
 
 .popup-video--center {
-  --rot: 3deg;
-  --scale-final: 1.06;
-  --from-x: 0px;
-  --from-y: 280px;
+  --rot: -6deg;
+  --scale-final: 1.04;
+  --from-x: 380px;
+  --from-y: 120px;
   width: 264px;
-  bottom: calc(100% - 90px);
-  left: 50%;
-  margin-left: -132px;
+  top: -130px;
+  right: calc(100% + 130px);
   overflow: visible;
 }
 
