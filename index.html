@@ -171,7 +171,7 @@
               </span>
             </span>
             <span class="circle-slot">
-              <span class="glass-circle" role="button" tabindex="0" aria-label="Collapse hero">
+              <span class="glass-circle" aria-hidden="true">
                 <svg
                   class="plus"
                   viewBox="0 0 57 57"
@@ -508,13 +508,51 @@
           }
         }
 
-        circle.addEventListener("click", collapse);
-        circle.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            collapse();
+        // Auto-cycle the hover preview across cards/videos on initial load
+        const PREVIEW_START = 4100;
+        const PREVIEW_HOLD = 1300;
+        const PREVIEW_GAP = 180;
+        let previewCancelled = false;
+
+        function startPreviewCycle() {
+          const items = Array.from(
+            document.querySelectorAll(".popup-video, .popup-card")
+          );
+          let i = 0;
+          function step() {
+            if (
+              previewCancelled ||
+              hero.classList.contains("is-collapsed") ||
+              i >= items.length
+            )
+              return;
+            const el = items[i++];
+            el.classList.add("is-previewing");
+            setTimeout(() => {
+              el.classList.remove("is-previewing");
+              setTimeout(step, PREVIEW_GAP);
+            }, PREVIEW_HOLD);
           }
-        });
+          setTimeout(step, PREVIEW_START);
+        }
+        startPreviewCycle();
+
+        // Collapse on first meaningful scroll
+        let collapseTriggered = false;
+        function maybeCollapse() {
+          if (collapseTriggered) return;
+          if (window.scrollY > 40) {
+            collapseTriggered = true;
+            previewCancelled = true;
+            document
+              .querySelectorAll(".is-previewing")
+              .forEach((el) => el.classList.remove("is-previewing"));
+            collapse();
+            window.removeEventListener("scroll", maybeCollapse);
+          }
+        }
+        window.addEventListener("scroll", maybeCollapse, { passive: true });
+        maybeCollapse();
       })();
 
       document.querySelectorAll(".stat-value, .metric-value").forEach((el) => {

@@ -392,85 +392,6 @@ body {
   animation: plus-spin 1100ms cubic-bezier(0.22, 1, 0.36, 1) 1900ms both;
 }
 
-/* Make the glass circle act like a button */
-.glass-circle {
-  cursor: pointer;
-  transition:
-    scale 320ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 520ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.glass-circle:hover {
-  scale: 1.04;
-  animation:
-    circle-bloom 900ms cubic-bezier(0.34, 1.4, 0.4, 1) 1800ms backwards,
-    glass-circle-glow-drift 7s ease-in-out infinite;
-}
-
-@keyframes glass-circle-glow-drift {
-  0%, 100% {
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.03),
-      0 8px 20px rgba(0, 0, 0, 0.04),
-      0 -10px 30px rgba(199, 156, 252, 0.24),
-      10px 0 30px rgba(132, 168, 255, 0.18),
-      0 10px 30px rgba(252, 165, 213, 0.20),
-      -10px 0 30px rgba(167, 139, 250, 0.18),
-      0 0 60px rgba(167, 139, 250, 0.14),
-      inset 0 1px 1px rgba(255, 255, 255, 0.55),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.03);
-  }
-  25% {
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.03),
-      0 8px 20px rgba(0, 0, 0, 0.04),
-      10px 0 30px rgba(199, 156, 252, 0.24),
-      0 10px 30px rgba(132, 168, 255, 0.18),
-      -10px 0 30px rgba(252, 165, 213, 0.20),
-      0 -10px 30px rgba(167, 139, 250, 0.18),
-      0 0 60px rgba(167, 139, 250, 0.14),
-      inset 0 1px 1px rgba(255, 255, 255, 0.55),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.03);
-  }
-  50% {
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.03),
-      0 8px 20px rgba(0, 0, 0, 0.04),
-      0 10px 30px rgba(199, 156, 252, 0.24),
-      -10px 0 30px rgba(132, 168, 255, 0.18),
-      0 -10px 30px rgba(252, 165, 213, 0.20),
-      10px 0 30px rgba(167, 139, 250, 0.18),
-      0 0 60px rgba(167, 139, 250, 0.14),
-      inset 0 1px 1px rgba(255, 255, 255, 0.55),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.03);
-  }
-  75% {
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.03),
-      0 8px 20px rgba(0, 0, 0, 0.04),
-      -10px 0 30px rgba(199, 156, 252, 0.24),
-      0 -10px 30px rgba(132, 168, 255, 0.18),
-      10px 0 30px rgba(252, 165, 213, 0.20),
-      0 10px 30px rgba(167, 139, 250, 0.18),
-      0 0 60px rgba(167, 139, 250, 0.14),
-      inset 0 1px 1px rgba(255, 255, 255, 0.55),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.03);
-  }
-}
-
-.glass-circle:active {
-  scale: 0.97;
-}
-
-.is-collapsed .glass-circle {
-  cursor: default;
-}
-
-.is-collapsed .glass-circle:hover,
-.is-collapsed .glass-circle:active {
-  scale: 1;
-}
-
 /* Bring popup cards/videos above heading text while they fly into the circle */
 .is-collapsed .popup-cards,
 .is-collapsed .popup-videos {
@@ -659,7 +580,7 @@ body {
   100% { translate: 0 0; }
 }
 
-.popup-card:hover {
+.popup-card:is(:hover, .is-previewing) {
   rotate: 0deg;
   transform: translateY(-6px);
   z-index: 3;
@@ -827,7 +748,7 @@ body {
   to { opacity: 1; }
 }
 
-.popup-card--metric:hover .metric-stroke {
+.popup-card--metric:is(:hover, .is-previewing) .metric-stroke {
   animation: metric-line-redraw 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -882,7 +803,7 @@ body {
   will-change: transform, translate, scale, rotate, opacity;
 }
 
-.popup-video:hover {
+.popup-video:is(:hover, .is-previewing) {
   rotate: 0deg;
   transform: translateY(-8px);
   z-index: 3;
@@ -984,21 +905,21 @@ video::cue {
   border-radius: inherit;
 }
 
-.popup-video--left:hover {
+.popup-video--left:is(:hover, .is-previewing) {
   z-index: 20;
 }
 
-.popup-video--left:hover .video-pop {
+.popup-video--left:is(:hover, .is-previewing) .video-pop {
   opacity: 1;
   scale: 1;
 }
 
-.popup-video--left:hover .video-pop--a {
+.popup-video--left:is(:hover, .is-previewing) .video-pop--a {
   translate: -138px -34px;
   rotate: -14deg;
 }
 
-.popup-video--left:hover .video-pop--b {
+.popup-video--left:is(:hover, .is-previewing) .video-pop--b {
   translate: 138px 34px;
   rotate: 14deg;
   transition-delay: 80ms;
@@ -1035,16 +956,16 @@ video::cue {
   translate: 0 -3px;
 }
 
-.popup-video--left:hover .download-ring {
+.popup-video--left:is(:hover, .is-previewing) .download-ring {
   animation: download-ring-in 1100ms cubic-bezier(0.22, 1.2, 0.36, 1) 120ms forwards,
              download-ring-out 360ms cubic-bezier(0.32, 0, 0.36, 1) 1480ms forwards;
 }
 
-.popup-video--left:hover .download-ring-progress {
+.popup-video--left:is(:hover, .is-previewing) .download-ring-progress {
   animation: download-ring-fill 1000ms cubic-bezier(0.32, 0.04, 0.32, 1) 300ms forwards;
 }
 
-.popup-video--left:hover .download-ring-arrow {
+.popup-video--left:is(:hover, .is-previewing) .download-ring-arrow {
   animation: download-arrow-bob 600ms cubic-bezier(0.22, 1, 0.36, 1) 220ms forwards,
              download-arrow-bob-2 600ms cubic-bezier(0.22, 1, 0.36, 1) 820ms forwards;
 }
@@ -1076,9 +997,9 @@ video::cue {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .popup-video--left:hover .download-ring,
-  .popup-video--left:hover .download-ring-progress,
-  .popup-video--left:hover .download-ring-arrow {
+  .popup-video--left:is(:hover, .is-previewing) .download-ring,
+  .popup-video--left:is(:hover, .is-previewing) .download-ring-progress,
+  .popup-video--left:is(:hover, .is-previewing) .download-ring-arrow {
     animation: none;
   }
   .download-ring { opacity: 0; }
@@ -1104,15 +1025,15 @@ video::cue {
     drop-shadow(0 0 32px rgba(22, 163, 74, 0.25));
 }
 
-.popup-video--left:hover > .card-outline > .card-outline-rect {
+.popup-video--left:is(:hover, .is-previewing) > .card-outline > .card-outline-rect {
   animation: outline-draw 880ms cubic-bezier(0.32, 0.04, 0.32, 1) 320ms forwards;
 }
 
-.popup-video--left:hover .video-pop--a > .card-outline > .card-outline-rect {
+.popup-video--left:is(:hover, .is-previewing) .video-pop--a > .card-outline > .card-outline-rect {
   animation: outline-draw 880ms cubic-bezier(0.32, 0.04, 0.32, 1) 520ms forwards;
 }
 
-.popup-video--left:hover .video-pop--b > .card-outline > .card-outline-rect {
+.popup-video--left:is(:hover, .is-previewing) .video-pop--b > .card-outline > .card-outline-rect {
   animation: outline-draw 880ms cubic-bezier(0.32, 0.04, 0.32, 1) 700ms forwards;
 }
 
@@ -1184,7 +1105,7 @@ video::cue {
   stroke: #16a34a;
 }
 
-.popup-video--left:hover > .card-success {
+.popup-video--left:is(:hover, .is-previewing) > .card-success {
   animation: card-success-pop 460ms cubic-bezier(0.22, 1.25, 0.36, 1) 1700ms forwards;
 }
 
@@ -1198,13 +1119,13 @@ video::cue {
 
 @media (prefers-reduced-motion: reduce) {
   .card-outline-rect,
-  .popup-video--left:hover .card-outline-rect,
-  .popup-video--left:hover .video-pop--a > .card-outline > .card-outline-rect,
-  .popup-video--left:hover .video-pop--b > .card-outline > .card-outline-rect {
+  .popup-video--left:is(:hover, .is-previewing) .card-outline-rect,
+  .popup-video--left:is(:hover, .is-previewing) .video-pop--a > .card-outline > .card-outline-rect,
+  .popup-video--left:is(:hover, .is-previewing) .video-pop--b > .card-outline > .card-outline-rect {
     animation: none;
     stroke-dashoffset: 100;
   }
-  .popup-video--left:hover > .card-success {
+  .popup-video--left:is(:hover, .is-previewing) > .card-success {
     animation: none;
     opacity: 1;
     translate: -50% 0;
@@ -1298,29 +1219,29 @@ video::cue {
     inset 0 0 0 0.5px rgba(255, 255, 255, 0.35);
 }
 
-.popup-video--center:hover .sale-pop--pattern::before {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--pattern::before {
   animation: dl-fade 260ms ease 1050ms forwards;
 }
-.popup-video--center:hover .sale-pop--pattern::after {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--pattern::after {
   animation:
     dl-fill 1050ms cubic-bezier(0.32, 0.94, 0.6, 1) forwards,
     dl-shimmer 900ms linear infinite,
     dl-fade 260ms ease 1050ms forwards;
 }
-.popup-video--center:hover .sale-pop--pattern img {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--pattern img {
   animation: dl-unblur 460ms cubic-bezier(0.22, 1, 0.36, 1) 1000ms forwards;
 }
 
-.popup-video--center:hover .sale-pop--tanktop::before {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--tanktop::before {
   animation: dl-fade 260ms ease 1330ms forwards;
 }
-.popup-video--center:hover .sale-pop--tanktop::after {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--tanktop::after {
   animation:
     dl-fill 1230ms cubic-bezier(0.32, 0.94, 0.6, 1) 100ms forwards,
     dl-shimmer 900ms linear 100ms infinite,
     dl-fade 260ms ease 1330ms forwards;
 }
-.popup-video--center:hover .sale-pop--tanktop img {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--tanktop img {
   animation: dl-unblur 460ms cubic-bezier(0.22, 1, 0.36, 1) 1280ms forwards;
 }
 
@@ -1372,7 +1293,7 @@ video::cue {
   object-fit: cover;
 }
 
-.popup-video--center:hover .sale-pop--pattern {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--pattern {
   opacity: 1;
   translate: 0 0;
   scale: 1;
@@ -1380,7 +1301,7 @@ video::cue {
   transition-delay: 0ms;
 }
 
-.popup-video--center:hover .sale-pop--tanktop {
+.popup-video--center:is(:hover, .is-previewing) .sale-pop--tanktop {
   opacity: 1;
   translate: 0 0;
   scale: 1;
@@ -1440,7 +1361,7 @@ video::cue {
   height: 100%;
 }
 
-.popup-video--right:hover .like-heart {
+.popup-video--right:is(:hover, .is-previewing) .like-heart {
   animation: heart-rise var(--dur, 2200ms) cubic-bezier(0.22, 1, 0.36, 1) infinite;
   animation-delay: calc(var(--h-i, 0) * 95ms);
 }
@@ -1804,14 +1725,14 @@ video::cue {
   transform-origin: bottom center;
 }
 
-.popup-card--bars:hover .bars-stack {
+.popup-card--bars:is(:hover, .is-previewing) .bars-stack {
   animation: bars-grow-in 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.popup-card--bars:hover .bars-col:nth-child(1) .bars-stack { animation-delay: 0ms; }
-.popup-card--bars:hover .bars-col:nth-child(2) .bars-stack { animation-delay: 90ms; }
-.popup-card--bars:hover .bars-col:nth-child(3) .bars-stack { animation-delay: 180ms; }
-.popup-card--bars:hover .bars-col:nth-child(4) .bars-stack { animation-delay: 270ms; }
+.popup-card--bars:is(:hover, .is-previewing) .bars-col:nth-child(1) .bars-stack { animation-delay: 0ms; }
+.popup-card--bars:is(:hover, .is-previewing) .bars-col:nth-child(2) .bars-stack { animation-delay: 90ms; }
+.popup-card--bars:is(:hover, .is-previewing) .bars-col:nth-child(3) .bars-stack { animation-delay: 180ms; }
+.popup-card--bars:is(:hover, .is-previewing) .bars-col:nth-child(4) .bars-stack { animation-delay: 270ms; }
 
 @keyframes bars-grow-in {
   from { transform: scaleY(0); }
@@ -1827,15 +1748,15 @@ video::cue {
   transform-origin: bottom;
 }
 
-.popup-card--line:hover .line-comparison {
+.popup-card--line:is(:hover, .is-previewing) .line-comparison {
   animation: chart-fade-in 760ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
 }
 
-.popup-card--line:hover .line-primary {
+.popup-card--line:is(:hover, .is-previewing) .line-primary {
   animation: line-draw 1000ms cubic-bezier(0.32, 0.04, 0.32, 1) 200ms both;
 }
 
-.popup-card--line:hover .line-fill {
+.popup-card--line:is(:hover, .is-previewing) .line-fill {
   animation: fill-rise-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 560ms both;
 }
 
@@ -1854,11 +1775,11 @@ video::cue {
   to   { opacity: 1; }
 }
 
-.popup-card--stat:hover .stat-trend {
+.popup-card--stat:is(:hover, .is-previewing) .stat-trend {
   animation: stat-slide-in 680ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.popup-card--stat:hover .stat-cell:nth-child(3) .stat-trend {
+.popup-card--stat:is(:hover, .is-previewing) .stat-cell:nth-child(3) .stat-trend {
   animation-delay: 140ms;
 }
 
@@ -1867,7 +1788,7 @@ video::cue {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.popup-card:hover .num-track {
+.popup-card:is(:hover, .is-previewing) .num-track {
   animation: digit-roll 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--idx, 0) * 60ms);
 }
