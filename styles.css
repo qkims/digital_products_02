@@ -1090,10 +1090,10 @@ video::cue {
 }
 
 .sale-pop--tanktop {
-  bottom: 22px;
-  right: -168px;
+  bottom: 210px;
+  left: -110px;
   background: #b8e2ec;
-  translate: 44px 0;
+  translate: -44px 0;
 }
 
 .sale-pop--tanktop img {
