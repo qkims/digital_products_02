@@ -954,7 +954,7 @@ video::cue {
   --from-y: 120px;
   width: 264px;
   top: 30px;
-  right: calc(100% + 40px);
+  right: calc(100% + 80px);
   overflow: visible;
 }
 
