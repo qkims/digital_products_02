@@ -1556,11 +1556,6 @@ video::cue {
   stroke-dasharray: 720;
 }
 
-.line-fill {
-  transform-box: fill-box;
-  transform-origin: bottom;
-}
-
 .popup-card--line:is(:hover, .is-previewing) .line-comparison {
   animation: chart-fade-in 760ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
 }
@@ -1570,17 +1565,12 @@ video::cue {
 }
 
 .popup-card--line:is(:hover, .is-previewing) .line-fill {
-  animation: fill-rise-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 560ms both;
+  animation: chart-fade-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 560ms both;
 }
 
 @keyframes line-draw {
   from { stroke-dashoffset: 720; }
   to   { stroke-dashoffset: 0; }
-}
-
-@keyframes fill-rise-up {
-  from { transform: scaleY(0); }
-  to   { transform: scaleY(1); }
 }
 
 @keyframes chart-fade-in {
