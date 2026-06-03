@@ -1122,6 +1122,121 @@ video::cue {
   transition-delay: 120ms;
 }
 
+/* Glassy CTA pill on the center video — loops between
+   white "Purchase tutorial" and green "Download tutorial" with a slide crossfade */
+.purchase-pill {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  translate: -50% 0;
+  width: 196px;
+  height: 38px;
+  border-radius: 999px;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.14),
+    0 16px 40px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 550;
+  letter-spacing: 0;
+  line-height: 1;
+  z-index: 6;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  animation:
+    pill-fade-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 1800ms both,
+    pill-bg-loop 5000ms cubic-bezier(0.65, 0, 0.35, 1) 2500ms infinite;
+}
+
+.pill-text {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.pill-text--purchase {
+  color: #1a1a1a;
+  animation: pill-text-purchase 5000ms cubic-bezier(0.65, 0, 0.35, 1) 2500ms infinite both;
+}
+
+.pill-text--download {
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  animation: pill-text-download 5000ms cubic-bezier(0.65, 0, 0.35, 1) 2500ms infinite both;
+}
+
+.pill-icon {
+  width: 13px;
+  height: 13px;
+  display: block;
+  flex-shrink: 0;
+}
+
+@keyframes pill-fade-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pill-bg-loop {
+  0%, 30% {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.14),
+      0 16px 40px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+  40%, 88% {
+    background: rgba(22, 163, 74, 0.55);
+    box-shadow:
+      0 8px 22px rgba(22, 163, 74, 0.32),
+      0 16px 40px rgba(22, 163, 74, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+  }
+  100% {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.14),
+      0 16px 40px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes pill-text-purchase {
+  0%, 30%   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  40%, 88%  { opacity: 0; transform: translateY(-14px); filter: blur(3px); }
+  98%, 100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes pill-text-download {
+  0%, 30%   { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+  40%, 88%  { opacity: 1; transform: translateY(0); filter: blur(0); }
+  98%, 100% { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .purchase-pill,
+  .pill-text--purchase,
+  .pill-text--download {
+    animation: none;
+  }
+  .purchase-pill { opacity: 1; }
+  .pill-text--download { opacity: 0; }
+}
+
 /* Floating like-hearts spread around (and bleeding outside) the right card video */
 .like-burst {
   position: absolute;
