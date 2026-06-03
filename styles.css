@@ -425,7 +425,7 @@ body {
   --from-x: -400px;
   --from-y: 140px;
   top: -56px;
-  left: calc(100% + 40px);
+  left: calc(100% + 10px);
 }
 
 .popup-card--stat {
