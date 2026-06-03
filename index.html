@@ -508,15 +508,15 @@
           }
         }
 
-        // Auto-cycle the hover preview across cards/videos on initial load
+        // Auto-cycle the hover preview across the top 3 videos on initial load
         const PREVIEW_START = 4100;
-        const PREVIEW_HOLD = 1300;
-        const PREVIEW_GAP = 180;
+        const PREVIEW_HOLD = 2400;
+        const PREVIEW_GAP = 220;
         let previewCancelled = false;
 
         function startPreviewCycle() {
           const items = Array.from(
-            document.querySelectorAll(".popup-video, .popup-card")
+            document.querySelectorAll(".popup-video")
           );
           let i = 0;
           function step() {

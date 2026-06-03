@@ -264,41 +264,8 @@ body {
   animation: slot-expand 700ms cubic-bezier(0.22, 1, 0.36, 1) 1700ms both;
 }
 
-.circle-slot::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 560px;
-  height: 560px;
-  margin-left: -280px;
-  margin-top: -280px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(167, 139, 250, 0.32) 0%,
-    rgba(167, 139, 250, 0.20) 22%,
-    rgba(186, 158, 255, 0.11) 45%,
-    rgba(167, 139, 250, 0.05) 65%,
-    rgba(167, 139, 250, 0) 82%
-  );
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0;
-  transform: scale(0.7);
-  animation: circle-aura-in 1100ms cubic-bezier(0.34, 1.2, 0.4, 1) 1750ms both;
-  filter: blur(14px);
-}
-
 .glass-circle {
   z-index: 1;
-}
-
-@keyframes circle-aura-in {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 .glass-circle {
@@ -890,10 +857,10 @@ video::cue {
   z-index: -1;
   pointer-events: none;
   transition:
-    opacity 540ms cubic-bezier(0.22, 1, 0.36, 1),
-    translate 720ms cubic-bezier(0.22, 1.2, 0.36, 1),
-    scale 720ms cubic-bezier(0.22, 1.2, 0.36, 1),
-    rotate 720ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    translate 960ms cubic-bezier(0.22, 1.2, 0.36, 1),
+    scale 960ms cubic-bezier(0.22, 1.2, 0.36, 1),
+    rotate 960ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, translate, scale, rotate;
 }
 
@@ -922,7 +889,7 @@ video::cue {
 .popup-video--left:is(:hover, .is-previewing) .video-pop--b {
   translate: 138px 34px;
   rotate: 14deg;
-  transition-delay: 80ms;
+  transition-delay: 110ms;
 }
 
 /* Downloading indicator on the left video: a circular green progress ring
@@ -957,17 +924,17 @@ video::cue {
 }
 
 .popup-video--left:is(:hover, .is-previewing) .download-ring {
-  animation: download-ring-in 1100ms cubic-bezier(0.22, 1.2, 0.36, 1) 120ms forwards,
-             download-ring-out 360ms cubic-bezier(0.32, 0, 0.36, 1) 1480ms forwards;
+  animation: download-ring-in 1450ms cubic-bezier(0.22, 1.2, 0.36, 1) 160ms forwards,
+             download-ring-out 460ms cubic-bezier(0.32, 0, 0.36, 1) 1980ms forwards;
 }
 
 .popup-video--left:is(:hover, .is-previewing) .download-ring-progress {
-  animation: download-ring-fill 1000ms cubic-bezier(0.32, 0.04, 0.32, 1) 300ms forwards;
+  animation: download-ring-fill 1320ms cubic-bezier(0.32, 0.04, 0.32, 1) 400ms forwards;
 }
 
 .popup-video--left:is(:hover, .is-previewing) .download-ring-arrow {
-  animation: download-arrow-bob 600ms cubic-bezier(0.22, 1, 0.36, 1) 220ms forwards,
-             download-arrow-bob-2 600ms cubic-bezier(0.22, 1, 0.36, 1) 820ms forwards;
+  animation: download-arrow-bob 780ms cubic-bezier(0.22, 1, 0.36, 1) 290ms forwards,
+             download-arrow-bob-2 780ms cubic-bezier(0.22, 1, 0.36, 1) 1080ms forwards;
 }
 
 @keyframes download-ring-in {
@@ -1026,15 +993,15 @@ video::cue {
 }
 
 .popup-video--left:is(:hover, .is-previewing) > .card-outline > .card-outline-rect {
-  animation: outline-draw 880ms cubic-bezier(0.32, 0.04, 0.32, 1) 320ms forwards;
+  animation: outline-draw 1160ms cubic-bezier(0.32, 0.04, 0.32, 1) 420ms forwards;
 }
 
 .popup-video--left:is(:hover, .is-previewing) .video-pop--a > .card-outline > .card-outline-rect {
-  animation: outline-draw 880ms cubic-bezier(0.32, 0.04, 0.32, 1) 520ms forwards;
+  animation: outline-draw 1160ms cubic-bezier(0.32, 0.04, 0.32, 1) 690ms forwards;
 }
 
 .popup-video--left:is(:hover, .is-previewing) .video-pop--b > .card-outline > .card-outline-rect {
-  animation: outline-draw 880ms cubic-bezier(0.32, 0.04, 0.32, 1) 700ms forwards;
+  animation: outline-draw 1160ms cubic-bezier(0.32, 0.04, 0.32, 1) 920ms forwards;
 }
 
 @keyframes outline-draw {
@@ -1106,7 +1073,7 @@ video::cue {
 }
 
 .popup-video--left:is(:hover, .is-previewing) > .card-success {
-  animation: card-success-pop 460ms cubic-bezier(0.22, 1.25, 0.36, 1) 1700ms forwards;
+  animation: card-success-pop 600ms cubic-bezier(0.22, 1.25, 0.36, 1) 2240ms forwards;
 }
 
 @keyframes card-success-pop {
@@ -1174,10 +1141,10 @@ video::cue {
     0 14px 36px rgba(0, 0, 0, 0.10),
     inset 0 0 0 1px rgba(255, 255, 255, 0.55);
   transition:
-    opacity 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    translate 560ms cubic-bezier(0.22, 1.2, 0.36, 1),
-    scale 560ms cubic-bezier(0.22, 1.2, 0.36, 1),
-    rotate 560ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 640ms cubic-bezier(0.22, 1, 0.36, 1),
+    translate 760ms cubic-bezier(0.22, 1.2, 0.36, 1),
+    scale 760ms cubic-bezier(0.22, 1.2, 0.36, 1),
+    rotate 760ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, translate, scale, rotate;
 }
 
@@ -1220,29 +1187,29 @@ video::cue {
 }
 
 .popup-video--center:is(:hover, .is-previewing) .sale-pop--pattern::before {
-  animation: dl-fade 260ms ease 1050ms forwards;
+  animation: dl-fade 340ms ease 1400ms forwards;
 }
 .popup-video--center:is(:hover, .is-previewing) .sale-pop--pattern::after {
   animation:
-    dl-fill 1050ms cubic-bezier(0.32, 0.94, 0.6, 1) forwards,
-    dl-shimmer 900ms linear infinite,
-    dl-fade 260ms ease 1050ms forwards;
+    dl-fill 1400ms cubic-bezier(0.32, 0.94, 0.6, 1) forwards,
+    dl-shimmer 1100ms linear infinite,
+    dl-fade 340ms ease 1400ms forwards;
 }
 .popup-video--center:is(:hover, .is-previewing) .sale-pop--pattern img {
-  animation: dl-unblur 460ms cubic-bezier(0.22, 1, 0.36, 1) 1000ms forwards;
+  animation: dl-unblur 600ms cubic-bezier(0.22, 1, 0.36, 1) 1340ms forwards;
 }
 
 .popup-video--center:is(:hover, .is-previewing) .sale-pop--tanktop::before {
-  animation: dl-fade 260ms ease 1330ms forwards;
+  animation: dl-fade 340ms ease 1760ms forwards;
 }
 .popup-video--center:is(:hover, .is-previewing) .sale-pop--tanktop::after {
   animation:
-    dl-fill 1230ms cubic-bezier(0.32, 0.94, 0.6, 1) 100ms forwards,
-    dl-shimmer 900ms linear 100ms infinite,
-    dl-fade 260ms ease 1330ms forwards;
+    dl-fill 1620ms cubic-bezier(0.32, 0.94, 0.6, 1) 140ms forwards,
+    dl-shimmer 1100ms linear 140ms infinite,
+    dl-fade 340ms ease 1760ms forwards;
 }
 .popup-video--center:is(:hover, .is-previewing) .sale-pop--tanktop img {
-  animation: dl-unblur 460ms cubic-bezier(0.22, 1, 0.36, 1) 1280ms forwards;
+  animation: dl-unblur 600ms cubic-bezier(0.22, 1, 0.36, 1) 1700ms forwards;
 }
 
 @keyframes dl-fill {
@@ -1306,7 +1273,7 @@ video::cue {
   translate: 0 0;
   scale: 1;
   rotate: 5deg;
-  transition-delay: 90ms;
+  transition-delay: 120ms;
 }
 
 /* Floating like-hearts spread around (and bleeding outside) the right card video */
@@ -1363,7 +1330,7 @@ video::cue {
 
 .popup-video--right:is(:hover, .is-previewing) .like-heart {
   animation: heart-rise var(--dur, 2200ms) cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--h-i, 0) * 95ms);
+  animation-delay: calc(var(--h-i, 0) * 125ms);
 }
 
 /* offset-distance traces the per-heart curve once across the animation —
