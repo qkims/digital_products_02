@@ -162,7 +162,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-md);
-  width: 820px;
+  max-width: 540px;
   padding: var(--space-2xl) var(--space-margin) 144px;
 }
 
@@ -170,8 +170,24 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  max-width: 640px;
+  max-width: 460px;
   width: 100%;
+}
+
+/* Right-side stage: contains all animated visuals so they don't bleed into the heading column */
+.hero-stage {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 560px;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-stage > * {
+  pointer-events: auto;
 }
 
 
