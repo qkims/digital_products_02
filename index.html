@@ -3,228 +3,353 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Digital Products — Shopify</title>
+    <title>Sell digital products from your own store — Shopify</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="hero">
-      <header class="header" aria-label="Primary">
-        <nav class="nav-main">
-          <a class="logo" href="#" aria-label="Shopify home">
-            <svg
-              class="logo-mark"
-              viewBox="0 0 30 34"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M25.5 6.4c0-.3-.3-.5-.5-.5s-3.7-.3-3.7-.3-2.5-2.5-2.8-2.7c-.3-.3-.8-.2-1-.2-.1 0-.7.2-1.6.5-.9-2.6-2.5-5-5.3-5h-.3C9.5-2.2 8.5-3 7.6-3 .8-3 0 5.5 0 11.7c-.5.2-1.6.5-3 1-1.4.4-1.4.5-1.6 1.8C-4.7 15.5-9 49-9 49l24 4.5L28 49S25.5 6.7 25.5 6.4zM15 4.4c-.7.2-1.6.5-2.5.8 0-.6-.1-1.5-.3-2.4C13.4 3 14.4 3.7 15 4.4zm-3.8 1.2c-1.5.5-3.1 1-4.7 1.4.4-1.7 1.3-3.4 2.3-4.5.4-.4.9-.8 1.5-1.1.7 1.3 1 3 .9 4.2zM8.7 1c.5 0 .9.2 1.3.5-.8.4-1.5 1-2.2 1.7-1.3 1.4-2.3 3.5-2.7 5.6L1.2 9.9C2 6 4.6 1 8.7 1z"
-                fill="#95BF47"
-              />
-              <path
-                d="M25 5.9c-.2 0-3.7-.3-3.7-.3s-2.5-2.5-2.8-2.7c-.1-.1-.2-.2-.4-.2L15 53.5l13-2.8L25.6 6.5c0-.4-.3-.6-.6-.6z"
-                fill="#5E8E3E"
-              />
-              <path
-                d="M13 12.2l-1.6 4.8s-1.4-.7-3.1-.7c-2.5 0-2.6 1.6-2.6 2 0 2.2 5.8 3.1 5.8 8.3 0 4.1-2.6 6.7-6.1 6.7-4.2 0-6.3-2.6-6.3-2.6l1.1-3.7s2.2 1.9 4.1 1.9c1.2 0 1.7-1 1.7-1.7 0-2.9-4.8-3-4.8-7.8 0-4 2.9-7.8 8.7-7.8 2.2 0 3.1.6 3.1.6z"
-                fill="#FFF"
-              />
-            </svg>
-            <span class="logo-word">shopify</span>
-          </a>
+    <header class="header" aria-label="Primary">
+      <nav class="nav-main" aria-label="Main">
+        <a class="logo" href="#" aria-label="Shopify home">
+          <svg
+            class="logo-mark"
+            viewBox="0 0 30 34"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M25.5 6.4c0-.3-.3-.5-.5-.5s-3.7-.3-3.7-.3-2.5-2.5-2.8-2.7c-.3-.3-.8-.2-1-.2-.1 0-.7.2-1.6.5-.9-2.6-2.5-5-5.3-5h-.3C9.5-2.2 8.5-3 7.6-3 .8-3 0 5.5 0 11.7c-.5.2-1.6.5-3 1-1.4.4-1.4.5-1.6 1.8C-4.7 15.5-9 49-9 49l24 4.5L28 49S25.5 6.7 25.5 6.4zM15 4.4c-.7.2-1.6.5-2.5.8 0-.6-.1-1.5-.3-2.4C13.4 3 14.4 3.7 15 4.4zm-3.8 1.2c-1.5.5-3.1 1-4.7 1.4.4-1.7 1.3-3.4 2.3-4.5.4-.4.9-.8 1.5-1.1.7 1.3 1 3 .9 4.2zM8.7 1c.5 0 .9.2 1.3.5-.8.4-1.5 1-2.2 1.7-1.3 1.4-2.3 3.5-2.7 5.6L1.2 9.9C2 6 4.6 1 8.7 1z"
+              fill="#95BF47"
+            />
+            <path
+              d="M25 5.9c-.2 0-3.7-.3-3.7-.3s-2.5-2.5-2.8-2.7c-.1-.1-.2-.2-.4-.2L15 53.5l13-2.8L25.6 6.5c0-.4-.3-.6-.6-.6z"
+              fill="#5E8E3E"
+            />
+            <path
+              d="M13 12.2l-1.6 4.8s-1.4-.7-3.1-.7c-2.5 0-2.6 1.6-2.6 2 0 2.2 5.8 3.1 5.8 8.3 0 4.1-2.6 6.7-6.1 6.7-4.2 0-6.3-2.6-6.3-2.6l1.1-3.7s2.2 1.9 4.1 1.9c1.2 0 1.7-1 1.7-1.7 0-2.9-4.8-3-4.8-7.8 0-4 2.9-7.8 8.7-7.8 2.2 0 3.1.6 3.1.6z"
+              fill="#FFF"
+            />
+          </svg>
+          <span class="logo-word">shopify</span>
+        </a>
 
-          <button class="nav-link nav-link--toggle" type="button">
-            Why Shopify
-            <svg
-              class="chevron"
-              viewBox="0 0 16 16"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M4 6l4 4 4-4"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
+        <button class="nav-link nav-link--toggle" type="button">
+          Why Shopify
+          <svg class="chevron" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
 
-          <button class="nav-link nav-link--toggle" type="button">
-            Products
-            <svg
-              class="chevron"
-              viewBox="0 0 16 16"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M4 6l4 4 4-4"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
+        <button class="nav-link nav-link--toggle" type="button">
+          Products
+          <svg class="chevron" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
 
-          <a class="nav-link" href="#">Pricing</a>
-          <a class="nav-link" href="#">Enterprise</a>
-        </nav>
+        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="#">Enterprise</a>
+      </nav>
 
-        <div class="nav-secondary">
-          <a class="nav-link nav-link--light" href="#">Log in</a>
-          <a class="btn btn--sm btn--primary" href="#">Start for free</a>
-        </div>
-      </header>
+      <div class="nav-secondary">
+        <a class="nav-link nav-link--light" href="#">Log in</a>
+        <a class="btn btn--sm btn--primary" href="#">Start for free</a>
+      </div>
+    </header>
 
-      <main class="hero-content">
+    <main class="hero">
+      <div class="hero-container">
         <div class="heading-group">
           <h1 class="display">
-            <span class="line line--with-videos">
-              <span class="word" style="--i: 0">Digital</span>
-              <span class="word" style="--i: 1">selling</span>
-              <span class="popup-videos" aria-hidden="true">
-                <span class="popup-video popup-video--center" style="--video-i: 0">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="assets/crafting.mp4" type="video/mp4" />
-                  </video>
-                  <span class="sale-pop sale-pop--pattern" aria-hidden="true">
-                    <img src="assets/pattern.png" alt="" />
-                  </span>
-                  <span class="sale-pop sale-pop--tanktop" aria-hidden="true">
-                    <img src="assets/tanktop.png" alt="" />
-                  </span>
-                  <span class="purchase-pill" aria-hidden="true">
-                    <span class="pill-text pill-text--purchase">Purchase tutorial</span>
-                    <span class="pill-text pill-text--download">
-                      <svg class="pill-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M8 3 V11 M4.5 7.5 L8 11 L11.5 7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                      </svg>
-                      Download tutorial
-                    </span>
-                  </span>
-                </span>
-              </span>
-            </span>
-            <span class="line line--with-cards">
-              <span class="word" style="--i: 2">that</span>
-              <span class="word" style="--i: 3">means</span>
-              <span class="word" style="--i: 4">business</span>
-              <span class="popup-cards" aria-hidden="true">
-                <!-- Average order value line chart -->
-                <span class="popup-card popup-card--line" style="--card-i: 0">
-                  <span class="card-head">
-                    <span class="card-title">Average order value</span>
-                  </span>
-                  <span class="card-metric">
-                    <span class="metric-value">$97.54</span>
-                    <span class="metric-trend">
-                      <svg class="trend-arrow" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M1 4.5L3 2.5L5 4.5" stroke="#047b5d" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        <path d="M3 2.5V5.5" stroke="#047b5d" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-                      </svg>
-                      4%
-                    </span>
-                  </span>
-                  <span class="card-chart line-chart">
-                    <span class="line-yaxis">
-                      <span class="line-ylabel">$200</span>
-                      <span class="line-ylabel">$100</span>
-                      <span class="line-ylabel">$0</span>
-                    </span>
-                    <span class="line-svg-wrap">
-                      <svg viewBox="0 0 290 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                          <linearGradient id="lineFillGrad" x1="0" x2="0" y1="0" y2="1">
-                            <stop offset="0%" stop-color="#13acf0" stop-opacity="0.18"/>
-                            <stop offset="100%" stop-color="#13acf0" stop-opacity="0"/>
-                          </linearGradient>
-                        </defs>
-                        <path class="line-grid" d="M0 0 H290 M0 50 H290 M0 100 H290" stroke="#dde0e4" stroke-width="0.5" fill="none"/>
-                        <path class="line-fill" d="M0 40 C 16 32, 28 70, 44 55 S 72 22, 88 38 S 116 60, 132 30 S 160 22, 176 44 S 204 58, 220 30 S 248 24, 264 36 S 282 32, 290 36 L 290 100 L 0 100 Z" fill="url(#lineFillGrad)" stroke="none"/>
-                        <path class="line-comparison" d="M0 50 C 14 42, 28 62, 42 54 S 70 38, 84 52 S 112 64, 126 48 S 154 36, 168 52 S 196 62, 210 46 S 238 38, 252 52 S 278 58, 290 50" stroke="#9ed4ee" stroke-width="1.8" stroke-dasharray="2.5 2.5" fill="none" stroke-linecap="round"/>
-                        <path class="line-primary" d="M0 40 C 16 32, 28 70, 44 55 S 72 22, 88 38 S 116 60, 132 30 S 160 22, 176 44 S 204 58, 220 30 S 248 24, 264 36 S 282 32, 290 36" stroke="#13acf0" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </span>
-                    <span class="line-xaxis">
-                      <span>Jun 8</span><span>Jun 14</span><span>Jun 20</span><span>Jun 26</span><span>July 2</span><span>Jul 8</span>
-                    </span>
-                  </span>
-                  <span class="card-legend">
-                    <span class="legend-item"><span class="legend-key key--line-solid"></span>Jul 9–Aug 8</span>
-                    <span class="legend-item"><span class="legend-key key--line-dashed"></span>Jun 8–Jul 8</span>
-                  </span>
-                </span>
-
-              </span>
-            </span>
+            <span class="word" style="--i: 0">Sell</span>
+            <span class="word" style="--i: 1">digital</span>
+            <span class="word" style="--i: 2">products</span>
+            <br />
+            <span class="word" style="--i: 3">from</span>
+            <span class="word" style="--i: 4">your</span>
+            <span class="word" style="--i: 5">own</span>
+            <span class="word" style="--i: 6">store</span>
           </h1>
           <p class="lede">
-            PDFs, templates, MP3s, or videos—sell any digital product on the
-            platform built for more than a file.
+            Your products deserve a storefront, not a listing. Build yours on<br />
+            Shopify—the platform for digital, physical, and global selling
           </p>
         </div>
         <a class="btn btn--lg btn--primary" href="#">Start for free</a>
-      </main>
-    </div>
-    <script>
-      (function setupPreviewCycle() {
-        const PREVIEW_START = 1600;
-        const PREVIEW_HOLD = 2400;
-        const PREVIEW_GAP = 220;
-        const items = Array.from(document.querySelectorAll(".popup-video"));
-        if (!items.length) return;
-        let i = 0;
-        function step() {
-          if (i >= items.length) return;
-          const el = items[i++];
-          el.classList.add("is-previewing");
-          setTimeout(() => {
-            el.classList.remove("is-previewing");
-            setTimeout(step, PREVIEW_GAP);
-          }, PREVIEW_HOLD);
-        }
-        setTimeout(step, PREVIEW_START);
-      })();
+      </div>
 
-      document.querySelectorAll(".stat-value, .metric-value").forEach((el) => {
-        const text = el.textContent.trim();
-        el.textContent = "";
-        let digitIdx = 0;
-        for (const ch of text) {
-          if (/[0-9]/.test(ch)) {
-            const target = 10 + parseInt(ch, 10);
-            const roll = document.createElement("span");
-            roll.className = "num-roll";
-            roll.style.setProperty("--idx", digitIdx++);
-            const track = document.createElement("span");
-            track.className = "num-track";
-            track.style.setProperty("--target", target);
-            for (let i = 0; i < 20; i++) {
-              const d = document.createElement("span");
-              d.textContent = String(i % 10);
-              track.appendChild(d);
-            }
-            roll.appendChild(track);
-            el.appendChild(roll);
-          } else {
-            const charEl = document.createElement("span");
-            charEl.className = "num-char";
-            charEl.textContent = ch;
-            el.appendChild(charEl);
-          }
-        }
-      });
-    </script>
+      <div class="hero-visual" aria-hidden="true">
+        <video
+          class="hero-video"
+          src="assets/hero-crafting.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+        ></video>
+      </div>
+
+      <div class="hero-float hero-float--tl" aria-hidden="true">
+        <div class="hero-float-bob">
+          <video src="assets/float-1.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="hero-float hero-float--tr" aria-hidden="true">
+        <div class="hero-float-bob">
+          <video src="assets/float-2.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="hero-float hero-float--bl" aria-hidden="true">
+        <div class="hero-float-bob">
+          <video src="assets/float-3.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="hero-float hero-float--br" aria-hidden="true">
+        <div class="hero-float-bob">
+          <video src="assets/float-4.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+      </div>
+
+      <article class="hero-card hero-card--tl" aria-hidden="true">
+        <div class="hero-card-image">
+          <img class="hero-card-img hero-card-img--base" src="assets/product-tl.png" alt="" />
+          <img class="hero-card-img hero-card-img--pattern" src="assets/product-tl-pattern.png" alt="" />
+        </div>
+        <div class="hero-card-body">
+          <div class="hero-card-top">
+            <div class="hero-card-titleblock">
+              <p class="hero-card-title">Shirt pattern [ White ]</p>
+              <div class="hero-card-rating">
+                <span class="hero-card-stars">
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                </span>
+                <span class="hero-card-reviews">(124)</span>
+              </div>
+            </div>
+            <div class="hero-card-actions">
+              <button class="hero-card-iconbtn hero-card-iconbtn--heart" type="button" aria-label="Save">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 13.5s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+                <span class="hero-heart-pop" aria-hidden="true">
+                  <svg class="heart-pop heart-pop--1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--3" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                </span>
+              </button>
+              <button class="hero-card-iconbtn" type="button" aria-label="Share">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3 10v3.5a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="hero-card-cta" type="button">
+            <span class="hero-card-cta-state hero-card-cta-state--initial">Add to cart</span>
+            <span class="hero-card-cta-state hero-card-cta-state--done">
+              <svg class="hero-card-cta-check" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.5 8.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Digital downloaded
+            </span>
+          </button>
+        </div>
+      </article>
+
+      <article class="hero-card hero-card--tr" aria-hidden="true">
+        <div class="hero-card-image">
+          <img class="hero-card-img hero-card-img--base" src="assets/product-tr.png" alt="" />
+          <img class="hero-card-img hero-card-img--pattern" src="assets/product-tr-pattern.png" alt="" />
+        </div>
+        <div class="hero-card-body">
+          <div class="hero-card-top">
+            <div class="hero-card-titleblock">
+              <p class="hero-card-title">Demin jacket pattern</p>
+              <div class="hero-card-rating">
+                <span class="hero-card-stars">
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--half" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs><clipPath id="star-half-tr"><rect x="0" y="0" width="6" height="12"/></clipPath></defs>
+                    <path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#d8d8dc"/>
+                    <path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b" clip-path="url(#star-half-tr)"/>
+                  </svg>
+                </span>
+                <span class="hero-card-reviews">(87)</span>
+              </div>
+            </div>
+            <div class="hero-card-actions">
+              <button class="hero-card-iconbtn hero-card-iconbtn--heart" type="button" aria-label="Save">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 13.5s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+                <span class="hero-heart-pop" aria-hidden="true">
+                  <svg class="heart-pop heart-pop--1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--3" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                </span>
+              </button>
+              <button class="hero-card-iconbtn" type="button" aria-label="Share">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3 10v3.5a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="hero-card-cta" type="button">
+            <span class="hero-card-cta-state hero-card-cta-state--initial">Add to cart</span>
+            <span class="hero-card-cta-state hero-card-cta-state--done">
+              <svg class="hero-card-cta-check" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.5 8.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Digital downloaded
+            </span>
+          </button>
+        </div>
+      </article>
+
+      <article class="hero-card hero-card--bl" aria-hidden="true">
+        <div class="hero-card-image">
+          <img class="hero-card-img hero-card-img--base" src="assets/product-bl.png" alt="" />
+          <img class="hero-card-img hero-card-img--pattern" src="assets/product-bl-pattern.png" alt="" />
+        </div>
+        <div class="hero-card-body">
+          <div class="hero-card-top">
+            <div class="hero-card-titleblock">
+              <p class="hero-card-title">Shirt pattern [ Blue ]</p>
+              <div class="hero-card-rating">
+                <span class="hero-card-stars">
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--empty" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#d8d8dc"/></svg>
+                </span>
+                <span class="hero-card-reviews">(42)</span>
+              </div>
+            </div>
+            <div class="hero-card-actions">
+              <button class="hero-card-iconbtn hero-card-iconbtn--heart" type="button" aria-label="Save">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 13.5s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+                <span class="hero-heart-pop" aria-hidden="true">
+                  <svg class="heart-pop heart-pop--1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--3" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                </span>
+              </button>
+              <button class="hero-card-iconbtn" type="button" aria-label="Share">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3 10v3.5a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="hero-card-cta" type="button">
+            <span class="hero-card-cta-state hero-card-cta-state--initial">Add to cart</span>
+            <span class="hero-card-cta-state hero-card-cta-state--done">
+              <svg class="hero-card-cta-check" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.5 8.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Digital downloaded
+            </span>
+          </button>
+        </div>
+      </article>
+
+      <article class="hero-card hero-card--br" aria-hidden="true">
+        <div class="hero-card-image">
+          <img class="hero-card-img hero-card-img--base" src="assets/product-br.png" alt="" />
+          <img class="hero-card-img hero-card-img--pattern" src="assets/product-br-pattern.png" alt="" />
+        </div>
+        <div class="hero-card-body">
+          <div class="hero-card-top">
+            <div class="hero-card-titleblock">
+              <p class="hero-card-title">Jacket pattern</p>
+              <div class="hero-card-rating">
+                <span class="hero-card-stars">
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                  <svg class="hero-card-star hero-card-star--full" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 .5l1.7 3.4 3.8.5L8.8 7l.7 3.8L6 9l-3.5 1.8.7-3.8L.5 4.4l3.8-.5z" fill="#e3be2b"/></svg>
+                </span>
+                <span class="hero-card-reviews">(256)</span>
+              </div>
+            </div>
+            <div class="hero-card-actions">
+              <button class="hero-card-iconbtn hero-card-iconbtn--heart" type="button" aria-label="Save">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 13.5s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+                <span class="hero-heart-pop" aria-hidden="true">
+                  <svg class="heart-pop heart-pop--1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                  <svg class="heart-pop heart-pop--3" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 14s-5-3-5-7C3 4.5 4.5 3 6.5 3c1 0 1.5.5 1.5 1s.5-1 1.5-1C11.5 3 13 4.5 13 6.5c0 4-5 7-5 7z" fill="currentColor"/></svg>
+                </span>
+              </button>
+              <button class="hero-card-iconbtn" type="button" aria-label="Share">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3 10v3.5a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="hero-card-cta" type="button">
+            <span class="hero-card-cta-state hero-card-cta-state--initial">Add to cart</span>
+            <span class="hero-card-cta-state hero-card-cta-state--done">
+              <svg class="hero-card-cta-check" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.5 8.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Digital downloaded
+            </span>
+          </button>
+        </div>
+      </article>
+
+      <div class="hero-shopfront" aria-hidden="true">
+        <div class="hero-shopfront-bar">
+          <div class="shopfront-logo">
+            <svg class="shopfront-logo-mark" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M2.5 2 H10.5 L13.5 5 V13.5 A0.5 0.5 0 0 1 13 14 H3 A0.5 0.5 0 0 1 2.5 13.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+              <path d="M10.5 2 V4.5 A0.5 0.5 0 0 0 11 5 H13.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+              <path d="M5 8.5 L6 9.5 L5 10.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="shopfront-logo-word">Patternly</span>
+          </div>
+          <div class="skel-row skel-row--nav">
+            <div class="skel skel--nav"></div>
+            <div class="skel skel--nav"></div>
+            <div class="skel skel--nav"></div>
+            <div class="skel skel--nav"></div>
+          </div>
+          <div class="skel-row skel-row--tools">
+            <div class="skel skel--icon"></div>
+            <div class="skel skel--icon"></div>
+            <div class="skel skel--icon"></div>
+          </div>
+        </div>
+
+        <div class="hero-shopfront-side">
+          <div class="hero-shopfront-card">
+            <div class="hero-shopfront-card-image"></div>
+            <div class="hero-shopfront-card-body">
+              <div class="hero-shopfront-card-titleblock">
+                <div class="skel skel--card-title"></div>
+                <div class="skel skel--card-rating"></div>
+              </div>
+              <div class="skel skel--card-cta"></div>
+            </div>
+          </div>
+          <div class="hero-shopfront-card">
+            <div class="hero-shopfront-card-image"></div>
+            <div class="hero-shopfront-card-body">
+              <div class="hero-shopfront-card-titleblock">
+                <div class="skel skel--card-title"></div>
+                <div class="skel skel--card-rating"></div>
+              </div>
+              <div class="skel skel--card-cta"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
