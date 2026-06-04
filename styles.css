@@ -162,7 +162,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-md);
-  max-width: 540px;
+  width: 820px;
   padding: var(--space-2xl) var(--space-margin) 144px;
 }
 
@@ -170,7 +170,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  max-width: 460px;
+  max-width: 640px;
   width: 100%;
 }
 
@@ -180,13 +180,20 @@ body {
   top: 0;
   right: 0;
   bottom: 0;
-  left: 560px;
+  left: 820px;
   overflow: hidden;
   z-index: 1;
   pointer-events: none;
 }
 
-.hero-stage > * {
+.hero-stage-inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1440px;
+  height: 100%;
+  transform: scale(0.6);
+  transform-origin: top right;
   pointer-events: auto;
 }
 
