@@ -1,3 +1,4 @@
+/* animation-edits: working branch for animation tweaks */
 :root {
   /* Colors */
   --color-bg: #ffffff;
@@ -151,7 +152,7 @@ body {
 .hero {
   position: relative;
   padding-top: 128px;
-  min-height: 820px;
+  min-height: 1180px;
 }
 
 .hero-container {
@@ -186,11 +187,6 @@ body {
 
 .display .word {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(0.45em);
-  filter: blur(10px);
-  animation: word-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(120ms + var(--i, 0) * 90ms);
 }
 
 .lede {
@@ -202,31 +198,15 @@ body {
   color: var(--color-content-body);
 }
 
-@keyframes word-rise {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .display .word {
-    animation: none;
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
-/* Hero visual (right-side video) */
+/* Hero visual (girl video) — starts centered then docks into the shopfront's hero banner slot */
 .hero-visual {
   position: absolute;
   top: 400px;
   right: 220px;
   translate: 0 -50%;
   width: 420px;
-  aspect-ratio: 1;
+  height: 420px;
   border-radius: 24px;
   overflow: hidden;
   background: #f3f3f3;
@@ -237,21 +217,23 @@ body {
   transform: scale(0.4);
   transform-origin: center center;
   filter: blur(14px);
+  z-index: 3;
   animation:
-    visual-rise 1400ms cubic-bezier(0.22, 1, 0.36, 1) 400ms both,
-    visual-fade-out 900ms ease-out 4000ms forwards;
+    visual-rise 1400ms cubic-bezier(0.22, 1, 0.36, 1) 0ms both,
+    visual-dock 1100ms cubic-bezier(0.22, 1, 0.36, 1) 2000ms forwards;
 }
 
-@keyframes visual-fade-out {
-  from {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-  }
+@keyframes visual-dock {
   to {
-    opacity: 0;
-    transform: scale(0.85);
-    filter: blur(8px);
+    top: 74px;
+    right: -180px;
+    width: 1024px;
+    height: 320px;
+    translate: 0 0;
+    border-radius: 0;
+    box-shadow:
+      0 0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
 
@@ -260,6 +242,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 28%;
 }
 
 @keyframes visual-rise {
@@ -296,59 +279,104 @@ body {
   animation: float-bob var(--bob-dur, 6500ms) ease-in-out var(--bob-delay, 0ms) infinite;
 }
 
-.hero-float video {
+.hero-float video,
+.hero-float img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+.hero-float--pattern .hero-float-bob {
+  background: #ffffff;
+}
+
+.hero-float--pattern img {
+  object-position: 100% 50%;
+  transform: scale(1.55);
+  transform-origin: 84% 50%;
+  background: #ffffff;
+}
+
+.hero-float--mr img {
+  transform: scale(1.95);
+  transform-origin: 70% 50%;
+}
+
+/* Scattered, asymmetric float positions hugging the hero video — 3 upper, 3 lower */
 .hero-float--tl {
-  right: 555px;
-  top: 190px;
-  --ox: 210px;
-  --oy: 210px;
-  --bob-dur: 6500ms;
-  --bob-delay: 200ms;
+  right: 590px;
+  top: 230px;
+  z-index: 4;
+  --ox: 205px;
+  --oy: 270px;
+  --bob-dur: 6700ms;
+  --bob-delay: 150ms;
   animation:
-    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 1500ms both,
-    float-out 600ms ease-out 4000ms forwards;
+    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 0ms both,
+    float-out 600ms ease-out 2000ms forwards;
 }
 
 .hero-float--tr {
-  right: 135px;
-  top: 190px;
-  --ox: -210px;
-  --oy: 210px;
-  --bob-dur: 7300ms;
-  --bob-delay: 900ms;
+  right: 110px;
+  top: 245px;
+  --ox: -235px;
+  --oy: 155px;
+  --bob-dur: 7200ms;
+  --bob-delay: 850ms;
   animation:
-    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 1700ms both,
-    float-out 600ms ease-out 4150ms forwards;
+    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 200ms both,
+    float-out 600ms ease-out 2150ms forwards;
 }
 
 .hero-float--br {
-  right: 135px;
-  top: 610px;
-  --ox: -210px;
-  --oy: -210px;
-  --bob-dur: 7500ms;
-  --bob-delay: 1200ms;
+  right: 30px;
+  top: 580px;
+  --ox: -250px;
+  --oy: -180px;
+  --bob-dur: 7400ms;
+  --bob-delay: 1150ms;
   animation:
-    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 1900ms both,
-    float-out 600ms ease-out 4450ms forwards;
+    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 400ms both,
+    float-out 600ms ease-out 2450ms forwards;
 }
 
 .hero-float--bl {
-  right: 555px;
-  top: 610px;
-  --ox: 210px;
-  --oy: -210px;
-  --bob-dur: 6800ms;
-  --bob-delay: 500ms;
+  right: 645px;
+  top: 585px;
+  z-index: 4;
+  --ox: 250px;
+  --oy: -185px;
+  --bob-dur: 6900ms;
+  --bob-delay: 450ms;
   animation:
-    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 2100ms both,
-    float-out 600ms ease-out 4300ms forwards;
+    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 600ms both,
+    float-out 600ms ease-out 2300ms forwards;
+}
+
+.hero-float--ml {
+  right: 365px;
+  top: 175px;
+  z-index: 4;
+  --ox: 20px;
+  --oy: 250px;
+  --bob-dur: 7000ms;
+  --bob-delay: 300ms;
+  animation:
+    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 300ms both,
+    float-out 600ms ease-out 2200ms forwards;
+}
+
+.hero-float--mr {
+  right: 280px;
+  top: 695px;
+  --ox: -65px;
+  --oy: -240px;
+  --bob-dur: 7100ms;
+  --bob-delay: 750ms;
+  animation:
+    float-in 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 500ms both,
+    float-out 600ms ease-out 2400ms forwards;
 }
 
 @keyframes float-in {
@@ -438,7 +466,7 @@ body {
 }
 
 .hero-card-img--pattern {
-  opacity: 0;
+  opacity: 1;
   background: #ffffff;
   object-position: 100% 50%;
   transform: scale(2);
@@ -610,48 +638,50 @@ body {
   color: #2bb673;
 }
 
-.hero-card--tl {
-  right: 492px;
-  top: 124px;
+/* Cards now dock into a single horizontal row under the shopfront's hero banner.
+   Visual L→R: bl, tl, tr, br. Download cascade also runs L→R. */
+.hero-card--bl {
+  right: 596px;
+  top: 430px;
   --morph-dx: -38px;
-  --morph-dy: -44px;
-  --download-delay: 6400ms;
+  --morph-dy: 34px;
+  --download-delay: 3000ms;
   animation:
-    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 4000ms forwards,
-    card-bob 4200ms ease-in-out 5200ms infinite;
+    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 2000ms forwards,
+    card-bob 4200ms ease-in-out 3200ms infinite;
+}
+
+.hero-card--tl {
+  right: 351px;
+  top: 430px;
+  --morph-dx: 38px;
+  --morph-dy: -44px;
+  --download-delay: 3150ms;
+  animation:
+    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 2150ms forwards,
+    card-bob 4500ms ease-in-out 3500ms infinite;
 }
 
 .hero-card--tr {
-  right: 248px;
-  top: 124px;
-  --morph-dx: 138px;
-  --morph-dy: -44px;
-  --download-delay: 7200ms;
-  animation:
-    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 4150ms forwards,
-    card-bob 4500ms ease-in-out 5500ms infinite;
-}
-
-.hero-card--bl {
-  right: 492px;
-  top: 466px;
+  right: 106px;
+  top: 430px;
   --morph-dx: -38px;
-  --morph-dy: 34px;
-  --download-delay: 8000ms;
+  --morph-dy: -44px;
+  --download-delay: 3300ms;
   animation:
-    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 4300ms forwards,
-    card-bob 4800ms ease-in-out 5800ms infinite;
+    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 2300ms forwards,
+    card-bob 4800ms ease-in-out 3800ms infinite;
 }
 
 .hero-card--br {
-  right: 248px;
-  top: 466px;
-  --morph-dx: 138px;
+  right: -139px;
+  top: 430px;
+  --morph-dx: 38px;
   --morph-dy: 34px;
-  --download-delay: 8800ms;
+  --download-delay: 3450ms;
   animation:
-    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 4450ms forwards,
-    card-bob 4400ms ease-in-out 6100ms infinite;
+    card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 2450ms forwards,
+    card-bob 4400ms ease-in-out 4100ms infinite;
 }
 
 /* Sequential "Add to cart → Digital downloaded" choreography */
@@ -661,8 +691,16 @@ body {
     card-cta-fill 380ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--download-delay) + 220ms) forwards;
 }
 
+/* Pattern blueprint is visible initially; bl + tr fade pattern out to reveal the shirt photo underneath */
 .hero-card .hero-card-img--pattern {
   animation: card-image-swap 640ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--download-delay) + 200ms) forwards;
+}
+
+/* Alternating layout: pattern, shirt, pattern, shirt (left → right: bl, tl, tr, br) */
+/* bl + tr keep the pattern blueprint, no swap */
+.hero-card--bl .hero-card-img--pattern,
+.hero-card--tr .hero-card-img--pattern {
+  animation: none;
 }
 
 .hero-card--tl .hero-card-img--pattern {
@@ -703,8 +741,8 @@ body {
 }
 
 @keyframes card-image-swap {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @keyframes card-cta-label-out {
@@ -763,6 +801,8 @@ body {
   }
   .hero-card .heart-pop { opacity: 0; }
   .hero-card .hero-card-img--pattern { opacity: 1; }
+  .hero-card--tl .hero-card-img--pattern,
+  .hero-card--br .hero-card-img--pattern { opacity: 0; }
   .hero-card .hero-card-cta {
     background: #f4f4f6;
     color: #1a1a1a;
@@ -777,8 +817,8 @@ body {
   position: absolute;
   top: 20px;
   right: -180px;
-  width: 920px;
-  height: 800px;
+  width: 1024px;
+  height: 1140px;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 24px;
@@ -791,7 +831,7 @@ body {
   opacity: 0;
   transform: translateY(40px);
   filter: blur(8px);
-  animation: shopfront-rise 1400ms cubic-bezier(0.22, 1, 0.36, 1) 5700ms forwards;
+  animation: shopfront-rise 1100ms cubic-bezier(0.22, 1, 0.36, 1) 2400ms forwards;
 }
 
 /* Skeleton top nav */
@@ -854,95 +894,87 @@ body {
   border-radius: 50%;
 }
 
-/* Skeleton side column — two stacked dummy cards next to the 4 real cards */
-.hero-shopfront-side {
+/* Hero banner inside the shopfront — full-bleed landing slot for the docked girl video */
+.hero-shopfront-banner {
   position: absolute;
-  left: 516px;
-  top: 104px;
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 23px;
+  top: 54px;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: 320px;
+  background:
+    linear-gradient(135deg, #f4f1ec 0%, #ece7df 60%, #e5dfd4 100%);
+  overflow: hidden;
 }
 
-.hero-shopfront-card {
+/* Horizontal product tile row below the banner — landing slots for the 4 floating cards */
+.hero-shopfront-products {
+  position: absolute;
+  top: 410px;
+  left: 28px;
+  width: 968px;
+  display: flex;
+  gap: 25px;
+}
+
+.hero-shopfront-tile {
   width: 220px;
-  background: #ffffff;
+  height: 319px;
   border-radius: 18px;
-  padding: 16px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  box-shadow:
-    0 0.6px 0 rgba(0, 0, 0, 0.04),
-    0 32px 64px -16px rgba(0, 0, 0, 0.10),
-    0 14px 28px -10px rgba(0, 0, 0, 0.06),
-    0 4px 10px -3px rgba(0, 0, 0, 0.05);
+  background: #f6f6f8;
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.hero-shopfront-card-image {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 10px;
-  background: #ececf1;
+/* Second product row inside the shopfront — duplicates of the hero-card UI */
+.hero-shopfront-products--more {
+  top: 780px;
 }
 
-.hero-shopfront-card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 0 2px 2px;
-  height: 79px;
-  box-sizing: border-box;
+/* Static hero-card variant — same visual design, no entrance/docking animation.
+   CTA "Add to cart → Digital downloaded" cascade still runs, driven by --download-delay. */
+.hero-card--static {
+  position: relative;
+  top: auto;
+  right: auto;
+  opacity: 1;
+  transform: none;
+  filter: none;
+  animation: none;
 }
 
-.hero-shopfront-card-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
+.hero-card--static .hero-card-img--pattern {
+  opacity: 1;
+  animation: none;
 }
 
-.hero-shopfront-card-titleblock {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+/* Bottom-row pattern crops — tightened to hide the dark photo half
+   of the composite source PNGs (same source images as the top row). */
+.hero-shopfront-products--more .hero-card--static:nth-child(2) .hero-card-img--pattern {
+  transform: scale(2.55);
+  transform-origin: 78% 50%;
 }
 
-.hero-shopfront-card-actions {
-  display: flex;
-  gap: 4px;
+.hero-shopfront-products--more .hero-card--static:nth-child(4) .hero-card-img--pattern {
+  transform: scale(2.1);
+  transform-origin: 76% 50%;
 }
 
-.hero-shopfront-card-iconbtn {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 0.5px solid rgba(0, 0, 0, 0.12);
-  background: #ffffff;
-  box-sizing: border-box;
+/* Bottom-row photo cards — sources are also composites (photo left, blueprint right).
+   Pin to the left and zoom so only the garment photo shows. */
+.hero-shopfront-products--more .hero-card--static:nth-child(1) .hero-card-img--base,
+.hero-shopfront-products--more .hero-card--static:nth-child(3) .hero-card-img--base {
+  object-position: 0% 50%;
+  transform: scale(1.55);
+  transform-origin: 16% 50%;
+  background: #f3f3f3;
 }
 
-.skel--card-title {
-  width: 80%;
-  height: 11px;
-  border-radius: 3px;
-}
-
-.skel--card-rating {
-  width: 55%;
-  height: 8px;
-  border-radius: 3px;
-}
-
-.skel--card-cta {
-  width: 100%;
-  height: 28px;
-  border-radius: 999px;
-}
+/* Quick cascade for the bottom row — kicks in shortly after the top row finishes,
+   with tight ~140ms intervals so the check-mark wave reads as "boom boom boom". */
+.hero-shopfront-products--more .hero-card--static:nth-child(1) { --download-delay: 3590ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(2) { --download-delay: 3730ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(3) { --download-delay: 3870ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(4) { --download-delay: 4010ms; }
 
 @keyframes shopfront-rise {
   to {
