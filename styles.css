@@ -530,6 +530,15 @@ body {
   white-space: nowrap;
 }
 
+.hero-card-price {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--color-content-body);
+}
+
 .hero-card-actions {
   display: flex;
   gap: 4px;
