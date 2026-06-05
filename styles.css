@@ -230,12 +230,11 @@ body {
 }
 
 
-/* Hero visual (girl video) — starts centered then docks into the shopfront's hero banner slot */
+/* Hero visual (girl video) — pops up centered as soon as page loads, then docks into the storefront's hero banner */
 .hero-visual {
   position: absolute;
-  top: 400px;
-  right: 220px;
-  translate: 0 -50%;
+  top: 270px;
+  right: 248px;
   width: 420px;
   height: 420px;
   border-radius: 24px;
@@ -250,21 +249,19 @@ body {
   filter: blur(14px);
   z-index: 3;
   animation:
-    visual-rise 1400ms cubic-bezier(0.22, 1, 0.36, 1) 0ms both,
-    visual-dock 1100ms cubic-bezier(0.22, 1, 0.36, 1) 2000ms forwards;
+    visual-rise 1200ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both,
+    visual-dock 1200ms cubic-bezier(0.22, 1, 0.36, 1) 1900ms forwards;
+  pointer-events: none;
 }
 
 @keyframes visual-dock {
   to {
-    top: 104px;
-    right: -150px;
-    width: 480px;
-    height: 260px;
-    translate: 0 0;
-    border-radius: 14px;
-    box-shadow:
-      0 18px 36px -14px rgba(0, 0, 0, 0.22),
-      0 6px 14px -6px rgba(0, 0, 0, 0.10);
+    top: 20px;
+    right: -180px;
+    width: 1024px;
+    height: 374px;
+    border-radius: 24px 24px 0 0;
+    box-shadow: none;
   }
 }
 
@@ -336,8 +333,8 @@ body {
 
 /* Scattered, asymmetric float positions hugging the hero video — 3 upper, 3 lower */
 .hero-float--tl {
-  right: 590px;
-  top: 230px;
+  right: 640px;
+  top: 210px;
   z-index: 4;
   --ox: 205px;
   --oy: 270px;
@@ -349,8 +346,8 @@ body {
 }
 
 .hero-float--tr {
-  right: 110px;
-  top: 245px;
+  right: 60px;
+  top: 225px;
   --ox: -235px;
   --oy: 155px;
   --bob-dur: 7200ms;
@@ -361,8 +358,8 @@ body {
 }
 
 .hero-float--br {
-  right: 30px;
-  top: 580px;
+  right: -20px;
+  top: 610px;
   --ox: -250px;
   --oy: -180px;
   --bob-dur: 7400ms;
@@ -373,8 +370,8 @@ body {
 }
 
 .hero-float--bl {
-  right: 645px;
-  top: 585px;
+  right: 700px;
+  top: 610px;
   z-index: 4;
   --ox: 250px;
   --oy: -185px;
@@ -387,7 +384,7 @@ body {
 
 .hero-float--ml {
   right: 365px;
-  top: 175px;
+  top: 145px;
   z-index: 4;
   --ox: 20px;
   --oy: 250px;
@@ -400,7 +397,7 @@ body {
 
 .hero-float--mr {
   right: 280px;
-  top: 695px;
+  top: 725px;
   --ox: -65px;
   --oy: -240px;
   --bob-dur: 7100ms;
@@ -570,72 +567,6 @@ body {
   line-height: 14px;
   font-weight: 400;
   color: var(--color-content-body);
-}
-
-.hero-card-actions {
-  display: flex;
-  gap: 4px;
-}
-
-.hero-card-iconbtn {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 0.5px solid var(--color-divider);
-  background: var(--color-card-bg);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  color: var(--color-content);
-}
-
-.hero-card-iconbtn svg {
-  width: 12px;
-  height: 12px;
-  display: block;
-}
-
-.hero-card-iconbtn--heart {
-  position: relative;
-  overflow: visible;
-}
-
-.hero-heart-pop {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: visible;
-}
-
-.heart-pop {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 9px;
-  height: 9px;
-  margin-left: -4.5px;
-  margin-top: -4.5px;
-  color: var(--color-accent-plum);
-  opacity: 0;
-  transform: translate(0, 0) scale(0.4);
-  will-change: transform, opacity;
-}
-
-.heart-pop--1 { --hx: -16px; --hy: -22px; --hdelay: 0ms;   --hrot: -18deg; }
-.heart-pop--2 { --hx:  0px;  --hy: -28px; --hdelay: 90ms;  --hrot:   4deg; }
-.heart-pop--3 { --hx:  16px; --hy: -20px; --hdelay: 180ms; --hrot:  18deg; }
-
-.hero-card .heart-pop {
-  animation: heart-fly 1000ms cubic-bezier(0.22, 1, 0.36, 1)
-    calc(var(--download-delay) + 280ms + var(--hdelay, 0ms)) forwards;
-}
-
-@keyframes heart-fly {
-  0%   { opacity: 0; transform: translate(0, 0) scale(0.3) rotate(0deg); }
-  18%  { opacity: 1; transform: translate(calc(var(--hx) * 0.25), calc(var(--hy) * 0.18)) scale(1.1) rotate(calc(var(--hrot) * 0.4)); }
-  100% { opacity: 0; transform: translate(var(--hx), var(--hy)) scale(0.55) rotate(var(--hrot)); }
 }
 
 .hero-card-cta {
@@ -832,11 +763,9 @@ body {
   .hero-card .hero-card-cta,
   .hero-card .hero-card-img--pattern,
   .hero-card .hero-card-cta-state--initial,
-  .hero-card .hero-card-cta-state--done,
-  .hero-card .heart-pop {
+  .hero-card .hero-card-cta-state--done {
     animation: none;
   }
-  .hero-card .heart-pop { opacity: 0; }
   .hero-card .hero-card-img--pattern { opacity: 1; }
   .hero-card--tl .hero-card-img--pattern,
   .hero-card--br .hero-card-img--pattern { opacity: 0; }
@@ -868,18 +797,32 @@ body {
   opacity: 0;
   transform: translateY(40px);
   filter: blur(8px);
-  animation: shopfront-rise 1100ms cubic-bezier(0.22, 1, 0.36, 1) 2400ms forwards;
+  animation: shopfront-rise 1100ms cubic-bezier(0.22, 1, 0.36, 1) 1700ms forwards;
 }
 
-/* Skeleton top nav */
+/* Skeleton top nav — overlays the storefront/video top so it reads over both states */
 .hero-shopfront-bar {
+  position: absolute;
+  top: 20px;
+  right: -180px;
+  width: 1024px;
+  height: 54px;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 54px;
   padding: 0 28px;
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  opacity: 0;
+  animation: shopfront-chrome-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 3100ms forwards;
+  pointer-events: none;
+}
+
+.hero-shopfront-bar .shopfront-logo,
+.hero-shopfront-bar .shopfront-nav-link,
+.hero-shopfront-bar .shopfront-tools {
+  color: #ffffff;
 }
 
 .shopfront-nav {
@@ -933,17 +876,25 @@ body {
   color: inherit;
 }
 
-/* Hero banner inside the shopfront — full-bleed landing slot for the docked girl video */
+/* Hero banner — overlays the storefront/video below the bar */
 .hero-shopfront-banner {
   position: absolute;
-  top: 54px;
-  left: 0;
-  right: 0;
-  width: auto;
+  top: 74px;
+  right: -180px;
+  width: 1024px;
   height: 320px;
-  background:
-    linear-gradient(135deg, #f4f1ec 0%, #ece7df 60%, #e5dfd4 100%);
+  background: transparent;
   overflow: hidden;
+  z-index: 4;
+  opacity: 0;
+  animation: shopfront-chrome-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 3300ms forwards;
+  pointer-events: none;
+}
+
+@keyframes shopfront-chrome-in {
+  to {
+    opacity: 1;
+  }
 }
 
 .hero-banner-text {
@@ -974,7 +925,8 @@ body {
   line-height: 1.16;
   font-weight: 500;
   letter-spacing: -0.6px;
-  color: #2A1A24;
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
 }
 
 .hero-banner-sub {
