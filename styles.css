@@ -1,13 +1,20 @@
 /* animation-edits: working branch for animation tweaks */
 :root {
-  /* Colors */
-  --color-bg: #ffffff;
-  --color-content: #000000;
-  --color-content-body: rgba(0, 0, 0, 0.6);
-  --color-button-primary-bg: #000000;
-  --color-button-primary-content: #ffffff;
+  /* Colors — Lavish-inspired: cream + deep plum + blush + brass */
+  --color-bg: #F7F1E8;
+  --color-content: #2A1A24;
+  --color-content-body: rgba(42, 26, 36, 0.65);
+  --color-button-primary-bg: #5B2A45;
+  --color-button-primary-content: #F7F1E8;
+  --color-accent-plum: #5B2A45;
+  --color-accent-blush: #F2C6C2;
+  --color-accent-gold: #C29A4A;
+  --color-card-bg: #FFFCF7;
+  --color-card-image-bg: #F4E8E6;
+  --color-divider: rgba(42, 26, 36, 0.08);
 
   /* Typography */
+  --font-display: "Playfair Display", "Georgia", "Times New Roman", serif;
   --font-heading: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-button: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -200,11 +207,11 @@ body {
 
 .display {
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: var(--text-t1);
   line-height: var(--text-t1-line);
-  letter-spacing: var(--text-t1-tracking);
-  font-weight: 400;
+  letter-spacing: -0.5px;
+  font-weight: 500;
   color: var(--color-content);
 }
 
@@ -232,10 +239,10 @@ body {
   height: 420px;
   border-radius: 24px;
   overflow: hidden;
-  background: #f3f3f3;
+  background: var(--color-card-image-bg);
   box-shadow:
-    0 30px 60px -22px rgba(0, 0, 0, 0.28),
-    0 10px 22px -10px rgba(0, 0, 0, 0.18);
+    0 30px 60px -22px rgba(91, 42, 69, 0.28),
+    0 10px 22px -10px rgba(91, 42, 69, 0.18);
   opacity: 0;
   transform: scale(0.4);
   transform-origin: center center;
@@ -451,7 +458,7 @@ body {
 .hero-card {
   position: absolute;
   width: 220px;
-  background: #ffffff;
+  background: var(--color-card-bg);
   border-radius: 18px;
   padding: 16px;
   display: flex;
@@ -475,7 +482,7 @@ body {
   aspect-ratio: 1;
   border-radius: 10px;
   overflow: hidden;
-  background: #f3f3f3;
+  background: var(--color-card-image-bg);
 }
 
 .hero-card-image img {
@@ -496,6 +503,31 @@ body {
   object-position: 100% 50%;
   transform: scale(2);
   transform-origin: 82% 50%;
+}
+
+.hero-card-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-family: var(--font-button);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  background: var(--color-accent-gold);
+  color: #2A1A24;
+  box-shadow: 0 1px 2px rgba(42, 26, 36, 0.15);
+}
+
+.hero-card-badge--sale {
+  background: var(--color-accent-plum);
+  color: var(--color-bg);
 }
 
 .hero-card-body {
@@ -550,8 +582,8 @@ body {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 0.5px solid rgba(0, 0, 0, 0.12);
-  background: #ffffff;
+  border: 0.5px solid var(--color-divider);
+  background: var(--color-card-bg);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -586,7 +618,7 @@ body {
   height: 9px;
   margin-left: -4.5px;
   margin-top: -4.5px;
-  color: #ff4d6d;
+  color: var(--color-accent-plum);
   opacity: 0;
   transform: translate(0, 0) scale(0.4);
   will-change: transform, opacity;
@@ -645,7 +677,7 @@ body {
   width: 13px;
   height: 13px;
   flex-shrink: 0;
-  color: #2bb673;
+  color: var(--color-accent-gold);
 }
 
 /* Cards now dock into a single horizontal row under the shopfront's hero banner.
@@ -748,9 +780,9 @@ body {
 
 @keyframes card-cta-fill {
   to {
-    background: #f4f4f6;
-    color: #1a1a1a;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    background: rgba(194, 154, 74, 0.16);
+    color: var(--color-content);
+    box-shadow: inset 0 0 0 1px rgba(194, 154, 74, 0.32);
   }
 }
 
@@ -818,9 +850,9 @@ body {
   .hero-card--tl .hero-card-img--pattern,
   .hero-card--br .hero-card-img--pattern { opacity: 0; }
   .hero-card .hero-card-cta {
-    background: #f4f4f6;
-    color: #1a1a1a;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    background: rgba(194, 154, 74, 0.16);
+    color: var(--color-content);
+    box-shadow: inset 0 0 0 1px rgba(194, 154, 74, 0.32);
   }
   .hero-card .hero-card-cta-state--initial { opacity: 0; }
   .hero-card .hero-card-cta-state--done { opacity: 1; }
@@ -833,13 +865,13 @@ body {
   right: -180px;
   width: 1024px;
   height: 1140px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-divider);
   border-radius: 24px;
   box-shadow:
-    0 1px 0 rgba(0, 0, 0, 0.02),
-    0 40px 80px -36px rgba(0, 0, 0, 0.12),
-    0 14px 28px -10px rgba(0, 0, 0, 0.05);
+    0 1px 0 rgba(91, 42, 69, 0.04),
+    0 40px 80px -36px rgba(91, 42, 69, 0.16),
+    0 14px 28px -10px rgba(91, 42, 69, 0.08);
   overflow: hidden;
   z-index: 1;
   opacity: 0;
@@ -855,8 +887,8 @@ body {
   justify-content: space-between;
   height: 54px;
   padding: 0 28px;
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--color-card-bg);
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .shopfront-nav {
@@ -871,14 +903,14 @@ body {
   line-height: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
-  color: #1a1a1a;
+  color: var(--color-content);
 }
 
 .shopfront-tools {
   display: flex;
   align-items: center;
   gap: 14px;
-  color: #1a1a1a;
+  color: var(--color-content);
 }
 
 .shopfront-tool {
@@ -891,7 +923,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #1a1a1a;
+  color: var(--color-accent-plum);
 }
 
 .shopfront-logo-mark {
@@ -902,11 +934,12 @@ body {
 }
 
 .shopfront-logo-word {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
   line-height: 18px;
   font-weight: 600;
-  letter-spacing: -0.35px;
+  letter-spacing: -0.1px;
   color: inherit;
 }
 
@@ -919,7 +952,7 @@ body {
   width: auto;
   height: 320px;
   background:
-    linear-gradient(135deg, #f4f1ec 0%, #ece7df 60%, #e5dfd4 100%);
+    linear-gradient(135deg, #F2C6C2 0%, #EAD4C8 55%, #C29A4A 100%);
   overflow: hidden;
 }
 
@@ -937,8 +970,8 @@ body {
   width: 220px;
   height: 319px;
   border-radius: 18px;
-  background: #f6f6f8;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: rgba(91, 42, 69, 0.05);
+  border: 1px solid var(--color-divider);
 }
 
 /* Second product row inside the shopfront — duplicates of the hero-card UI */
