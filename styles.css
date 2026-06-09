@@ -160,7 +160,7 @@ body {
 .hero {
   position: relative;
   padding-top: 128px;
-  min-height: 1180px;
+  min-height: 980px;
 }
 
 .hero-container {
@@ -301,9 +301,6 @@ body {
 .hero-float-bob {
   width: 100%;
   height: 100%;
-  border-radius: 32px;
-  overflow: hidden;
-  box-shadow: 0 22px 44px -18px rgba(0, 0, 0, 0.28);
   animation: float-bob var(--bob-dur, 6500ms) ease-in-out var(--bob-delay, 0ms) infinite;
 }
 
@@ -312,29 +309,30 @@ body {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.hero-float video {
   object-fit: cover;
+  transform: scale(1.9);
+  transform-origin: 50% 50%;
+  filter: drop-shadow(0 18px 28px rgba(28, 18, 24, 0.28)) drop-shadow(0 4px 8px rgba(28, 18, 24, 0.18));
 }
 
-.hero-float--pattern .hero-float-bob {
-  background: #ffffff;
+.hero-float--tr video {
+  transform: scale(2.25);
 }
 
-.hero-float--pattern img {
-  object-position: 100% 50%;
-  transform: scale(1.55);
-  transform-origin: 84% 50%;
-  background: #ffffff;
-}
-
-.hero-float--mr img {
-  transform: scale(1.95);
-  transform-origin: 70% 50%;
+.hero-float img {
+  object-fit: contain;
+  transform: scale(1.6);
+  transform-origin: 50% 50%;
+  filter: drop-shadow(0 14px 24px rgba(28, 18, 24, 0.18)) drop-shadow(0 3px 6px rgba(28, 18, 24, 0.10));
 }
 
 /* Scattered, asymmetric float positions hugging the hero video — 3 upper, 3 lower */
 .hero-float--tl {
   right: 640px;
-  top: 210px;
+  top: 290px;
   z-index: 4;
   --ox: 205px;
   --oy: 270px;
@@ -346,8 +344,8 @@ body {
 }
 
 .hero-float--tr {
-  right: 60px;
-  top: 225px;
+  right: 90px;
+  top: 305px;
   --ox: -235px;
   --oy: 155px;
   --bob-dur: 7200ms;
@@ -358,8 +356,8 @@ body {
 }
 
 .hero-float--br {
-  right: -20px;
-  top: 610px;
+  right: 80px;
+  top: 690px;
   --ox: -250px;
   --oy: -180px;
   --bob-dur: 7400ms;
@@ -371,7 +369,7 @@ body {
 
 .hero-float--bl {
   right: 700px;
-  top: 610px;
+  top: 690px;
   z-index: 4;
   --ox: 250px;
   --oy: -185px;
@@ -384,10 +382,10 @@ body {
 
 .hero-float--ml {
   right: 365px;
-  top: 145px;
+  top: 805px;
   z-index: 4;
   --ox: 20px;
-  --oy: 250px;
+  --oy: -250px;
   --bob-dur: 7000ms;
   --bob-delay: 300ms;
   animation:
@@ -396,10 +394,11 @@ body {
 }
 
 .hero-float--mr {
-  right: 280px;
-  top: 725px;
+  right: 380px;
+  top: 170px;
+  z-index: 5;
   --ox: -65px;
-  --oy: -240px;
+  --oy: 240px;
   --bob-dur: 7100ms;
   --bob-delay: 750ms;
   animation:
@@ -495,10 +494,12 @@ body {
 
 .hero-card-img--pattern {
   opacity: 1;
-  background: #ffffff;
-  object-position: 100% 50%;
-  transform: scale(2);
-  transform-origin: 82% 50%;
+  background: #5e6670;
+  object-fit: contain;
+  object-position: 50% 50%;
+  padding: 14px;
+  box-sizing: border-box;
+  transform: none;
 }
 
 .hero-card-badge {
@@ -543,12 +544,16 @@ body {
   flex: 1;
   min-width: 0;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .hero-card-title {
   margin: 0;
+  flex: 1;
+  min-width: 0;
   font-family: var(--font-heading);
   font-size: 12px;
   line-height: 15px;
@@ -562,11 +567,12 @@ body {
 
 .hero-card-price {
   margin: 0;
+  flex: 0 0 auto;
   font-family: var(--font-body);
-  font-size: 11px;
-  line-height: 14px;
-  font-weight: 400;
-  color: var(--color-content-body);
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 500;
+  color: var(--color-content);
 }
 
 .hero-card-cta {
@@ -633,23 +639,23 @@ body {
 }
 
 .hero-card--tr {
-  right: 106px;
-  top: 430px;
-  width: 220px;
-  --morph-dx: -38px;
-  --morph-dy: -44px;
-  --download-delay: 3300ms;
-  animation: card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 2300ms forwards;
-}
-
-.hero-card--br {
   right: -139px;
   top: 430px;
   width: 220px;
   --morph-dx: 38px;
-  --morph-dy: 34px;
+  --morph-dy: -44px;
   --download-delay: 3450ms;
   animation: card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 2450ms forwards;
+}
+
+.hero-card--br {
+  right: 106px;
+  top: 430px;
+  width: 220px;
+  --morph-dx: -38px;
+  --morph-dy: 34px;
+  --download-delay: 3300ms;
+  animation: card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) 2300ms forwards;
 }
 
 /* Sequential "Add to cart → Digital downloaded" choreography */
@@ -659,31 +665,18 @@ body {
     card-cta-fill 380ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--download-delay) + 220ms) forwards;
 }
 
-/* Pattern blueprint is visible initially; bl + tr fade pattern out to reveal the shirt photo underneath */
-.hero-card .hero-card-img--pattern {
-  animation: card-image-swap 640ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--download-delay) + 200ms) forwards;
-}
-
-/* Alternating layout: pattern, shirt, pattern, shirt (left → right: bl, tl, tr, br) */
-/* bl + tr keep the pattern blueprint, no swap */
-.hero-card--bl .hero-card-img--pattern,
+/* Static mix: outer cards (bl, br) show pattern; inner cards (tl, tr) show shirt photo */
+.hero-card--tl .hero-card-img--pattern,
 .hero-card--tr .hero-card-img--pattern {
-  animation: none;
+  opacity: 0;
 }
 
-.hero-card--tl .hero-card-img--pattern {
-  transform: scale(2.15);
-  transform-origin: 68% 50%;
-}
-
-.hero-card--bl .hero-card-img--pattern {
-  transform: scale(2.2);
-  transform-origin: 70% 50%;
-}
-
-.hero-card--br .hero-card-img--pattern {
-  transform: scale(2.1);
-  transform-origin: 76% 50%;
+.hero-card--tl .hero-card-img--pattern,
+.hero-card--bl .hero-card-img--pattern,
+.hero-card--br .hero-card-img--pattern,
+.hero-card--tr .hero-card-img--pattern {
+  transform: none;
+  transform-origin: 50% 50%;
 }
 
 .hero-card .hero-card-cta-state--initial {
@@ -736,15 +729,26 @@ body {
     opacity: 0;
     transform: translate(var(--morph-dx, 0px), var(--morph-dy, 0px)) scale(0.55);
     filter: blur(8px);
+    box-shadow:
+      0 0.6px 0 rgba(0, 0, 0, 0.04),
+      0 32px 64px -16px rgba(0, 0, 0, 0.10),
+      0 14px 28px -10px rgba(0, 0, 0, 0.06),
+      0 4px 10px -3px rgba(0, 0, 0, 0.05);
   }
   60% {
     opacity: 1;
     filter: blur(0);
+    box-shadow:
+      0 0.6px 0 rgba(0, 0, 0, 0.04),
+      0 32px 64px -16px rgba(0, 0, 0, 0.10),
+      0 14px 28px -10px rgba(0, 0, 0, 0.06),
+      0 4px 10px -3px rgba(0, 0, 0, 0.05);
   }
   to {
     opacity: 1;
     transform: translate(0, 0) scale(1);
     filter: blur(0);
+    box-shadow: inset 0 0 0 1px rgba(42, 26, 36, 0.10);
   }
 }
 
@@ -768,7 +772,7 @@ body {
   }
   .hero-card .hero-card-img--pattern { opacity: 1; }
   .hero-card--tl .hero-card-img--pattern,
-  .hero-card--br .hero-card-img--pattern { opacity: 0; }
+  .hero-card--tr .hero-card-img--pattern { opacity: 0; }
   .hero-card .hero-card-cta {
     background: rgba(194, 154, 74, 0.16);
     color: var(--color-content);
@@ -784,7 +788,7 @@ body {
   top: 20px;
   right: -180px;
   width: 1024px;
-  height: 1140px;
+  height: 900px;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 24px;
@@ -813,9 +817,8 @@ body {
   justify-content: space-between;
   padding: 0 28px;
   background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   opacity: 0;
-  animation: shopfront-chrome-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 3100ms forwards;
+  animation: shopfront-chrome-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 2400ms forwards;
   pointer-events: none;
 }
 
@@ -887,7 +890,7 @@ body {
   overflow: hidden;
   z-index: 4;
   opacity: 0;
-  animation: shopfront-chrome-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 3300ms forwards;
+  animation: shopfront-chrome-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 2500ms forwards;
   pointer-events: none;
 }
 
@@ -899,13 +902,12 @@ body {
 
 .hero-banner-text {
   position: absolute;
-  left: 64px;
+  left: 0;
+  right: 180px;
   top: 50%;
   transform: translateY(-50%);
-  max-width: 440px;
+  text-align: center;
   z-index: 2;
-  opacity: 0;
-  animation: hero-banner-text-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 3000ms forwards;
 }
 
 .hero-banner-eyebrow {
@@ -920,13 +922,42 @@ body {
 
 .hero-banner-title {
   margin: 0;
-  font-family: var(--font-heading);
-  font-size: 30px;
-  line-height: 1.16;
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: 52px;
+  line-height: 1.1;
   font-weight: 500;
-  letter-spacing: -0.6px;
-  color: #ffffff;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+  letter-spacing: -0.4px;
+  color: rgba(220, 220, 220, 0.92);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.32);
+}
+
+.hero-banner-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(38px);
+  filter: blur(10px);
+  animation: hero-banner-line-in 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-banner-line:nth-child(1) { animation-delay: 2500ms; }
+.hero-banner-line:nth-child(2) { animation-delay: 2700ms; }
+
+@keyframes hero-banner-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(38px);
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 .hero-banner-sub {
@@ -937,21 +968,12 @@ body {
   color: rgba(42, 26, 36, 0.66);
 }
 
-@keyframes hero-banner-text-in {
-  from {
-    opacity: 0;
-    transform: translate(-8px, calc(-50% + 0px));
-  }
-  to {
-    opacity: 1;
-    transform: translate(0, -50%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .hero-banner-text {
+  .hero-banner-line {
     animation: none;
     opacity: 1;
+    transform: none;
+    filter: none;
   }
 }
 
@@ -969,8 +991,7 @@ body {
   width: 220px;
   height: 319px;
   border-radius: 18px;
-  background: #f6f6f8;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: transparent;
 }
 
 /* Second product row inside the shopfront — duplicates of the hero-card UI */
@@ -984,16 +1005,21 @@ body {
   position: relative;
   top: auto;
   right: auto;
-  opacity: 1;
-  transform: none;
-  filter: none;
-  animation: none;
+  opacity: 0;
+  transform: translate(0, 0) scale(0.55);
+  filter: blur(8px);
+  animation: card-morph-in 1000ms cubic-bezier(0.34, 1.42, 0.64, 1) forwards;
 }
 
 .hero-card--static .hero-card-img--pattern {
   opacity: 1;
   animation: none;
 }
+
+.hero-shopfront-products--more .hero-card--static:nth-child(1) { animation-delay: 2500ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(2) { animation-delay: 2650ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(3) { animation-delay: 2800ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(4) { animation-delay: 2950ms; }
 
 /* Bottom-row pattern crops — tightened to hide the dark photo half
    of the composite source PNGs (same source images as the top row). */
@@ -1019,10 +1045,10 @@ body {
 
 /* Quick cascade for the bottom row — kicks in shortly after the top row finishes,
    with tight ~140ms intervals so the check-mark wave reads as "boom boom boom". */
-.hero-shopfront-products--more .hero-card--static:nth-child(1) { --download-delay: 3590ms; }
-.hero-shopfront-products--more .hero-card--static:nth-child(2) { --download-delay: 3730ms; }
-.hero-shopfront-products--more .hero-card--static:nth-child(3) { --download-delay: 3870ms; }
-.hero-shopfront-products--more .hero-card--static:nth-child(4) { --download-delay: 4010ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(1) { --download-delay: 3600ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(2) { --download-delay: 3750ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(3) { --download-delay: 3900ms; }
+.hero-shopfront-products--more .hero-card--static:nth-child(4) { --download-delay: 4050ms; }
 
 @keyframes shopfront-rise {
   to {
