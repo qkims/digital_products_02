@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 88.5907 15.1252" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="stars">
+<path id="Star 1" d="M7.56262 0L9.26053 5.22564H14.7551L10.3099 8.45527L12.0078 13.6809L7.56262 10.4513L3.11742 13.6809L4.81534 8.45527L0.370141 5.22564H5.86471L7.56262 0Z" fill="var(--fill-0, #FCC2FF)"/>
+<path id="Star 1_2" d="M25.929 0L27.6269 5.22564H33.1215L28.6763 8.45527L30.3742 13.6809L25.929 10.4513L21.4838 13.6809L23.1817 8.45527L18.7365 5.22564H24.2311L25.929 0Z" fill="var(--fill-0, #FCC2FF)"/>
+<path id="Star 1_3" d="M44.2953 0L45.9933 5.22564H51.4878L47.0426 8.45527L48.7405 13.6809L44.2953 10.4513L39.8502 13.6809L41.5481 8.45527L37.1029 5.22564H42.5974L44.2953 0Z" fill="var(--fill-0, #FCC2FF)"/>
+<path id="Star 1_4" d="M62.6617 0L64.3596 5.22564H69.8542L65.409 8.45527L67.1069 13.6809L62.6617 10.4513L58.2165 13.6809L59.9144 8.45527L55.4692 5.22564H60.9638L62.6617 0Z" fill="var(--fill-0, #FCC2FF)"/>
+<path id="Star 1_5" d="M81.0281 0L82.726 5.22564H88.2206L83.7754 8.45527L85.4733 13.6809L81.0281 10.4513L76.5829 13.6809L78.2808 8.45527L73.8356 5.22564H79.3302L81.0281 0Z" fill="url(#paint0_linear_0_81)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_81" x1="80.9268" y1="7.56262" x2="81.0281" y2="7.56262" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FCC2FF"/>
+<stop offset="1" stop-color="#D9D9D9" stop-opacity="0.1"/>
+</linearGradient>
+</defs>
+</svg>
