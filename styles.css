@@ -351,16 +351,16 @@ body {
   0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(10px); }
   20%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
   50%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  85%  { opacity: 1; transform: translate(338px, 32px) rotate(6.05deg) scale(0.9); filter: blur(0); }
-  100% { opacity: 0; transform: translate(338px, 32px) rotate(6.05deg) scale(0.9); filter: blur(3px); }
+  85%  { opacity: 1; transform: translate(288px, 32px) rotate(6.05deg) scale(0.9); filter: blur(0); }
+  100% { opacity: 0; transform: translate(288px, 32px) rotate(6.05deg) scale(0.9); filter: blur(3px); }
 }
 
 @keyframes morph-fold-to-left {
   0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(10px); }
   20%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
   50%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  85%  { opacity: 1; transform: translate(438px, 32px) rotate(-6.05deg) scale(0.9); filter: blur(0); }
-  100% { opacity: 0; transform: translate(438px, 32px) rotate(-6.05deg) scale(0.9); filter: blur(3px); }
+  85%  { opacity: 1; transform: translate(488px, 32px) rotate(-6.05deg) scale(0.9); filter: blur(0); }
+  100% { opacity: 0; transform: translate(488px, 32px) rotate(-6.05deg) scale(0.9); filter: blur(3px); }
 }
 
 @keyframes hero-intro-rise {
@@ -565,7 +565,7 @@ body {
 
 .pg-tablet--left {
   --rot: -6.05deg;
-  --tx: -310px;
+  --tx: -260px;
   --ty: 0px;
   width: 252px;
   height: 360px;
@@ -586,7 +586,7 @@ body {
 
 .pg-tablet--right {
   --rot: 6.05deg;
-  --tx: 310px;
+  --tx: 260px;
   --ty: 0px;
   width: 252px;
   height: 360px;
@@ -861,33 +861,6 @@ body {
   color: var(--pg-deeppurple);
 }
 
-/* Per-tablet Buy now pill — sits at the bottom of each tablet, slightly overlapping the bezel edge */
-.pg-buy-now {
-  position: absolute;
-  left: 50%;
-  bottom: -14px;
-  transform: translateX(-50%);
-  z-index: 4;
-  border: 0;
-  background: #000000;
-  color: #ffffff;
-  padding: 7px 16px;
-  border-radius: 999px;
-  font-family: var(--font-button);
-  font-weight: 500;
-  font-size: 11px;
-  letter-spacing: 0.2px;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.45);
-  opacity: 0;
-  animation: pg-buy-now-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 6100ms forwards;
-}
-
-@keyframes pg-buy-now-in {
-  to { opacity: 1; }
-}
-
 /* Central Get Template CTA */
 .pg-cta {
   position: absolute;
@@ -965,7 +938,6 @@ body {
   .pg-promo,
   .pg-chrome,
   .pg-tablet,
-  .pg-buy-now,
   .pg-cta,
   .pg-fun-guides {
     animation: none;
