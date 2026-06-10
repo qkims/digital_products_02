@@ -351,8 +351,8 @@ body {
   0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(10px); }
   20%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
   50%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  85%  { opacity: 1; transform: translate(288px, 32px) rotate(6.05deg) scale(0.9); filter: blur(0); }
-  100% { opacity: 0; transform: translate(288px, 32px) rotate(6.05deg) scale(0.9); filter: blur(3px); }
+  85%  { opacity: 1; transform: translate(288px, 32px) rotate(15.61deg) scale(0.9); filter: blur(0); }
+  100% { opacity: 0; transform: translate(288px, 32px) rotate(15.61deg) scale(0.9); filter: blur(3px); }
 }
 
 @keyframes morph-fold-to-left {
@@ -585,7 +585,7 @@ body {
 }
 
 .pg-tablet--right {
-  --rot: 6.05deg;
+  --rot: 15.61deg;
   --tx: 260px;
   --ty: 0px;
   width: 252px;
@@ -609,7 +609,7 @@ body {
 /* Cover variant: TABLE OF CONTENTS (left tablet) */
 .pg-cover--toc {
   padding: 0;
-  background: var(--pg-cover-bg);
+  background: #d9dfe9;
 }
 
 /* Black inner panel that hosts the TOC text */
@@ -806,7 +806,7 @@ body {
   font-weight: 400;
   font-size: 36px;
   line-height: 1;
-  color: rgba(246, 247, 247, 0.45);
+  color: rgba(219, 219, 219, 0.5);
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: -0.4px;
@@ -817,22 +817,47 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 70%;
-  height: 84%;
+  width: 78%;
+  height: 70%;
   background: #ffffff;
-  padding: 12px 14px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
   z-index: 2;
 }
 
+.pg-inset-title {
+  position: absolute;
+  top: 8%;
+  left: 8%;
+  right: 8%;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1;
+  color: #709894;
+}
+
+.pg-inset-body {
+  position: absolute;
+  top: 22%;
+  left: 8%;
+  right: 8%;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 6.5px;
+  line-height: 1.45;
+  color: var(--pg-deeppurple);
+}
+
 .pg-inset-photo {
-  width: 100%;
-  height: 48%;
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 4%;
+  height: 47%;
   background: #cfa48a;
   overflow: hidden;
-  margin-top: auto;
 }
 
 .pg-inset-photo img {
@@ -840,25 +865,6 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.pg-inset-title {
-  margin: 8px 0 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 1;
-  color: #000000;
-}
-
-.pg-inset-body {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 6.5px;
-  line-height: 1.45;
-  color: var(--pg-deeppurple);
 }
 
 /* Central Get Template CTA */
