@@ -393,7 +393,7 @@ body {
   right: -180px;
   width: 1024px;
   height: 900px;
-  background: var(--pg-bg);
+  background: #ffffff;
   border-radius: 24px;
   overflow: hidden;
   z-index: 1;
@@ -618,8 +618,8 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 86%;
-  height: 92%;
+  width: 88%;
+  height: 77%;
   background: #000000;
   transform: translate(-50%, -50%);
   z-index: 0;
@@ -629,12 +629,12 @@ body {
   position: absolute;
   left: 14%;
   right: 14%;
-  top: 12%;
+  top: 18%;
   z-index: 2;
   margin: 0;
   font-family: var(--font-slab);
   font-weight: 400;
-  font-size: 26px;
+  font-size: 24px;
   line-height: 0.95;
   letter-spacing: -0.3px;
   color: #ffffff;
@@ -645,7 +645,7 @@ body {
   position: absolute;
   left: 14%;
   right: 14%;
-  top: 40%;
+  top: 46%;
   z-index: 2;
   margin: 0;
   padding: 0;
@@ -770,7 +770,7 @@ body {
   left: 50%;
   top: 50%;
   width: 88%;
-  height: 94%;
+  height: 90%;
   background: #000000;
   transform: translate(-50%, -50%);
   z-index: 0;
@@ -781,7 +781,7 @@ body {
   left: 50%;
   top: 50%;
   width: 88%;
-  height: 94%;
+  height: 90%;
   transform: translate(-50%, -50%);
   overflow: hidden;
   pointer-events: none;
