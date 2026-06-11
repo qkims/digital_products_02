@@ -825,7 +825,7 @@ body {
 .pg-cta {
   position: absolute;
   left: 50%;
-  top: 712px;
+  top: 660px;
   transform: translateX(-50%);
   z-index: 3;
   border: 0;
