@@ -343,9 +343,9 @@ body {
     0 40px 80px -36px rgba(0, 0, 0, 0.20),
     0 14px 28px -10px rgba(0, 0, 0, 0.10);
   opacity: 0;
-  transform: translateY(40px);
-  filter: blur(8px);
-  animation: pg-shopfront-rise 1100ms cubic-bezier(0.22, 1, 0.36, 1) 1700ms forwards;
+  transform: translateY(18px);
+  filter: blur(14px);
+  animation: pg-shopfront-rise 1700ms cubic-bezier(0.22, 1, 0.36, 1) 1500ms forwards;
 }
 
 @keyframes pg-shopfront-rise {
@@ -820,7 +820,7 @@ body {
 .pg-cta {
   position: absolute;
   left: 50%;
-  top: 615px;
+  top: 650px;
   transform: translateX(-50%);
   z-index: 3;
   border: 1px solid rgba(0, 0, 0, 0.35);
