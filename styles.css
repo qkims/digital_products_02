@@ -1,10 +1,10 @@
 /* animation-edits: pretty-guides ebook mock on the right pane */
 :root {
-  --color-bg: #ffffff;
-  --color-content: #000000;
-  --color-content-body: rgba(0, 0, 0, 0.6);
-  --color-button-primary-bg: #000000;
-  --color-button-primary-content: #ffffff;
+  --color-bg: #141A1A;
+  --color-content: #ffffff;
+  --color-content-body: rgba(255, 255, 255, 0.7);
+  --color-button-primary-bg: #ffffff;
+  --color-button-primary-content: #141A1A;
 
   /* Pretty Guides palette */
   --pg-bg: #fad7fc;
@@ -334,7 +334,7 @@ body {
   right: -180px;
   width: 1024px;
   height: 900px;
-  background: #141A1A;
+  background: #ffffff;
   border-radius: 24px;
   overflow: hidden;
   z-index: 1;
@@ -415,14 +415,14 @@ body {
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.2px;
-  color: #ffffff;
+  color: var(--pg-deepred);
 }
 
 .pg-tools {
   display: flex;
   align-items: center;
   gap: 18px;
-  color: #ffffff;
+  color: var(--pg-deepred);
 }
 
 .pg-icon {
@@ -823,9 +823,9 @@ body {
   top: 615px;
   transform: translateX(-50%);
   z-index: 3;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.35);
   background: transparent;
-  color: #ffffff;
+  color: #000000;
   padding: 0 28px;
   height: 54px;
   min-width: 220px;
