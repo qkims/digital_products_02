@@ -277,51 +277,42 @@ body {
 }
 
 .hero-intro--her-morph {
-  top: 60px;
-  right: 560px;
-  animation: morph-her-to-center 4400ms ease-in-out 100ms forwards;
+  top: -50px;
+  right: 490px;
+  animation: morph-her-to-center 4200ms ease-in-out 100ms forwards;
 }
 
 .hero-intro--ipad-morph {
-  top: 200px;
-  right: 50px;
-  animation: morph-ipad-to-right 4400ms ease-in-out 250ms forwards;
+  top: 340px;
+  right: 270px;
+  animation: morph-ipad-to-right 4200ms ease-in-out 250ms forwards;
 }
 
 .hero-intro--fold-morph {
-  top: 380px;
-  right: 850px;
-  animation: morph-fold-to-left 4400ms ease-in-out 200ms forwards;
+  top: 340px;
+  right: 710px;
+  animation: morph-fold-to-left 4200ms ease-in-out 200ms forwards;
 }
 
 @keyframes morph-her-to-center {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(-3deg) scale(0.6); filter: blur(10px); }
-  10%  { opacity: 1; transform: translate(-6px, 8px) rotate(-2.2deg) scale(0.7); filter: blur(0); }
-  26%  { opacity: 1; transform: translate(8px, -10px) rotate(-3.6deg) scale(0.7); filter: blur(0); }
-  44%  { opacity: 1; transform: translate(-4px, 12px) rotate(-2deg) scale(0.7); filter: blur(0); }
-  62%  { opacity: 1; transform: translate(6px, -6px) rotate(-3.4deg) scale(0.7); filter: blur(0); }
-  80%  { opacity: 1; transform: translate(0, 0) rotate(-3deg) scale(0.7); filter: blur(0); animation-timing-function: ease; }
-  100% { opacity: 1; transform: translate(458px, 34px) rotate(1.5deg) scale(0.68); filter: blur(0); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.6); filter: blur(10px); }
+  12%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.7); filter: blur(0); }
+  78%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.7); filter: blur(0); animation-timing-function: ease; }
+  100% { opacity: 1; transform: translate(388px, 144px) rotate(2.29deg) scale(0.68); filter: blur(0); }
 }
 
 @keyframes morph-ipad-to-right {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(18deg) scale(0.6); filter: blur(10px); }
-  10%  { opacity: 1; transform: translate(6px, 10px) rotate(17.5deg) scale(0.7); filter: blur(0); }
-  26%  { opacity: 1; transform: translate(-8px, -6px) rotate(19.2deg) scale(0.7); filter: blur(0); }
-  44%  { opacity: 1; transform: translate(4px, 12px) rotate(17deg) scale(0.7); filter: blur(0); }
-  62%  { opacity: 1; transform: translate(-6px, -8px) rotate(18.6deg) scale(0.7); filter: blur(0); }
-  80%  { opacity: 1; transform: translate(0, 0) rotate(18deg) scale(0.7); filter: blur(0); animation-timing-function: ease; }
-  100% { opacity: 1; transform: translate(208px, -136px) rotate(15.61deg) scale(0.57); filter: blur(0); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(8deg) scale(0.6); filter: blur(10px); }
+  12%  { opacity: 1; transform: translate(0, 0) rotate(8deg) scale(0.7); filter: blur(0); }
+  78%  { opacity: 1; transform: translate(0, 0) rotate(8deg) scale(0.7); filter: blur(0); animation-timing-function: ease; }
+  100% { opacity: 1; transform: translate(428px, -276px) rotate(15.61deg) scale(0.57); filter: blur(0); }
 }
 
 @keyframes morph-fold-to-left {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(-16deg) scale(0.6); filter: blur(10px); }
-  10%  { opacity: 1; transform: translate(8px, -6px) rotate(-15deg) scale(0.7); filter: blur(0); }
-  26%  { opacity: 1; transform: translate(-6px, 10px) rotate(-17.2deg) scale(0.7); filter: blur(0); }
-  44%  { opacity: 1; transform: translate(10px, -10px) rotate(-15.4deg) scale(0.7); filter: blur(0); }
-  62%  { opacity: 1; transform: translate(-4px, 8px) rotate(-16.6deg) scale(0.7); filter: blur(0); }
-  80%  { opacity: 1; transform: translate(0, 0) rotate(-16deg) scale(0.7); filter: blur(0); animation-timing-function: ease; }
-  100% { opacity: 1; transform: translate(488px, -326px) rotate(-6.05deg) scale(0.57); filter: blur(0); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(-8deg) scale(0.6); filter: blur(10px); }
+  12%  { opacity: 1; transform: translate(0, 0) rotate(-8deg) scale(0.7); filter: blur(0); }
+  78%  { opacity: 1; transform: translate(0, 0) rotate(-8deg) scale(0.7); filter: blur(0); animation-timing-function: ease; }
+  100% { opacity: 1; transform: translate(348px, -286px) rotate(-6.05deg) scale(0.57); filter: blur(0); }
 }
 
 @keyframes hero-intro-rise {
