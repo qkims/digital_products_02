@@ -300,21 +300,21 @@ body {
 @keyframes morph-her-to-center {
   0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.6); filter: blur(10px); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
   15%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.7); filter: blur(0); animation-timing-function: linear; }
-  62%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  78%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
   100% { opacity: 1; transform: translate(388px, 144px) rotate(2.29deg) scale(0.68); filter: blur(0); }
 }
 
 @keyframes morph-ipad-to-right {
   0%   { opacity: 0; transform: translate(0, 0) rotate(8deg) scale(0.6); filter: blur(10px); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
   15%  { opacity: 1; transform: translate(0, 0) rotate(8deg) scale(0.7); filter: blur(0); animation-timing-function: linear; }
-  62%  { opacity: 1; transform: translate(0, 0) rotate(8deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  78%  { opacity: 1; transform: translate(0, 0) rotate(8deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
   100% { opacity: 1; transform: translate(428px, -276px) rotate(15.61deg) scale(0.57); filter: blur(0); }
 }
 
 @keyframes morph-fold-to-left {
   0%   { opacity: 0; transform: translate(0, 0) rotate(-8deg) scale(0.6); filter: blur(10px); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
   15%  { opacity: 1; transform: translate(0, 0) rotate(-8deg) scale(0.7); filter: blur(0); animation-timing-function: linear; }
-  62%  { opacity: 1; transform: translate(0, 0) rotate(-8deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  78%  { opacity: 1; transform: translate(0, 0) rotate(-8deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
   100% { opacity: 1; transform: translate(348px, -286px) rotate(-6.05deg) scale(0.57); filter: blur(0); }
 }
 
