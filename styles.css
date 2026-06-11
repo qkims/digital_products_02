@@ -280,42 +280,71 @@ body {
   top: -50px;
   right: 490px;
   z-index: 10;
-  animation: morph-her-to-center 2600ms cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards;
+  opacity: 0;
+  rotate: 0deg;
+  scale: 0.6;
+  filter: blur(10px);
+  animation:
+    intro-fade-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards,
+    her-snap 1000ms cubic-bezier(0.33, 1, 0.68, 1) 3300ms forwards;
 }
 
 .hero-intro--ipad-morph {
   top: 340px;
   right: 270px;
   z-index: 3;
-  animation: morph-ipad-to-right 2600ms cubic-bezier(0.22, 1, 0.36, 1) 1100ms forwards;
+  opacity: 0;
+  rotate: 8deg;
+  scale: 0.6;
+  filter: blur(10px);
+  animation:
+    intro-fade-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 1100ms forwards,
+    ipad-snap 1000ms cubic-bezier(0.33, 1, 0.68, 1) 3300ms forwards;
 }
 
 .hero-intro--fold-morph {
   top: 340px;
   right: 710px;
   z-index: 3;
-  animation: morph-fold-to-left 2600ms cubic-bezier(0.22, 1, 0.36, 1) 600ms forwards;
+  opacity: 0;
+  rotate: -8deg;
+  scale: 0.6;
+  filter: blur(10px);
+  animation:
+    intro-fade-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 600ms forwards,
+    fold-snap 1000ms cubic-bezier(0.33, 1, 0.68, 1) 3300ms forwards;
 }
 
-@keyframes morph-her-to-center {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.6); filter: blur(10px); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-  15%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.7); filter: blur(0); animation-timing-function: linear; }
-  78%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
-  100% { opacity: 1; transform: translate(388px, 144px) rotate(2.29deg) scale(0.68); filter: blur(0); }
+@keyframes intro-fade-in {
+  to {
+    opacity: 1;
+    scale: 0.7;
+    filter: blur(0);
+  }
 }
 
-@keyframes morph-ipad-to-right {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(8deg) scale(0.6); filter: blur(10px); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-  15%  { opacity: 1; transform: translate(0, 0) rotate(8deg) scale(0.7); filter: blur(0); animation-timing-function: linear; }
-  78%  { opacity: 1; transform: translate(0, 0) rotate(8deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
-  100% { opacity: 1; transform: translate(428px, -276px) rotate(15.61deg) scale(0.57); filter: blur(0); }
+@keyframes her-snap {
+  to {
+    translate: 388px 144px;
+    rotate: 2.29deg;
+    scale: 0.68;
+  }
 }
 
-@keyframes morph-fold-to-left {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(-8deg) scale(0.6); filter: blur(10px); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-  15%  { opacity: 1; transform: translate(0, 0) rotate(-8deg) scale(0.7); filter: blur(0); animation-timing-function: linear; }
-  78%  { opacity: 1; transform: translate(0, 0) rotate(-8deg) scale(0.7); filter: blur(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
-  100% { opacity: 1; transform: translate(348px, -286px) rotate(-6.05deg) scale(0.57); filter: blur(0); }
+@keyframes ipad-snap {
+  to {
+    translate: 428px -276px;
+    rotate: 15.61deg;
+    scale: 0.57;
+  }
+}
+
+@keyframes fold-snap {
+  to {
+    translate: 348px -286px;
+    rotate: -6.05deg;
+    scale: 0.57;
+  }
 }
 
 @keyframes hero-intro-rise {
@@ -359,7 +388,7 @@ body {
   opacity: 0;
   transform: translateY(18px);
   filter: blur(14px);
-  animation: pg-shopfront-rise 900ms cubic-bezier(0.33, 1, 0.68, 1) 600ms forwards;
+  animation: pg-shopfront-rise 900ms cubic-bezier(0.33, 1, 0.68, 1) 1400ms forwards;
 }
 
 @keyframes pg-shopfront-rise {
@@ -384,7 +413,7 @@ body {
   z-index: 5;
   opacity: 0;
   transform: translateY(-100%);
-  animation: pg-promo-in 500ms cubic-bezier(0.33, 1, 0.68, 1) 1300ms forwards;
+  animation: pg-promo-in 500ms cubic-bezier(0.33, 1, 0.68, 1) 2100ms forwards;
 }
 
 .pg-promo-text {
@@ -415,7 +444,7 @@ body {
   padding: 0 38px;
   z-index: 5;
   opacity: 0;
-  animation: pg-chrome-in 500ms cubic-bezier(0.33, 1, 0.68, 1) 1000ms forwards;
+  animation: pg-chrome-in 500ms cubic-bezier(0.33, 1, 0.68, 1) 1800ms forwards;
 }
 
 .pg-nav-links {
@@ -884,7 +913,7 @@ body {
   opacity: 0;
   transform: translateX(-50%) translateY(20px);
   filter: blur(6px);
-  animation: pg-cta-in 600ms cubic-bezier(0.33, 1, 0.68, 1) 1600ms forwards;
+  animation: pg-cta-in 600ms cubic-bezier(0.33, 1, 0.68, 1) 2400ms forwards;
 }
 
 @keyframes pg-cta-in {
@@ -910,7 +939,7 @@ body {
   pointer-events: none;
   opacity: 0;
   filter: blur(14px);
-  animation: pg-fun-guides-in 700ms cubic-bezier(0.33, 1, 0.68, 1) 1900ms forwards;
+  animation: pg-fun-guides-in 700ms cubic-bezier(0.33, 1, 0.68, 1) 2700ms forwards;
 }
 
 .pg-fun-guides img {

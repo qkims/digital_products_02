@@ -114,9 +114,11 @@
       </div>
     </main>
     <script>
-      // Pause each floating iPad's video once it settles into the website.
+      // Pause each floating iPad's video once it settles into the website
+      // (only after the *snap* animation, not the initial fade-in).
       document.querySelectorAll('.hero-intro').forEach((el) => {
-        el.addEventListener('animationend', () => {
+        el.addEventListener('animationend', (e) => {
+          if (!e.animationName.endsWith('-snap')) return;
           const v = el.querySelector('video');
           if (v) v.pause();
         });
