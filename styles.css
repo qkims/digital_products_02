@@ -423,6 +423,21 @@ body {
   color: var(--pg-deepred);
 }
 
+.pg-brand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-slab);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  color: var(--pg-deepred);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .pg-icon {
   display: block;
   width: 20px;
