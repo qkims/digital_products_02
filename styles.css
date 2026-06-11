@@ -248,12 +248,12 @@ body {
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.35)) drop-shadow(0 14px 28px rgba(0, 0, 0, 0.18));
 }
 
-/* Floating iPad intro — three transparent PNG tablets drift in, then translate to the 3 shopfront tablet positions and hand off */
+/* Floating iPad intro — three transparent PNG tablets drift in fanned around a center, then settle to the 3 shopfront tablet positions */
 .hero-intro--her-morph,
 .hero-intro--ipad-morph,
 .hero-intro--fold-morph {
-  width: 280px;
-  height: 400px;
+  width: 380px;
+  height: 545px;
   border-radius: 0;
   overflow: visible;
   background: transparent;
@@ -261,20 +261,20 @@ body {
 }
 
 .hero-intro--her-morph {
-  top: 170px;
-  right: 580px;
+  top: 210px;
+  right: 500px;
   animation: morph-her-to-center 3500ms cubic-bezier(0.55, 0, 0.32, 1) 100ms forwards;
 }
 
 .hero-intro--ipad-morph {
-  top: 170px;
-  right: 220px;
+  top: 70px;
+  right: 180px;
   animation: morph-ipad-to-right 3500ms cubic-bezier(0.55, 0, 0.32, 1) 250ms forwards;
 }
 
 .hero-intro--fold-morph {
-  top: 170px;
-  right: 940px;
+  top: 70px;
+  right: 900px;
   animation: morph-fold-to-left 3500ms cubic-bezier(0.55, 0, 0.32, 1) 200ms forwards;
 }
 
@@ -282,24 +282,24 @@ body {
   0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(10px); }
   20%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
   50%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  85%  { opacity: 1; transform: translate(388px, 54px) rotate(2.29deg) scale(1.07); filter: blur(0); }
-  100% { opacity: 0; transform: translate(388px, 54px) rotate(2.29deg) scale(1.07); filter: blur(3px); }
+  85%  { opacity: 1; transform: translate(348px, 14px) rotate(2.29deg) scale(0.83); filter: blur(0); }
+  100% { opacity: 0; transform: translate(348px, 14px) rotate(2.29deg) scale(0.83); filter: blur(3px); }
 }
 
 @keyframes morph-ipad-to-right {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(10px); }
-  20%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  50%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  85%  { opacity: 1; transform: translate(288px, 24px) rotate(15.61deg) scale(0.9); filter: blur(0); }
-  100% { opacity: 0; transform: translate(288px, 24px) rotate(15.61deg) scale(0.9); filter: blur(3px); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(12deg) scale(0.85); filter: blur(10px); }
+  20%  { opacity: 1; transform: translate(0, 0) rotate(12deg) scale(1); filter: blur(0); }
+  50%  { opacity: 1; transform: translate(0, 0) rotate(12deg) scale(1); filter: blur(0); }
+  85%  { opacity: 1; transform: translate(248px, 124px) rotate(15.61deg) scale(0.7); filter: blur(0); }
+  100% { opacity: 0; transform: translate(248px, 124px) rotate(15.61deg) scale(0.7); filter: blur(3px); }
 }
 
 @keyframes morph-fold-to-left {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(10px); }
-  20%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  50%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  85%  { opacity: 1; transform: translate(488px, 14px) rotate(-6.05deg) scale(0.9); filter: blur(0); }
-  100% { opacity: 0; transform: translate(488px, 14px) rotate(-6.05deg) scale(0.9); filter: blur(3px); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(-10deg) scale(0.85); filter: blur(10px); }
+  20%  { opacity: 1; transform: translate(0, 0) rotate(-10deg) scale(1); filter: blur(0); }
+  50%  { opacity: 1; transform: translate(0, 0) rotate(-10deg) scale(1); filter: blur(0); }
+  85%  { opacity: 1; transform: translate(448px, 114px) rotate(-6.05deg) scale(0.7); filter: blur(0); }
+  100% { opacity: 0; transform: translate(448px, 114px) rotate(-6.05deg) scale(0.7); filter: blur(3px); }
 }
 
 @keyframes hero-intro-rise {
