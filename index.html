@@ -101,20 +101,6 @@
               </div>
             </div>
 
-            <div class="pg-tablets" aria-hidden="true">
-              <article class="pg-tablet pg-tablet--left">
-                <video class="pg-tablet-art" src="assets/video-3.mp4" autoplay muted loop playsinline preload="auto"></video>
-              </article>
-
-              <article class="pg-tablet pg-tablet--center">
-                <video class="pg-tablet-art" src="assets/video-1.mp4" autoplay muted loop playsinline preload="auto"></video>
-              </article>
-
-              <article class="pg-tablet pg-tablet--right">
-                <video class="pg-tablet-art" src="assets/video-2.mp4" autoplay muted loop playsinline preload="auto"></video>
-              </article>
-            </div>
-
             <button class="pg-cta" type="button" aria-hidden="true">Get template</button>
 
             <div class="pg-fun-guides" aria-hidden="true">
@@ -124,5 +110,14 @@
         </div>
       </div>
     </main>
+    <script>
+      // Pause each floating iPad's video once it settles into the website.
+      document.querySelectorAll('.hero-intro').forEach((el) => {
+        el.addEventListener('animationend', () => {
+          const v = el.querySelector('video');
+          if (v) v.pause();
+        });
+      });
+    </script>
   </body>
 </html>

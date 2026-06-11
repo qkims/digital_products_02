@@ -295,27 +295,27 @@ body {
 }
 
 @keyframes morph-her-to-center {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(10px); }
-  18%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
-  38%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); filter: blur(0); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.72); filter: blur(10px); }
+  18%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(0); }
+  38%  { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.85); filter: blur(0); }
   92%  { opacity: 1; transform: translate(378px, 94px) rotate(2.29deg) scale(0.68); filter: blur(0); }
-  100% { opacity: 0; transform: translate(378px, 94px) rotate(2.29deg) scale(0.68); filter: blur(2px); }
+  100% { opacity: 1; transform: translate(378px, 94px) rotate(2.29deg) scale(0.68); filter: blur(0); }
 }
 
 @keyframes morph-ipad-to-right {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(14deg) scale(0.85); filter: blur(10px); }
-  18%  { opacity: 1; transform: translate(0, 0) rotate(14deg) scale(1); filter: blur(0); }
-  38%  { opacity: 1; transform: translate(0, 0) rotate(14deg) scale(1); filter: blur(0); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(14deg) scale(0.72); filter: blur(10px); }
+  18%  { opacity: 1; transform: translate(0, 0) rotate(14deg) scale(0.85); filter: blur(0); }
+  38%  { opacity: 1; transform: translate(0, 0) rotate(14deg) scale(0.85); filter: blur(0); }
   92%  { opacity: 1; transform: translate(238px, -276px) rotate(15.61deg) scale(0.57); filter: blur(0); }
-  100% { opacity: 0; transform: translate(238px, -276px) rotate(15.61deg) scale(0.57); filter: blur(2px); }
+  100% { opacity: 1; transform: translate(238px, -276px) rotate(15.61deg) scale(0.57); filter: blur(0); }
 }
 
 @keyframes morph-fold-to-left {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(-12deg) scale(0.85); filter: blur(10px); }
-  18%  { opacity: 1; transform: translate(0, 0) rotate(-12deg) scale(1); filter: blur(0); }
-  38%  { opacity: 1; transform: translate(0, 0) rotate(-12deg) scale(1); filter: blur(0); }
+  0%   { opacity: 0; transform: translate(0, 0) rotate(-12deg) scale(0.72); filter: blur(10px); }
+  18%  { opacity: 1; transform: translate(0, 0) rotate(-12deg) scale(0.85); filter: blur(0); }
+  38%  { opacity: 1; transform: translate(0, 0) rotate(-12deg) scale(0.85); filter: blur(0); }
   92%  { opacity: 1; transform: translate(458px, -286px) rotate(-6.05deg) scale(0.57); filter: blur(0); }
-  100% { opacity: 0; transform: translate(458px, -286px) rotate(-6.05deg) scale(0.57); filter: blur(2px); }
+  100% { opacity: 1; transform: translate(458px, -286px) rotate(-6.05deg) scale(0.57); filter: blur(0); }
 }
 
 @keyframes hero-intro-rise {
