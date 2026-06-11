@@ -280,21 +280,21 @@ body {
   top: -50px;
   right: 490px;
   z-index: 10;
-  animation: morph-her-to-center 1300ms ease 50ms forwards;
+  animation: morph-her-to-center 1900ms ease 100ms forwards;
 }
 
 .hero-intro--ipad-morph {
   top: 340px;
   right: 270px;
   z-index: 3;
-  animation: morph-ipad-to-right 1300ms ease 150ms forwards;
+  animation: morph-ipad-to-right 1900ms ease 250ms forwards;
 }
 
 .hero-intro--fold-morph {
   top: 340px;
   right: 710px;
   z-index: 3;
-  animation: morph-fold-to-left 1300ms ease 100ms forwards;
+  animation: morph-fold-to-left 1900ms ease 200ms forwards;
 }
 
 @keyframes morph-her-to-center {
@@ -359,7 +359,7 @@ body {
   opacity: 0;
   transform: translateY(18px);
   filter: blur(14px);
-  animation: pg-shopfront-rise 600ms ease 400ms forwards;
+  animation: pg-shopfront-rise 900ms ease 600ms forwards;
 }
 
 @keyframes pg-shopfront-rise {
@@ -384,7 +384,7 @@ body {
   z-index: 5;
   opacity: 0;
   transform: translateY(-100%);
-  animation: pg-promo-in 400ms ease 900ms forwards;
+  animation: pg-promo-in 500ms ease 1300ms forwards;
 }
 
 .pg-promo-text {
@@ -415,7 +415,7 @@ body {
   padding: 0 38px;
   z-index: 5;
   opacity: 0;
-  animation: pg-chrome-in 400ms ease 700ms forwards;
+  animation: pg-chrome-in 500ms ease 1000ms forwards;
 }
 
 .pg-nav-links {
@@ -884,7 +884,7 @@ body {
   opacity: 0;
   transform: translateX(-50%) translateY(20px);
   filter: blur(6px);
-  animation: pg-cta-in 500ms ease 1100ms forwards;
+  animation: pg-cta-in 600ms ease 1600ms forwards;
 }
 
 @keyframes pg-cta-in {
@@ -910,7 +910,7 @@ body {
   pointer-events: none;
   opacity: 0;
   filter: blur(14px);
-  animation: pg-fun-guides-in 500ms ease 1300ms forwards;
+  animation: pg-fun-guides-in 700ms ease 1900ms forwards;
 }
 
 .pg-fun-guides img {
