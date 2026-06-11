@@ -758,7 +758,7 @@ body {
   display: block;
   font-family: var(--font-slab);
   font-weight: 400;
-  font-size: 36px;
+  font-size: 44px;
   line-height: 1;
   color: rgba(219, 219, 219, 0.5);
   white-space: nowrap;
@@ -771,15 +771,15 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 78%;
-  height: 70%;
+  width: 68%;
+  height: 62%;
   background: #ffffff;
   z-index: 2;
 }
 
 .pg-inset-title {
   position: absolute;
-  top: 8%;
+  top: 11%;
   left: 8%;
   right: 8%;
   margin: 0;
@@ -799,16 +799,16 @@ body {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 6.5px;
-  line-height: 1.45;
+  font-size: 6px;
+  line-height: 1.4;
   color: var(--pg-deeppurple);
 }
 
 .pg-inset-photo {
   position: absolute;
-  left: 6%;
-  right: 6%;
-  bottom: 4%;
+  top: 31%;
+  left: 0;
+  right: 0;
   height: 47%;
   background: #cfa48a;
   overflow: hidden;
@@ -865,9 +865,9 @@ body {
 .pg-fun-guides {
   position: absolute;
   left: 50%;
-  bottom: -8px;
+  bottom: 0;
   transform: translateX(-50%);
-  width: 110%;
+  width: 90%;
   z-index: 2;
   pointer-events: none;
   opacity: 0;
