@@ -279,6 +279,7 @@ body {
 .hero-intro--her-morph {
   top: -50px;
   right: 490px;
+  z-index: 5;
   animation: morph-her-to-center 1300ms ease 50ms forwards;
 }
 
