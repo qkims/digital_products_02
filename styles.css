@@ -248,63 +248,49 @@ body {
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.35)) drop-shadow(0 14px 28px rgba(0, 0, 0, 0.18));
 }
 
-/* Video that sits on top of each iPad photo, masked to roughly the iPad screen area.
-   Each variant tunes --screen-cx/cy (center, % of 460x660 box), --screen-w/h (% of box), --screen-rot (deg). */
+/* Each .hero-intro--*-morph is a clean CSS iPad — the video fills the screen area. */
 .hero-intro-screen {
-  position: absolute;
-  left: var(--screen-cx);
-  top: var(--screen-cy);
-  width: var(--screen-w);
-  height: var(--screen-h);
-  transform: translate(-50%, -50%) rotate(var(--screen-rot));
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
   object-fit: cover;
-  border-radius: 8px;
   pointer-events: none;
-  z-index: 2;
 }
 
-/* Floating iPad intro — three transparent PNG tablets drift in fanned around a center, then settle to the 3 shopfront tablet positions */
+/* Floating iPad intro — three CSS-framed iPads (dark bezel) play looping videos as they drift in and morph toward the shopfront tablet positions. */
 .hero-intro--her-morph,
 .hero-intro--ipad-morph,
 .hero-intro--fold-morph {
   width: 460px;
   height: 660px;
-  border-radius: 0;
-  overflow: visible;
-  background: transparent;
+  padding: 14px;
+  box-sizing: border-box;
+  background: var(--pg-bezel);
+  border-radius: 32px;
+  overflow: hidden;
   transform-origin: 50% 50%;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.45),
+    0 14px 28px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .hero-intro--her-morph {
   top: 0px;
   right: 480px;
-  --screen-cx: 41%;
-  --screen-cy: 38%;
-  --screen-w: 41%;
-  --screen-h: 34%;
-  --screen-rot: 7deg;
   animation: morph-her-to-center 4200ms cubic-bezier(0.45, 0, 0.2, 1) 100ms forwards;
 }
 
 .hero-intro--ipad-morph {
   top: 340px;
   right: 80px;
-  --screen-cx: 60%;
-  --screen-cy: 48%;
-  --screen-w: 38%;
-  --screen-h: 52%;
-  --screen-rot: -5deg;
   animation: morph-ipad-to-right 4200ms cubic-bezier(0.45, 0, 0.2, 1) 250ms forwards;
 }
 
 .hero-intro--fold-morph {
   top: 340px;
   right: 820px;
-  --screen-cx: 41%;
-  --screen-cy: 38%;
-  --screen-w: 40%;
-  --screen-h: 47%;
-  --screen-rot: -4deg;
   animation: morph-fold-to-left 4200ms cubic-bezier(0.45, 0, 0.2, 1) 200ms forwards;
 }
 
