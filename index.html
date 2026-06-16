@@ -10,10 +10,16 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="assets/staging-brochure.css" />
+    <link rel="stylesheet" href="assets/staging-styles.css" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="preload" href="assets/hero-still.png" as="image" />
+    <link
+      rel="preload"
+      href="https://cdn.shopify.com/b/shopify-brochure2-assets/a5268992b6c56c70e05ea10185f5f005.png"
+      as="image"
+    />
   </head>
-  <body>
+  <body class="overscroll-y-none bg-theme-bg">
     <header class="header" aria-label="Primary">
       <nav class="nav-main" aria-label="Main">
         <a class="logo" href="#" aria-label="Shopify home">
@@ -44,19 +50,66 @@
       </div>
     </header>
 
-    <main class="hero">
-      <div class="hero-container">
-        <div class="hero-text">
-          <h1 class="display">Sell digital products from your own store</h1>
-          <p class="lede">PDFs, templates, MP3s, or videos&mdash;monetize any file on the platform built for digital, physical, and global selling.</p>
-          <div class="hero-cta">
-            <a class="btn btn--lg btn--primary" href="#">Start for free</a>
+    <main role="main" id="main" tabindex="-1" class="focus-visible:outline-none" data-color-mode="light">
+      <section
+        class="grid gap-y-2xl grid-cols-full text-component-section-content z-1 relative pt-hero-top pb-0 overflow-hidden md:min-h-[720px] bg-theme-bg"
+        data-section-name=""
+        data-component-name="digital-products-still-image-hero"
+        data-viewable-component="true"
+        data-color-mode="dark"
+      >
+        <div
+          class="container grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-x-md bg-component-grid-bg relative z-10 gap-y-md md:gap-y-2xl"
+          data-component-name="grid"
+        >
+          <div
+            class="col-span-4 xs:col-span-4 sm:col-span-8 md:col-span-6 col-start-1 flex flex-col gap-y-md md:min-h-[440px] lg:min-h-[480px] xl:min-h-[600px] md:py-3xl md:justify-center"
+          >
+            <div data-component-name="heading-group-cta" class="flex flex-col">
+              <div class="text-start" data-component-name="heading-group">
+                <h1
+                  class="richtext text-balance font-component-heading-group-heading text-component-heading-group-heading override-heading-group-heading-t1 text-component-heading-group-heading-content"
+                >
+                  Sell digital products from your own store
+                </h1>
+                <div
+                  class="richtext font-component-heading-group-subhead text-component-heading-group-subhead text-component-heading-group-subhead-content pt-sm override-heading-group-subhead-body-lg"
+                >
+                  PDFs, templates, MP3s, or videos&mdash;monetize any file on the platform built for digital, physical, and global selling.
+                </div>
+              </div>
+              <div class="pt-md max-w-128">
+                <div data-component-name="button-group">
+                  <div class="flex gap-y-sm flex-wrap gap-x-sm justify-start">
+                    <a
+                      href="#"
+                      class="inline-block self-center overflow-hidden max-w-full px-button-px py-button-py ring-inset rounded-component-button transition-all duration-150 focus-visible:outline-offset-2 focus-visible:outline-state-focus border-2 focus-visible:outline bg-component-button-primary-bg hover:bg-component-button-primary-bg-hover active:bg-component-button-primary-bg-active disabled:bg-component-button-primary-bg-disabled border-component-button-primary-border hover:border-component-button-primary-border-hover active:border-component-button-primary-border-active disabled:border-component-button-primary-border-disabled ring-component-button-primary-border hover:ring-component-button-primary-border-hover active:ring-component-button-primary-border-active disabled:ring-component-button-primary-border-disabled text-component-button-primary-content hover:text-component-button-primary-content-hover active:text-component-button-primary-content-active disabled:text-component-button-primary-content-disabled font-component-button-primary md:px-button-lg-px md:py-button-lg-py text-component-button-primary-lg"
+                      data-component-name="button"
+                      target=""
+                    >
+                      Start for free
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="relative md:absolute md:inset-0 md:z-[5] w-screen mt-sm md:mt-0 pointer-events-none"
+          >
+            <div class="still-hero-image-wrapper">
+              <img
+                src="https://cdn.shopify.com/b/shopify-brochure2-assets/a5268992b6c56c70e05ea10185f5f005.png"
+                alt=""
+                aria-hidden="true"
+                class="still-hero-image"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
           </div>
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <img src="assets/hero-still.png" alt="" loading="eager" decoding="async" />
-        </div>
-      </div>
+      </section>
     </main>
   </body>
 </html>
