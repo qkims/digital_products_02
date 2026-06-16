@@ -7,13 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="preload" href="assets/video-1.mp4" as="video" type="video/mp4" />
-    <link rel="preload" href="assets/video-2.mp4" as="video" type="video/mp4" />
-    <link rel="preload" href="assets/video-3.mp4" as="video" type="video/mp4" />
+    <link rel="preload" href="assets/hero-still.png" as="image" />
   </head>
   <body>
     <header class="header" aria-label="Primary">
@@ -48,81 +46,17 @@
 
     <main class="hero">
       <div class="hero-container">
-        <div class="heading-group">
-          <h1 class="display">
-            <span class="word" style="--i: 0">Sell</span>
-            <span class="word" style="--i: 1">digital</span>
-            <span class="word" style="--i: 2">products</span>
-            <br />
-            <span class="word" style="--i: 3">from</span>
-            <span class="word" style="--i: 4">your</span>
-            <span class="word" style="--i: 5">own</span>
-            <span class="word" style="--i: 6">store</span>
-          </h1>
-          <p class="lede">
-            Your products deserve a storefront, not a listing. Build yours on<br />
-            Shopify—the platform for digital, physical, and global selling
-          </p>
+        <div class="hero-text">
+          <h1 class="display">Sell digital products from your own store</h1>
+          <p class="lede">PDFs, templates, MP3s, or videos&mdash;monetize any file on the platform built for digital, physical, and global selling.</p>
+          <div class="hero-cta">
+            <a class="btn btn--lg btn--primary" href="#">Start for free</a>
+          </div>
         </div>
-        <a class="btn btn--lg btn--primary" href="#">Start for free</a>
-      </div>
-
-      <div class="hero-stage" aria-hidden="true">
-        <div class="hero-stage-inner">
-          <div class="hero-intro hero-intro--ipad-morph" aria-hidden="true">
-            <video class="hero-intro-screen" src="assets/video-2.mp4" autoplay muted loop playsinline preload="auto"></video>
-          </div>
-
-          <div class="hero-intro hero-intro--fold-morph" aria-hidden="true">
-            <video class="hero-intro-screen" src="assets/video-3.mp4" autoplay muted loop playsinline preload="auto"></video>
-          </div>
-
-          <div class="hero-intro hero-intro--her-morph" aria-hidden="true">
-            <video class="hero-intro-screen" src="assets/video-1.mp4" autoplay muted loop playsinline preload="auto"></video>
-          </div>
-
-          <div class="pg-shopfront" aria-hidden="true">
-            <div class="pg-chrome">
-              <nav class="pg-nav-links" aria-hidden="true">
-                <span>Guides</span>
-                <span>Tutorials</span>
-                <span>Shop</span>
-              </nav>
-              <div class="pg-brand" aria-hidden="true">fun guides</div>
-              <div class="pg-tools" aria-hidden="true">
-                <svg class="pg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <circle cx="9" cy="9" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
-                  <path d="M13.3 13.3l4.2 4.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                </svg>
-                <div class="pg-bag">
-                  <svg class="pg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M4.5 7h11l-1 9.5a.6.6 0 0 1-.6.5H6.1a.6.6 0 0 1-.6-.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-                    <path d="M7 7V5.5a3 3 0 0 1 6 0V7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                  </svg>
-                  <span class="pg-bag-badge">2</span>
-                </div>
-              </div>
-            </div>
-
-            <button class="pg-cta" type="button" aria-hidden="true">Get template</button>
-
-            <div class="pg-fun-guides" aria-hidden="true">
-              <img src="assets/fun-guides.svg" alt="" decoding="async" />
-            </div>
-          </div>
+        <div class="hero-visual" aria-hidden="true">
+          <img src="assets/hero-still.png" alt="" loading="eager" decoding="async" />
         </div>
       </div>
     </main>
-    <script>
-      // Pause each floating iPad's video once it settles into the website
-      // (only after the *snap* animation, not the initial fade-in).
-      document.querySelectorAll('.hero-intro').forEach((el) => {
-        el.addEventListener('animationend', (e) => {
-          if (!e.animationName.endsWith('-snap')) return;
-          const v = el.querySelector('video');
-          if (v) v.pause();
-        });
-      });
-    </script>
   </body>
 </html>
