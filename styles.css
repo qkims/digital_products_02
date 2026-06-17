@@ -368,7 +368,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
     0 30px 80px rgba(0, 0, 0, 0.35);
   opacity: 0;
   transform: scale(0.96) translateY(20px);
-  animation: browser-in 650ms cubic-bezier(0.22, 1, 0.36, 1) 0ms forwards;
+  animation: browser-in 500ms cubic-bezier(0.22, 1, 0.36, 1) 0ms forwards;
 }
 .glass-frame::before {
   content: "";
@@ -602,28 +602,14 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   transform-origin: center center;
 }
 
-/* Tap sequence: the 3 leftmost visible cards. The strip first scrolls visibly
-   for ~1.5s (750-2250ms), then pauses at translateX(-45px) which anchors
-   cards 2/3/4 in the left half of the viewport. Each taps down, pops up out
-   of the browser frame with a green outline drawing in, and rests at a
-   different random tilt (--pop-tilt) so they feel hand-flicked. */
-.ebook-track > .ebook-card:nth-child(2) {
-  --pop-tilt: -8deg;
-  animation:
-    ebook-tap-pop 980ms cubic-bezier(0.22, 1.05, 0.32, 1) 2000ms both,
-    ebook-tap-fade-out 900ms cubic-bezier(0.4, 0, 0.6, 1) 4350ms forwards;
-}
-.ebook-track > .ebook-card:nth-child(3) {
+/* Tap sequence: single card. The strip first scrolls visibly and decelerates,
+   then the yellow Tips card (4th) taps down and pops up out of the browser frame
+   with a green outline drawing in at a slight tilt. */
+.ebook-track > .ebook-card:nth-child(4) {
   --pop-tilt: 6deg;
   animation:
-    ebook-tap-pop 980ms cubic-bezier(0.22, 1.05, 0.32, 1) 2500ms both,
-    ebook-tap-fade-out 900ms cubic-bezier(0.4, 0, 0.6, 1) 4500ms forwards;
-}
-.ebook-track > .ebook-card:nth-child(4) {
-  --pop-tilt: -4deg;
-  animation:
-    ebook-tap-pop 980ms cubic-bezier(0.22, 1.05, 0.32, 1) 3000ms both,
-    ebook-tap-fade-out 900ms cubic-bezier(0.4, 0, 0.6, 1) 4650ms forwards;
+    ebook-tap-pop 980ms cubic-bezier(0.22, 1.05, 0.32, 1) 2000ms both,
+    ebook-tap-fade-out 900ms cubic-bezier(0.4, 0, 0.6, 1) 3400ms forwards;
 }
 
 @keyframes ebook-tap-fade-out {
@@ -683,16 +669,16 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
 }
 
-/* Visible scroll → pause (during the tap sequence) → resume.
-   Animation starts at 750ms (after browser-in settles, animation delay).
-   - 0%   →  3.125%: scroll 0 → -45px (visible motion for ~1.5s)
-   - 3.125% → 9.375%: pause at -45px (covers the 3 tap-pops + their hold)
-   - 9.375% → 100%:   resume scroll to -strip-step (hidden by code-env soon after) */
+/* Visible scroll → settle pause (single tap fires here) → resume.
+   - 0% → 4.17% (0-2000ms): snappy decel from 0 → -270px (visible scroll, lands card 4 near viewport center)
+   - 4.17% → 7.08% (2000-3400ms): held near-still at -278px (tap pops at 2000ms)
+   - 7.08% → 10% (3400-4800ms): accel back to full speed at -330px
+   - 10% → 100%: linear scroll out to -strip-step (hidden by code-env soon after) */
 @keyframes scroll-rtl-pause {
-  0%      { transform: translateX(0);    animation-timing-function: cubic-bezier(0.28, 0, 0.2, 1); }
-  4.17%   { transform: translateX(-45px); animation-timing-function: linear; }
-  8.33%   { transform: translateX(-55px); animation-timing-function: cubic-bezier(0.55, 0, 0.7, 0.55); }
-  12.5%   { transform: translateX(-95px); animation-timing-function: linear; }
+  0%      { transform: translateX(0);     animation-timing-function: cubic-bezier(0.22, 0.6, 0.18, 1); }
+  4.17%   { transform: translateX(-270px); animation-timing-function: linear; }
+  7.08%   { transform: translateX(-278px); animation-timing-function: cubic-bezier(0.55, 0, 0.7, 0.55); }
+  10%     { transform: translateX(-330px); animation-timing-function: linear; }
   100%    { transform: translateX(calc(-1 * var(--strip-step))); }
 }
 
@@ -748,7 +734,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   flex-shrink: 0;
 }
 
-/* Download notification cards floating around the LEFT side of the browser */
+/* Download notification card floating around the LEFT side of the browser */
 .download-stack {
   position: absolute;
   inset: 0;
@@ -791,29 +777,11 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   right: calc(100% - 150px);
   --float-y: -4px;
   --float-x: 2px;
-  animation-delay: 4250ms, 5150ms;
+  animation-delay: 2850ms, 3750ms;
   animation-duration: 820ms, 7s;
-}
-.dl-card--2 {
-  top: 50%;
-  right: calc(100% - 60px);
-  --float-y: -5px;
-  --float-x: -2px;
-  animation-delay: 4650ms, 5550ms;
-  animation-duration: 820ms, 8s;
-}
-.dl-card--3 {
-  top: 68%;
-  right: calc(100% - 190px);
-  --float-y: -4px;
-  --float-x: 2px;
-  animation-delay: 5050ms, 5950ms;
-  animation-duration: 820ms, 6.5s;
 }
 @media (max-width: 1023px) {
   .dl-card--1 { top: 60px; right: auto; left: 12px; }
-  .dl-card--2 { top: 150px; right: auto; left: 28px; }
-  .dl-card--3 { top: 240px; right: auto; left: 8px; }
 }
 
 @keyframes dl-card-slide-up {
@@ -844,34 +812,14 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   background: #fff;
   padding: 4px;
   box-sizing: border-box;
+  overflow: hidden;
 }
-.dl-thumb-inner {
+.dl-thumb-img {
   display: block;
   width: 100%;
   height: 100%;
   border-radius: 8px;
-  background-size: cover;
-  background-position: center;
-}
-.dl-thumb-inner--1 {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.22) 1px, transparent 1px) 0 0 / 100% 25%,
-    linear-gradient(90deg, rgba(0, 0, 0, 0.22) 1px, transparent 1px) 0 0 / 25% 100%,
-    #e53939;
-}
-.dl-thumb-inner--2 {
-  background:
-    radial-gradient(circle at 50% 70%, #d4732a 0 14%, transparent 15%),
-    radial-gradient(circle at 38% 38%, #ff6a3d 0 10%, transparent 11%),
-    radial-gradient(circle at 60% 36%, #ff5430 0 8%, transparent 9%),
-    radial-gradient(circle at 50% 84%, #ffffff 0 22%, transparent 23%),
-    #ffc73d;
-}
-.dl-thumb-inner--3 {
-  background:
-    radial-gradient(circle at 70% 30%, #a3c7a4 0 30%, transparent 31%),
-    linear-gradient(135deg, #d8442a 0 60%, transparent 60%) 0 50% / 80% 50% no-repeat,
-    #f0e6cf;
+  object-fit: cover;
 }
 
 .dl-text {
@@ -913,9 +861,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
     dl-progress-fill 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
     dl-progress-tint 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-.dl-card--1 .dl-progress-fill { animation-delay: 4950ms, 4950ms; }
-.dl-card--2 .dl-progress-fill { animation-delay: 5350ms, 5350ms; }
-.dl-card--3 .dl-progress-fill { animation-delay: 5750ms, 5750ms; }
+.dl-card--1 .dl-progress-fill { animation-delay: 3500ms, 3500ms; }
 
 @keyframes dl-progress-fill {
   0%   { width: 0%; }
@@ -965,15 +911,9 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   stroke-dashoffset: 22;
   animation: dl-check-draw 380ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-.dl-card--1 .dl-arrow-icon--download { animation-delay: 4950ms, 5500ms; }
-.dl-card--1 .dl-arrow-icon--check    { animation-delay: 5630ms; }
-.dl-card--1 .dl-check-path           { animation-delay: 5830ms; }
-.dl-card--2 .dl-arrow-icon--download { animation-delay: 5350ms, 5900ms; }
-.dl-card--2 .dl-arrow-icon--check    { animation-delay: 6030ms; }
-.dl-card--2 .dl-check-path           { animation-delay: 6230ms; }
-.dl-card--3 .dl-arrow-icon--download { animation-delay: 5750ms, 6300ms; }
-.dl-card--3 .dl-arrow-icon--check    { animation-delay: 6430ms; }
-.dl-card--3 .dl-check-path           { animation-delay: 6630ms; }
+.dl-card--1 .dl-arrow-icon--download { animation-delay: 3500ms, 4050ms; }
+.dl-card--1 .dl-arrow-icon--check    { animation-delay: 4180ms; }
+.dl-card--1 .dl-check-path           { animation-delay: 4380ms; }
 
 @keyframes dl-arrow-bob {
   0%, 100% { transform: translateY(0); opacity: 0.7; }
@@ -1010,7 +950,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   line-height: 1;
   color: rgba(210, 215, 225, 0.32);
   letter-spacing: 0.05em;
-  animation: code-rain-in 900ms ease 3950ms forwards;
+  animation: code-rain-in 900ms ease 2700ms forwards;
 }
 
 .code-frag {
@@ -1119,7 +1059,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .site-nav,
 .site-strip,
 .site-footer {
-  animation: site-fade-to-code 1000ms cubic-bezier(0.33, 0, 0.5, 1) 4150ms forwards;
+  animation: site-fade-to-code 1000ms cubic-bezier(0.33, 0, 0.5, 1) 2900ms forwards;
 }
 @keyframes site-fade-to-code {
   to { opacity: 0; }
@@ -1129,152 +1069,97 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   position: absolute;
   inset: 0;
   z-index: 4;
-  padding: 26px 28px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 26px;
   background: linear-gradient(180deg, #14171c 0%, #0d1014 100%);
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   color: rgba(232, 234, 240, 0.92);
   opacity: 0;
   pointer-events: none;
   overflow: hidden;
-  animation: code-env-in 1000ms cubic-bezier(0.22, 1, 0.36, 1) 4450ms forwards;
+  animation: code-env-in 1000ms cubic-bezier(0.22, 1, 0.36, 1) 3200ms forwards;
 }
-.code-env::before {
-  content: "";
-  position: absolute;
-  inset: 16px 18px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  pointer-events: none;
-}
-.code-env-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 22px;
-  padding: 4px 8px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-.code-env-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  color: rgba(245, 247, 250, 0.96);
-}
-.code-env-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.18);
-}
-.code-env-count {
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(180, 188, 200, 0.65);
-  letter-spacing: 0.01em;
-}
-.code-env-list {
+.code-env-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0 8px;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 320px;
+  padding: 28px 26px 22px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 24px 60px rgba(0, 0, 0, 0.55);
 }
-.code-env-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 8px 0;
+.code-env-thumb {
+  position: relative;
+  width: 132px;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 18px 32px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.code-env-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .code-env-body {
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  padding-top: 1px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
 }
 .code-env-meta {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  text-align: center;
 }
 .code-env-stat {
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
-  flex-shrink: 0;
 }
 .code-env-divider {
   color: rgba(160, 168, 182, 0.4);
   font-size: 10px;
   opacity: 0;
-  animation: code-env-pct-in 200ms ease-out forwards;
-}
-.code-env-row:nth-child(1) .code-env-divider { animation-delay: 4950ms; }
-.code-env-row:nth-child(2) .code-env-divider { animation-delay: 5350ms; }
-.code-env-row:nth-child(3) .code-env-divider { animation-delay: 5750ms; }
-.code-env-icon {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(200, 208, 220, 0.8);
-}
-.code-env-icon::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 9px;
-  border: 1px solid rgba(110, 231, 168, 0.45);
-  opacity: 0;
-  animation: code-env-icon-pulse 1300ms ease-out infinite;
-}
-.code-env-row:nth-child(1) .code-env-icon::before { animation-delay: 4950ms; }
-.code-env-row:nth-child(2) .code-env-icon::before { animation-delay: 5350ms; }
-.code-env-row:nth-child(3) .code-env-icon::before { animation-delay: 5750ms; }
-.code-env-icon svg {
-  position: relative;
-  width: 13px;
-  height: 13px;
-}
-.code-env-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
+  animation: code-env-pct-in 200ms ease-out 3600ms forwards;
 }
 .code-env-name {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(238, 240, 245, 0.95);
-  letter-spacing: -0.005em;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(245, 247, 250, 0.98);
+  letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 .code-env-size {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 400;
-  color: rgba(160, 168, 182, 0.62);
+  color: rgba(160, 168, 182, 0.65);
   letter-spacing: 0.01em;
 }
 .code-env-meter {
   position: relative;
   display: block;
-  width: 60%;
-  max-width: 180px;
+  width: 100%;
   height: 5px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 999px;
@@ -1314,12 +1199,12 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   transform: translateX(-100%);
   animation: code-env-shimmer 1800ms ease-in-out infinite;
 }
-.code-env-meter-fill--1 { animation-delay: 4950ms; }
-.code-env-meter-fill--2 { animation-delay: 5350ms; }
-.code-env-meter-fill--3 { animation-delay: 5750ms; }
-.code-env-meter-fill--1::after { animation-delay: 5150ms; }
-.code-env-meter-fill--2::after { animation-delay: 5550ms; }
-.code-env-meter-fill--3::after { animation-delay: 5950ms; }
+.code-env-meter-fill--1 { animation-delay: 3600ms; }
+.code-env-meter-fill--2 { animation-delay: 4000ms; }
+.code-env-meter-fill--3 { animation-delay: 4400ms; }
+.code-env-meter-fill--1::after { animation-delay: 3800ms; }
+.code-env-meter-fill--2::after { animation-delay: 4200ms; }
+.code-env-meter-fill--3::after { animation-delay: 4600ms; }
 @property --pct {
   syntax: '<integer>';
   inherits: false;
@@ -1328,9 +1213,9 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .code-env-pct {
   --pct: 0;
   font-variant-numeric: tabular-nums;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
-  color: rgba(200, 208, 220, 0.78);
+  color: rgba(200, 208, 220, 0.82);
   letter-spacing: -0.005em;
   opacity: 0;
   counter-reset: progress var(--pct);
@@ -1341,52 +1226,23 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .code-env-pct::after {
   content: counter(progress) "%";
 }
-.code-env-pct--1 { animation-delay: 4950ms, 4950ms; }
-.code-env-pct--2 { animation-delay: 5350ms, 5350ms; }
-.code-env-pct--3 { animation-delay: 5750ms, 5750ms; }
-
-/* Done state — small green check badge in the bottom-right corner of the file icon.
-   Appears when each row's bar finishes filling. */
-.code-env-icon::after {
-  content: "";
-  position: absolute;
-  right: -3px;
-  bottom: -3px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2.5 5.2 L4.2 6.9 L7.5 3.4' fill='none' stroke='white' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 8px 8px no-repeat,
-    #4ade80;
-  box-shadow: 0 0 0 1.5px #14171c;
-  opacity: 0;
-  transform: scale(0.5);
-  animation: code-env-check-in 320ms cubic-bezier(0.22, 1.4, 0.36, 1) forwards;
-}
-.code-env-row:nth-child(1) .code-env-icon::after { animation-delay: 6050ms; }
-.code-env-row:nth-child(2) .code-env-icon::after { animation-delay: 6450ms; }
-.code-env-row:nth-child(3) .code-env-icon::after { animation-delay: 6850ms; }
-/* Once the check appears, the pulsing ring should stop. We do that with a
-   second animation on ::before that overrides opacity at the same moment. */
-.code-env-row:nth-child(1) .code-env-icon::before { animation: code-env-icon-pulse 1300ms ease-out 4950ms infinite, code-env-icon-stop 200ms ease-out 6050ms forwards; }
-.code-env-row:nth-child(2) .code-env-icon::before { animation: code-env-icon-pulse 1300ms ease-out 5350ms infinite, code-env-icon-stop 200ms ease-out 6450ms forwards; }
-.code-env-row:nth-child(3) .code-env-icon::before { animation: code-env-icon-pulse 1300ms ease-out 5750ms infinite, code-env-icon-stop 200ms ease-out 6850ms forwards; }
+.code-env-pct--1 { animation-delay: 3600ms, 3600ms; }
 
 .code-env-status {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin: 18px 0 0 8px;
-  padding: 5px 10px 5px 8px;
+  margin-top: 4px;
+  padding: 5px 12px 5px 10px;
   border-radius: 999px;
-  background: rgba(74, 222, 128, 0.1);
+  background: rgba(74, 222, 128, 0.12);
   color: #6ee7a8;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.005em;
   opacity: 0;
-  animation: code-env-pct-in 400ms ease-out 6850ms forwards;
+  animation: code-env-pct-in 400ms ease-out 4800ms forwards;
 }
 .code-env-status svg {
   width: 12px;
@@ -1409,50 +1265,6 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 }
 @keyframes code-env-pct-count {
   to { --pct: 100; }
-}
-@keyframes code-env-icon-pulse {
-  0%   { opacity: 0; transform: scale(0.9); }
-  35%  { opacity: 1; }
-  100% { opacity: 0; transform: scale(1.18); }
-}
-@keyframes code-env-icon-stop {
-  to { opacity: 0; }
-}
-@keyframes code-env-check-in {
-  0%   { opacity: 0; transform: scale(0.4); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-/* === Center the code-env download manager content === */
-.code-env-header {
-  justify-content: center;
-  gap: 18px;
-}
-.code-env-list {
-  align-items: center;
-}
-.code-env-row {
-  width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
-  align-items: center;
-}
-.code-env-body {
-  align-items: center;
-}
-.code-env-meta {
-  justify-content: center;
-  flex-wrap: wrap;
-  row-gap: 4px;
-  width: 100%;
-}
-.code-env-meter {
-  margin: 0 auto;
-}
-.code-env-status {
-  display: flex;
-  margin: 18px auto 0;
-  width: fit-content;
 }
 
 /* === Glass frame fade-out before iPads arrive === */
@@ -1498,7 +1310,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --float-y: -12px;
   --float-x: 3px;
   filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.5));
-  animation-delay: 6750ms, 8200ms;
+  animation-delay: 4800ms, 6250ms;
   animation-duration: 1350ms, 7s;
 }
 .ipad-card--tips {
@@ -1509,7 +1321,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --float-y: -16px;
   --float-x: -5px;
   filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.58));
-  animation-delay: 7030ms, 8450ms;
+  animation-delay: 5080ms, 6500ms;
   animation-duration: 1350ms, 8.5s;
 }
 .ipad-card--cover {
@@ -1520,7 +1332,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --float-y: -10px;
   --float-x: 5px;
   filter: drop-shadow(0 30px 56px rgba(0, 0, 0, 0.62));
-  animation-delay: 7310ms, 8700ms;
+  animation-delay: 5360ms, 6750ms;
   animation-duration: 1350ms, 6.5s;
 }
 
@@ -1558,7 +1370,6 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   .site-strip,
   .site-footer,
   .code-env,
-  .code-env-cursor,
   .code-env-meter-fill,
   .code-env-pct,
   .code-env-status,
