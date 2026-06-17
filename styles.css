@@ -332,7 +332,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   align-items: center;
   justify-content: flex-end;
   padding-right: 0;
-  margin-right: -8%;
+  margin-right: -2%;
 }
 @media (max-width: 767px) {
   .still-hero-image-wrapper {
@@ -347,6 +347,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   position: relative;
   width: 100%;
   max-width: calc(900px + var(--glass-pad) * 2);
+  margin-right: 8%;
   padding: var(--glass-pad);
   border-radius: 28px;
   background:
@@ -692,31 +693,44 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   transform: translateY(24px);
   animation:
     dl-card-slide-up 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-    dl-card-float 7s ease-in-out infinite;
+    dl-card-float 7s ease-in-out infinite,
+    dl-card-press 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .dl-card--1 {
   top: 32%;
   right: calc(100% - 150px);
   --float-y: -4px;
   --float-x: 2px;
-  animation-delay: 1500ms, 2200ms;
-  animation-duration: 600ms, 7s;
+  --press-rot: -3.2deg;
+  --press-y: 3px;
+  --press-x: -2px;
+  --press-scale: 0.962;
+  animation-delay: 1500ms, 2200ms, 2050ms;
+  animation-duration: 600ms, 7s, 360ms;
 }
 .dl-card--2 {
   top: 50%;
   right: calc(100% - 60px);
   --float-y: -5px;
   --float-x: -2px;
-  animation-delay: 1900ms, 2600ms;
-  animation-duration: 600ms, 8s;
+  --press-rot: 2.6deg;
+  --press-y: 4px;
+  --press-x: 3px;
+  --press-scale: 0.95;
+  animation-delay: 1900ms, 2600ms, 2450ms;
+  animation-duration: 600ms, 8s, 380ms;
 }
 .dl-card--3 {
   top: 68%;
   right: calc(100% - 190px);
   --float-y: -4px;
   --float-x: 2px;
-  animation-delay: 2300ms, 3000ms;
-  animation-duration: 600ms, 6.5s;
+  --press-rot: -1.8deg;
+  --press-y: 2.5px;
+  --press-x: 2px;
+  --press-scale: 0.97;
+  animation-delay: 2300ms, 3000ms, 2850ms;
+  animation-duration: 600ms, 6.5s, 340ms;
 }
 @media (max-width: 1023px) {
   .dl-card--1 { top: 60px; right: auto; left: 12px; }
@@ -735,6 +749,27 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
 }
 
+@keyframes dl-card-press {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  38% {
+    transform:
+      translate(var(--press-x, 0px), var(--press-y, 3px))
+      rotate(var(--press-rot, 0deg))
+      scale(var(--press-scale, 0.965));
+  }
+  68% {
+    transform:
+      translate(calc(var(--press-x, 0px) * -0.25), -2px)
+      rotate(calc(var(--press-rot, 0deg) * -0.35))
+      scale(1.018);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
 @keyframes dl-card-float {
   0%, 100% {
     transform: translate(0, 0);
@@ -742,6 +777,70 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   50% {
     transform: translate(var(--float-x, 0px), var(--float-y, -5px));
   }
+}
+
+/* === Green particle burst behind each download card on press === */
+.dl-burst {
+  position: absolute;
+  width: 60px;
+  height: 82px;
+  pointer-events: none;
+}
+.dl-burst--1 { top: 32%; right: calc(100% - 150px); --burst-base: 2050ms; }
+.dl-burst--2 { top: 50%; right: calc(100% - 60px);  --burst-base: 2450ms; }
+.dl-burst--3 { top: 68%; right: calc(100% - 190px); --burst-base: 2850ms; }
+@media (max-width: 1023px) {
+  .dl-burst--1 { top: 60px;  right: auto; left: 272px; }
+  .dl-burst--2 { top: 150px; right: auto; left: 288px; }
+  .dl-burst--3 { top: 240px; right: auto; left: 268px; }
+}
+
+.dl-burst-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(220, 255, 235, 1) 0%,
+    rgba(110, 231, 168, 0.95) 55%,
+    rgba(74, 222, 128, 0) 100%
+  );
+  box-shadow: 0 0 6px rgba(110, 231, 168, 0.55);
+  opacity: 0;
+  transform: translate(0, 0) scale(0.3);
+  animation: dl-burst-pop 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--burst-base, 0ms) + var(--burst-offset, 0ms));
+}
+.dl-burst-particle--1 { --dx:   0px; --dy: -40px; --burst-offset:  0ms; }
+.dl-burst-particle--2 { --dx:  28px; --dy: -28px; --burst-offset: 25ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
+.dl-burst-particle--3 { --dx:  40px; --dy:   0px; --burst-offset: 45ms; }
+.dl-burst-particle--4 { --dx:  28px; --dy:  28px; --burst-offset: 30ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
+.dl-burst-particle--5 { --dx:   0px; --dy:  40px; --burst-offset: 15ms; }
+.dl-burst-particle--6 { --dx: -28px; --dy:  28px; --burst-offset: 50ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
+.dl-burst-particle--7 { --dx: -40px; --dy:   0px; --burst-offset: 35ms; }
+.dl-burst-particle--8 { --dx: -28px; --dy: -28px; --burst-offset: 55ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
+
+@keyframes dl-burst-pop {
+  0% {
+    transform: translate(0, 0) scale(0.3);
+    opacity: 0;
+  }
+  18% {
+    transform: translate(calc(var(--dx, 0px) * 0.25), calc(var(--dy, 0px) * 0.25)) scale(1.15);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(0.15);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dl-burst-particle { animation: none; opacity: 0; }
 }
 
 
@@ -850,6 +949,16 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  animation: dl-arrow-press 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.dl-card--1 .dl-arrow { animation-delay: 2050ms; }
+.dl-card--2 .dl-arrow { animation-delay: 2450ms; }
+.dl-card--3 .dl-arrow { animation-delay: 2850ms; }
+@keyframes dl-arrow-press {
+  0%   { transform: scale(1); filter: brightness(1); }
+  35%  { transform: scale(0.78); filter: brightness(1.35); }
+  65%  { transform: scale(1.08); filter: brightness(1.15); }
+  100% { transform: scale(1); filter: brightness(1); }
 }
 .dl-arrow-icon {
   position: absolute;
@@ -1332,6 +1441,38 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   100% { opacity: 1; transform: scale(1); }
 }
 
+/* === Center the code-env download manager content === */
+.code-env-header {
+  justify-content: center;
+  gap: 18px;
+}
+.code-env-list {
+  align-items: center;
+}
+.code-env-row {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  align-items: center;
+}
+.code-env-body {
+  align-items: center;
+}
+.code-env-meta {
+  justify-content: center;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  width: 100%;
+}
+.code-env-meter {
+  margin: 0 auto;
+}
+.code-env-status {
+  display: flex;
+  margin: 18px auto 0;
+  width: fit-content;
+}
+
 /* === Glass frame fade-out before iPads arrive === */
 @keyframes glass-fade-out {
   to {
@@ -1375,7 +1516,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --float-y: -12px;
   --float-x: 3px;
   filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.5));
-  animation-delay: 3000ms, 4100ms;
+  animation-delay: 4100ms, 5200ms;
   animation-duration: 1100ms, 7s;
 }
 .ipad-card--tips {
@@ -1386,7 +1527,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --float-y: -16px;
   --float-x: -5px;
   filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.58));
-  animation-delay: 3200ms, 4300ms;
+  animation-delay: 4300ms, 5400ms;
   animation-duration: 1100ms, 8.5s;
 }
 .ipad-card--cover {
@@ -1397,21 +1538,21 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --float-y: -10px;
   --float-x: 5px;
   filter: drop-shadow(0 30px 56px rgba(0, 0, 0, 0.62));
-  animation-delay: 3400ms, 4500ms;
+  animation-delay: 4500ms, 5600ms;
   animation-duration: 1100ms, 6.5s;
 }
 
 @keyframes ipad-slide-in {
   0% {
     opacity: 0;
-    transform: translateX(140%) scale(0.94);
+    transform: translateY(-110%) scale(0.94);
   }
   60% {
     opacity: 1;
   }
   100% {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
