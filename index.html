@@ -98,14 +98,12 @@
           >
             <div class="still-hero-image-wrapper">
               <div class="glass-frame" aria-hidden="true">
+              <div class="site-cta-cursor" aria-hidden="true"></div>
               <div class="browser-mock" aria-hidden="true">
-                <div class="browser-bar">
-                  <div class="browser-address">bytedrop.com/templates</div>
-                </div>
                 <div class="browser-viewport">
                   <div class="site-nav">
                     <div class="site-nav-links">
-                      <span>Bundles</span>
+                      <span>Guides</span>
                       <span>Tutorials</span>
                       <span>Shop</span>
                     </div>
@@ -135,13 +133,10 @@
                       <img class="ebook-card" src="assets/ebook-card-7.png" alt="" loading="eager" decoding="async" />
                     </div>
                   </div>
+                  <div class="site-wordmark">Byte&nbsp;&nbsp;Drop</div>
                   <div class="site-footer">
-                    <div class="site-wordmark">Byte Drop</div>
                     <a class="site-cta" href="#" tabindex="-1">
                       <span>Shop templates</span>
-                      <svg class="site-cta-arrow" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M3 7h8M7.5 3.5L11 7l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
                     </a>
                   </div>
                 </div>
@@ -170,7 +165,7 @@
                     <img src="assets/download-pill-thumb.png" alt="" decoding="async" />
                   </div>
                   <div class="dl-pill-text">
-                    <span class="dl-pill-name">eGuide.zip</span>
+                    <span class="dl-pill-name">eBook-001.zip</span>
                     <span class="dl-pill-status">Downloading <span class="dl-pill-pct" aria-hidden="true"><span class="dl-pct-strip">0%<br>2%<br>4%<br>6%<br>8%<br>10%<br>12%<br>14%<br>16%<br>18%<br>20%<br>22%<br>24%<br>26%<br>28%<br>30%<br>32%<br>34%<br>36%<br>38%<br>40%<br>42%<br>44%<br>46%<br>48%<br>50%<br>52%<br>54%<br>56%<br>58%<br>60%<br>62%<br>64%<br>66%<br>68%<br>70%<br>72%<br>74%<br>76%<br>78%<br>80%<br>82%<br>84%<br>86%<br>88%<br>90%<br>92%<br>94%<br>96%<br>98%<br>100%</span></span></span>
                     <div class="dl-pill-bar">
                       <span class="dl-pill-bar-fill"></span>
@@ -189,10 +184,40 @@
                 </div>
               </div>
               </div>
+              <svg class="wavy-deco wavy-deco--solid" viewBox="0 0 700 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="wavy-fade-solid" x1="0" y1="0" x2="700" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="white" stop-opacity="0"/>
+                    <stop offset="0.14" stop-color="white" stop-opacity="1"/>
+                    <stop offset="0.86" stop-color="white" stop-opacity="1"/>
+                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                  </linearGradient>
+                  <mask id="wavy-mask-solid" maskUnits="userSpaceOnUse" x="-100" y="-400" width="900" height="800">
+                    <rect x="-100" y="-400" width="900" height="800" fill="url(#wavy-fade-solid)"/>
+                  </mask>
+                </defs>
+                <path d="M0,218 C48,218 48,145 95,145 C148,145 148,200 200,200 C250,200 250,65 300,65 C348,65 348,175 395,175 C440,175 440,20 485,20 C530,20 530,115 575,115 C638,115 638,-110 700,-110" fill="none" stroke="#4f9ee8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" mask="url(#wavy-mask-solid)" opacity="1"/>
+                <path class="wavy-pulse" d="M0,218 C48,218 48,145 95,145 C148,145 148,200 200,200 C250,200 250,65 300,65 C348,65 348,175 395,175 C440,175 440,20 485,20 C530,20 530,115 575,115 C638,115 638,-110 700,-110" fill="none" stroke="#e2f2ff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1000" vector-effect="non-scaling-stroke" mask="url(#wavy-mask-solid)"/>
+              </svg>
+              <svg class="wavy-deco wavy-deco--dots" viewBox="0 0 700 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="wavy-fade-dots" x1="0" y1="0" x2="700" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="white" stop-opacity="0"/>
+                    <stop offset="0.14" stop-color="white" stop-opacity="1"/>
+                    <stop offset="0.86" stop-color="white" stop-opacity="1"/>
+                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                  </linearGradient>
+                  <mask id="wavy-mask-dots" maskUnits="userSpaceOnUse" x="-100" y="-400" width="900" height="800">
+                    <rect x="-100" y="-400" width="900" height="800" fill="url(#wavy-fade-dots)"/>
+                  </mask>
+                </defs>
+                <path d="M0,205 C53,205 53,140 105,140 C153,140 153,195 200,195 C255,195 255,80 310,80 C355,80 355,165 400,165 C448,165 448,40 495,40 C543,40 543,125 590,125 C645,125 645,-30 700,-30" fill="none" stroke="#8ec8f3" stroke-width="3" stroke-linecap="round" stroke-dasharray="2.4 8.5" vector-effect="non-scaling-stroke" mask="url(#wavy-mask-dots)" opacity="1"/>
+                <path class="wavy-pulse" d="M0,205 C53,205 53,140 105,140 C153,140 153,195 200,195 C255,195 255,80 310,80 C355,80 355,165 400,165 C448,165 448,40 495,40 C543,40 543,125 590,125 C645,125 645,-30 700,-30" fill="none" stroke="#dcefff" stroke-width="4" stroke-linecap="round" pathLength="1000" vector-effect="non-scaling-stroke" mask="url(#wavy-mask-dots)"/>
+              </svg>
               <div class="ipad-display" aria-hidden="true">
-                <img class="ipad-card ipad-card--cover" src="assets/ipad-cover.png" alt="" decoding="async" />
+                <img class="ipad-card ipad-card--cover" src="assets/ipad-quote.png" alt="" decoding="async" />
                 <img class="ipad-card ipad-card--tips"  src="assets/ipad-tips.png"  alt="" decoding="async" />
-                <img class="ipad-card ipad-card--quote" src="assets/ipad-quote.png" alt="" decoding="async" />
+                <img class="ipad-card ipad-card--quote" src="assets/ipad-cover.png" alt="" decoding="async" />
               </div>
             </div>
           </div>
