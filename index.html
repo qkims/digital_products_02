@@ -117,18 +117,22 @@
                   </div>
                   <div class="site-strip">
                     <div class="ebook-track">
+                      <!-- Strip reordered so the 3 LEFTMOST cards have identical artwork
+                           to the 3 docking iPads (E-BOOK, Tips, "&") — the iPads cross-fade
+                           onto pixel-matching cards for a seamless hand-off. Remaining
+                           covers fill the tail; the 7-card unit repeats for the RTL loop. -->
                       <img class="ebook-card" src="assets/ebook-card-1.png" alt="" loading="eager" decoding="async" />
-                      <img class="ebook-card" src="assets/ebook-card-2.png" alt="" loading="eager" decoding="async" />
-                      <img class="ebook-card" src="assets/ebook-card-3.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-4.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-5.png" alt="" loading="eager" decoding="async" />
+                      <img class="ebook-card" src="assets/ebook-card-2.png" alt="" loading="eager" decoding="async" />
+                      <img class="ebook-card" src="assets/ebook-card-3.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-6.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-7.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-1.png" alt="" loading="eager" decoding="async" />
-                      <img class="ebook-card" src="assets/ebook-card-2.png" alt="" loading="eager" decoding="async" />
-                      <img class="ebook-card" src="assets/ebook-card-3.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-4.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-5.png" alt="" loading="eager" decoding="async" />
+                      <img class="ebook-card" src="assets/ebook-card-2.png" alt="" loading="eager" decoding="async" />
+                      <img class="ebook-card" src="assets/ebook-card-3.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-6.png" alt="" loading="eager" decoding="async" />
                       <img class="ebook-card" src="assets/ebook-card-7.png" alt="" loading="eager" decoding="async" />
                     </div>
@@ -166,7 +170,7 @@
                   </div>
                   <div class="dl-pill-text">
                     <span class="dl-pill-name">eBook-001.zip</span>
-                    <span class="dl-pill-status">Downloading <span class="dl-pill-pct" aria-hidden="true"><span class="dl-pct-strip">0%<br>2%<br>4%<br>6%<br>8%<br>10%<br>12%<br>14%<br>16%<br>18%<br>20%<br>22%<br>24%<br>26%<br>28%<br>30%<br>32%<br>34%<br>36%<br>38%<br>40%<br>42%<br>44%<br>46%<br>48%<br>50%<br>52%<br>54%<br>56%<br>58%<br>60%<br>62%<br>64%<br>66%<br>68%<br>70%<br>72%<br>74%<br>76%<br>78%<br>80%<br>82%<br>84%<br>86%<br>88%<br>90%<br>92%<br>94%<br>96%<br>98%<br>100%</span></span></span>
+                    <span class="dl-pill-status">Downloading</span>
                     <div class="dl-pill-bar">
                       <span class="dl-pill-bar-fill"></span>
                     </div>
@@ -182,6 +186,16 @@
                     </svg>
                   </div>
                 </div>
+              </div>
+              <!-- 3 floating page-screens (flat art identical to the 3 leftmost strip
+                   cards: cover=card-1, tips=card-4, quote=card-5). Lives INSIDE the
+                   glass-frame so it shares the strip's coordinate space — the dock
+                   targets are fixed px and land pixel-perfect at any viewport. They
+                   wear an iPad bezel that dissolves as they flatten onto their slot. -->
+              <div class="ipad-display" aria-hidden="true">
+                <img class="ipad-card ipad-card--cover" src="assets/ebook-card-1.png" alt="" decoding="async" />
+                <img class="ipad-card ipad-card--tips"  src="assets/ebook-card-4.png" alt="" decoding="async" />
+                <img class="ipad-card ipad-card--quote" src="assets/ebook-card-5.png" alt="" decoding="async" />
               </div>
               </div>
               <svg class="wavy-deco wavy-deco--solid" viewBox="0 0 700 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -214,11 +228,6 @@
                 <path d="M0,205 C53,205 53,140 105,140 C153,140 153,195 200,195 C255,195 255,80 310,80 C355,80 355,165 400,165 C448,165 448,40 495,40 C543,40 543,125 590,125 C645,125 645,-30 700,-30" fill="none" stroke="#8ec8f3" stroke-width="3" stroke-linecap="round" stroke-dasharray="2.4 8.5" vector-effect="non-scaling-stroke" mask="url(#wavy-mask-dots)" opacity="1"/>
                 <path class="wavy-pulse" d="M0,205 C53,205 53,140 105,140 C153,140 153,195 200,195 C255,195 255,80 310,80 C355,80 355,165 400,165 C448,165 448,40 495,40 C543,40 543,125 590,125 C645,125 645,-30 700,-30" fill="none" stroke="#dcefff" stroke-width="4" stroke-linecap="round" pathLength="1000" vector-effect="non-scaling-stroke" mask="url(#wavy-mask-dots)"/>
               </svg>
-              <div class="ipad-display" aria-hidden="true">
-                <img class="ipad-card ipad-card--cover" src="assets/ipad-quote.png" alt="" decoding="async" />
-                <img class="ipad-card ipad-card--tips"  src="assets/ipad-tips.png"  alt="" decoding="async" />
-                <img class="ipad-card ipad-card--quote" src="assets/ipad-cover.png" alt="" decoding="async" />
-              </div>
             </div>
           </div>
         </div>
