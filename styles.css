@@ -1389,7 +1389,13 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      wrap-local units (wrap scale 0.85, pill renders ~432x156 so 50% 100% = the
      point (216,156)); the CTA centre sits at wrap-local (456.5, 510). */
   transform: translate(240px, 354px) scale(0.04);
-  animation: dl-pill-morph 1000ms cubic-bezier(0.22, 1, 0.36, 1) 4400ms forwards;
+  /* Gentle ease-IN-out (P1 near the x-axis ⇒ ~zero launch velocity) so the speck
+     lingers small ON the button for a beat, visibly extruding upward, THEN accelerates
+     up-left and decelerates into its slot. The old fast-out curve (0.22,1) shot it to
+     half-size mid-frame within ~80ms, so the "out of the button" moment was never
+     readable. Still a SINGLE continuous transform tween (keyframed only at 0/100), so
+     no mid-grow stutter returns. */
+  animation: dl-pill-morph 1050ms cubic-bezier(0.65, 0, 0.35, 1) 4400ms forwards;
 }
 @media (min-width: 641px) and (max-width: 1023px) {
   /* Tablet: birth offset recalibrated to the Shop-templates CTA at this width. */
@@ -1573,26 +1579,27 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 
 @keyframes dl-pill-morph {
   /* Bottom-centre origin (set on .dl-pill): the speck's bottom-centre is pinned to
-     the CTA centre at birth, so as it grows it UNFOLDS UPWARD out of the button.
-     0->35% it swells on the button; then it rises up-left into its slot. */
-  0%   { opacity: 0;   transform: translate(240px, 354px) scale(0.04); }
-  12%  { opacity: 0.6; transform: translate(235px, 346px) scale(0.16); }
-  35%  { opacity: 1;   transform: translate(150px, 221px) scale(0.5); }
-  100% { opacity: 1;   transform: translate(0, 0) scale(1); }
+     the CTA centre at birth, so it UNFOLDS UPWARD out of the button and glides up-left
+     into its slot in ONE continuous decelerating motion. Transform is keyed ONLY at
+     0% and 100% so it interpolates as a single smooth ease across the whole morph --
+     the old 12%/35% transform stops made the per-segment ease-out decelerate to a
+     near-stop at EACH stop, which read as little stutters mid-grow. Opacity rides its
+     own short track so the speck reads as emerging from the button, not popping in. */
+  0%   { opacity: 0; transform: translate(240px, 354px) scale(0.04); }
+  18%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
 }
 /* Tablet/phone variants: same morph, birth offset recalibrated to the CTA at
    each width (the button's horizontal position shifts with viewport width). */
 @keyframes dl-pill-morph-tablet {
-  0%   { opacity: 0;   transform: translate(57px, 396px) scale(0.04); }
-  12%  { opacity: 0.6; transform: translate(56px, 387px) scale(0.16); }
-  35%  { opacity: 1;   transform: translate(36px, 248px) scale(0.5); }
-  100% { opacity: 1;   transform: translate(0, 0) scale(1); }
+  0%   { opacity: 0; transform: translate(57px, 396px) scale(0.04); }
+  18%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
 }
 @keyframes dl-pill-morph-phone {
-  0%   { opacity: 0;   transform: translate(134px, 389px) scale(0.04); }
-  12%  { opacity: 0.6; transform: translate(131px, 380px) scale(0.16); }
-  35%  { opacity: 1;   transform: translate(84px, 243px) scale(0.5); }
-  100% { opacity: 1;   transform: translate(0, 0) scale(1); }
+  0%   { opacity: 0; transform: translate(134px, 389px) scale(0.04); }
+  18%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
 }
 @keyframes dl-pill-arrow-bob {
   0%, 100% { transform: translateY(-1.5px); }
@@ -1799,7 +1806,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
     inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
     0 0 0 7px #14151a,
     0 0 0 9px #5e626e,
-    0 26px 44px rgba(0, 0, 0, 0.5);
+    0 18px 34px rgba(0, 0, 0, 0.32);
   /* 3D float pose — a per-card lean (Z) plus a 3/4 turn (Y) and slight pitch (X).
      The dock flattens all three rotations to 0 as the screen settles into the row. */
   --tiltZ: 0deg;
@@ -1847,26 +1854,28 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --tiltX: 6deg;
   /* Docks onto the LEFT strip card (card-1). Measured in glass-frame px space
      (viewport-independent — verified identical at 1280 & 1440). */
-  --dock-x: -34px;
+  --dock-x: -31px;
   /* +40px = the browser chrome bar height (see .browser-chrome): the strip sits
-     40px lower now, so the dock target follows it down. Base lock value was 21.54. */
-  --dock-y: 61.54px;
+     40px lower now, so the dock target follows it down. Base lock value was 21.54.
+     Then +3px x / +3px y alignment trim (locked screen measured 3px high-left of the
+     slot centre at 3150ms — see __align probe). */
+  --dock-y: 64.54px;
   /* Dip target = dock-y nudged ~11px further DOWN (its travel direction) — a small
-     momentum overshoot the snappy recoil pulls back up and locks. (Base 32.5 +40.) */
-  --dock-y-os: 72.5px;
+     momentum overshoot the snappy recoil pulls back up and locks. (Base 32.5 +40 +3.) */
+  --dock-y-os: 75.5px;
   --dock-scale: 0.9149;
   --enter-x: -14px;
   --enter-y: -158%;
   --enter-rot: 6deg;
-  /* Docks last of the three; dur 1300 so it fully fades out (~3780ms) before the
-     strip starts scrolling at 3850ms — no card-slides-under-frozen-screen ghost. */
   --os-dir: 1;
-  /* Dock starts at 2480 and runs 540ms, so it LOCKS at 2480 + 0.88*540 = 2955ms --
-     exactly when strip slot 1 pops in (2955ms), keeping that pop hidden beneath the
-     locked screen. The longer 540ms (was 450) gives a gentler, slower descent. */
-  /* slide-in lands at 1750ms; holds still until the dock starts at 2480ms. */
-  animation-delay: 400ms, 2480ms;
-  animation-duration: 1350ms, 540ms;
+  /* Dock starts at 1750ms -- the instant slide-in lands, with NO dead hold (the old
+     ~730ms freeze between arrival and descent read as a "random pause"). It runs
+     1370ms and LOCKS at 1750 + 0.88*1370 = 2955ms -- exactly when strip slot 1 pops
+     in (2955ms), keeping that pop hidden beneath the locked screen. The long, slow
+     glide reads as a graceful settle, not a hitch; fully faded by ~3120ms, well
+     before the strip scroll at 3850ms. */
+  animation-delay: 400ms, 1750ms;
+  animation-duration: 1350ms, 1370ms;
 }
 /* Tips (card-4 art) — CENTRE of the cluster, back, smallest, highest. Near head-on. */
 .ipad-card--tips {
@@ -1880,23 +1889,22 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --tiltY: 6deg;
   --tiltX: 5deg;
   /* Docks onto the MIDDLE strip card (card-4). Measured in glass-frame px space. */
-  --dock-x: 0px;
-  /* +40px for the browser chrome bar (see .browser-chrome). Base lock value 96.91. */
-  --dock-y: 136.91px;
-  /* Dip target = dock-y nudged ~11px further DOWN before the snappy recoil. (Base 107.9 +40.) */
-  --dock-y-os: 147.9px;
+  --dock-x: 3px;
+  /* +40px for the browser chrome bar (see .browser-chrome). Base lock value 96.91.
+     +3px x / +3px y alignment trim (see __align probe). */
+  --dock-y: 139.91px;
+  /* Dip target = dock-y nudged ~11px further DOWN before the snappy recoil. (Base 107.9 +40 +3.) */
+  --dock-y-os: 150.9px;
   --dock-scale: 1.0886;
   --enter-x: -10px;
   --enter-y: -118%;
   --enter-rot: 4deg;
-  /* Float starts after slide-in lands (200 + 1350 = 1550ms); docks first at 2400ms,
-     fully gone (~3700ms) before the strip scroll at 3850ms. */
   --os-dir: 1;
-  /* Dock starts at 2300 and runs 540ms, so it LOCKS at 2300 + 0.88*540 = 2775ms --
-     exactly when strip slot 2 pops in (2775ms). Gentler 540ms descent. */
-  /* slide-in lands at 1550ms; holds still until the dock starts at 2300ms. */
-  animation-delay: 200ms, 2300ms;
-  animation-duration: 1350ms, 540ms;
+  /* Dock starts at 1550ms (the instant slide-in lands -- no dead hold) and runs
+     1392ms, so it LOCKS at 1550 + 0.88*1392 = 2775ms -- exactly when strip slot 2
+     pops in (2775ms). Continuous slow glide, fully faded by ~2942ms. */
+  animation-delay: 200ms, 1550ms;
+  animation-duration: 1350ms, 1392ms;
 }
 /* Quote (card-5 art) — RIGHT of the cluster, lower. Faces inward (turned left). */
 .ipad-card--quote {
@@ -1910,24 +1918,24 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --tiltY: 16deg;
   --tiltX: 5deg;
   /* Docks onto the RIGHT strip card (card-5). Measured in glass-frame px space. */
-  --dock-x: 40px;
+  --dock-x: 43px;
   /* +40px for the browser chrome bar (see .browser-chrome). Base lock value -61.11
-     (this screen still RISES into its slot, just 40px less far). */
-  --dock-y: -21.11px;
+     (this screen still RISES into its slot, just 40px less far).
+     +3px x / +3px y alignment trim (see __align probe). */
+  --dock-y: -18.11px;
   /* This screen RISES into its slot, so its dip is ~11px further UP (its own travel
-     direction) — still a momentum-carried settle, just tighter. (Base -72.1 +40.) */
-  --dock-y-os: -32.1px;
+     direction) — still a momentum-carried settle, just tighter. (Base -72.1 +40 +3.) */
+  --dock-y-os: -29.1px;
   --dock-scale: 0.9773;
   --enter-x: 8px;
   --enter-y: -90%;
   --enter-rot: 5deg;
-  /* Docks mid; dur 1300 → fully gone (~3740ms) before the strip scroll at 3850ms. */
   --os-dir: -1;
-  /* Dock starts at 2120 and runs 540ms, so it LOCKS at 2120 + 0.88*540 = 2595ms --
-     exactly when strip slot 3 pops in (2595ms). Gentler 540ms descent. */
-  /* slide-in lands at 1650ms; holds still until the dock starts at 2120ms. */
-  animation-delay: 300ms, 2120ms;
-  animation-duration: 1350ms, 540ms;
+  /* Dock starts at 1650ms (the instant slide-in lands -- no dead hold) and runs
+     1074ms, so it LOCKS at 1650 + 0.88*1074 = 2595ms -- exactly when strip slot 3
+     pops in (2595ms). Continuous glide, fully faded by ~2724ms. */
+  animation-delay: 300ms, 1650ms;
+  animation-duration: 1350ms, 1074ms;
 }
 
 @keyframes ipad-slide-in {
@@ -1959,19 +1967,19 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 }
 
 /* DOCK: rotate the floating screen flat (all three tilts → 0), travel into the
-   strip row, and scale so its width == card width — staying fully opaque through
-   the turn (0→62%) so you watch it land — then fade out in place over the last
-   38% onto the pixel-identical card already present beneath it. Because the two
+   strip row, and scale so its width == card width — staying fully opaque until it
+   has LOCKED (0→88%) so you watch it land — then fade out in place over the last
+   ~12% onto the pixel-identical card already present beneath it. Because the two
    images are the same, the cross-fade is invisible: the screen simply becomes the
-   first strip card.
+   strip card.
 
-   The iPad bezel is HELD through the first half of the flight (0→50%) so the
-   screen still reads as a device while it travels, then dissolves over 50→62%
-   exactly as it enters the (now-visible) store and flattens onto its slot. The
-   50% stop intentionally mentions ONLY the bezel props (radius + box-shadow), so
-   the transform/opacity keep interpolating smoothly between the 0%/62%/100% stops
-   while the bezel holds. Shadow lists keep the same 4-entry shape at every stop so
-   each ring interpolates cleanly to 0. */
+   The iPad bezel is shed EARLY (0→30%) -- it reads as a device just long enough to
+   sell the "screen flying in" beat, then becomes a bare flat card for the rest of
+   the (slow) glide, so no heavy dark-bezeled device lingers over the lit store. The
+   30% stop intentionally mentions ONLY the bezel props (radius + box-shadow), so
+   transform/opacity keep interpolating smoothly across the 0%/88%/91%/100% stops
+   while the bezel dissolves. Shadow lists keep the same 4-entry shape at every stop
+   so each ring interpolates cleanly to 0. */
 @keyframes ipad-dock {
   0% {
     /* Float rest pose, bezel on. From here the screen makes ONE smooth, monotonic
@@ -1984,22 +1992,25 @@ section[data-component-name="digital-products-still-image-hero"]::after {
       inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
       0 0 0 7px #14151a,
       0 0 0 9px #5e626e,
-      0 26px 44px rgba(0, 0, 0, 0.5);
+      0 18px 34px rgba(0, 0, 0, 0.32);
     transform: perspective(1200px) translate(0, 0) scale(1)
                rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
     animation-timing-function: cubic-bezier(0.42, 0, 0.45, 1);
   }
-  45% {
-    /* Mid-glide: the bezel sheds to a bare 8px card and the heavy device shadow
-       relaxes to a soft flat-card shadow. NO transform is set here, so the screen's
-       position/scale/tilt interpolate straight through on the single 0%->88% ease --
-       this point only governs the bezel dissolve, keeping the motion path unbroken. */
+  30% {
+    /* EARLY shed: the bezel collapses to a bare 8px card and the drop shadow relaxes
+       straight to the resting flat-card shadow (0 12px 24px / 0.18) -- done by 30%
+       (~early in the long glide) so the heavy dark-bezeled "device" read clears while
+       the store is still revealing/dim, NOT lingering as a dark gradient over the
+       fully-lit store. The rest of the descent is a light flat card. NO transform is
+       set here, so position/scale/tilt interpolate straight through on the single
+       0%->88% ease -- this point only governs the bezel dissolve, path unbroken. */
     border-radius: 8px;
     box-shadow:
       inset 0 0 0 0 rgba(0, 0, 0, 0),
       0 0 0 0 rgba(20, 21, 26, 0),
       0 0 0 0 rgba(94, 98, 110, 0),
-      0 18px 32px rgba(0, 0, 0, 0.22);
+      0 12px 24px rgba(0, 0, 0, 0.18);
     animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1);
   }
   88% {
