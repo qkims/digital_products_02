@@ -279,10 +279,10 @@ body {
 
 /* Page background — dark green + soft green halo behind the browser mock */
 body.overscroll-y-none.bg-theme-bg {
-  background: #0c1f1a;
+  background: #0b0c0f;
 }
 section[data-component-name="digital-products-still-image-hero"] {
-  background: #0c1f1a;
+  background: #0b0c0f;
   position: relative;
 }
 @media (min-width: 768px) {
@@ -298,15 +298,9 @@ section[data-component-name="digital-products-still-image-hero"]::before {
   width: 65%;
   aspect-ratio: 1 / 1;
   transform: translate(0, -50%);
-  background: radial-gradient(
-    closest-side,
-    rgba(48, 132, 102, 0.18) 0%,
-    rgba(28, 84, 64, 0.1) 38%,
-    rgba(12, 31, 26, 0) 70%
-  );
+  background: none;
   pointer-events: none;
   z-index: 0;
-  filter: blur(24px);
 }
 section[data-component-name="digital-products-still-image-hero"]::after {
   content: "";
@@ -315,11 +309,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   left: 0;
   right: 0;
   height: 60%;
-  background: radial-gradient(
-    ellipse at 75% 30%,
-    rgba(72, 156, 122, 0.08) 0%,
-    rgba(12, 31, 26, 0) 60%
-  );
+  background: none;
   pointer-events: none;
   z-index: 0;
 }
@@ -356,18 +346,17 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   /* Sits above the wavy decoration so it can draw from behind. */
   z-index: 2;
   transform-origin: 50% 50%;
-  /* After the CTA click (3900ms), the website scales down toward its center
-     to open up visual space for the graph that draws in at 7700ms. Starts
-     4300ms (right after the click, during the pill morph) so it reads as
-     the website "stepping back" in response to the click. */
-  animation: glass-shrink 900ms cubic-bezier(0.22, 1, 0.36, 1) 4300ms forwards;
-}
-@keyframes glass-shrink {
-  to { transform: scale(0.66); }
+  /* The website holds a fixed full size throughout. (It used to scale down to
+     0.66 to free room for the growth graph, but the graph was removed — and
+     that shrink also pulled the CTA button away mid-emergence, so the download
+     pill no longer read as springing FROM the button. Stable window = clear
+     emergence + a clean plain browser frame.) */
 }
 .glass-frame::before {
-  /* The glass card: bg gradient + top highlight + backdrop blur + shadows.
-     Fades in at 4500ms via browser-in. */
+  /* Glassy frame removed per feedback — the website now reads as a plain
+     browser window (grounding moved onto .browser-mock). Kept as a no-op
+     so the cascade and reduced-motion rules below stay valid. */
+  display: none;
   content: "";
   position: absolute;
   inset: 0;
@@ -424,6 +413,19 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   background: #1a1a1a;
   border-radius: 22px;
   overflow: hidden;
+  /* Plain browser-window grounding (replaces the removed frosted glass): a
+     soft neutral drop shadow + a bold white edge stroke, no blur/glow. */
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  border: 3px solid rgba(255, 255, 255, 0.24);
+  /* Promote to its own compositing layer so the rounded-corner clip is baked
+     into the raster. Without this the scrolling ebook strip is a separate
+     composited layer that Chrome re-clips against the rounded corners every
+     frame, which shimmers/flickers at the edges. will-change guarantees the
+     layer (translateZ(0) alone can be optimized to a no-op identity). */
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   position: relative;
   z-index: 1;
   /* Stays hidden through the iPad phase so the dark hero bg shows through.
@@ -445,14 +447,43 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
 }
 
-/* Browser bar removed in v6 — site shows directly inside the rounded frame. */
-.browser-bar { display: none; }
-.browser-dot { display: none; }
-.browser-address { display: none; }
+/* Browser chrome bar — a thicker top strip with three subtle window dots so the
+   store reads as a real browser window. It is the FIRST in-flow child of
+   .browser-mock and takes exactly 40px (border-box, so the 1px divider is
+   included); .browser-viewport was reduced by the same 40px (560 -> 520) so the
+   WHOLE mock keeps its original 560px height and the bottom-anchored elements
+   (wordmark / Shop-templates CTA / download pill) stay put. The nav + strip DO
+   shift down 40px, compensated by the +40px baked into each iPad --dock-y below.
+   It inherits the mock's reveal (opacity), so it fades in with the frame. */
+.browser-chrome {
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  background: #262626;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.browser-chrome-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  /* Muted traffic lights — present enough to read as window controls, dim enough
+     to stay subtle against the dark chrome. */
+  background: rgba(255, 255, 255, 0.16);
+}
+.browser-chrome-dot:nth-child(1) { background: rgba(255, 95, 86, 0.55); }
+.browser-chrome-dot:nth-child(2) { background: rgba(255, 189, 46, 0.5); }
+.browser-chrome-dot:nth-child(3) { background: rgba(39, 201, 63, 0.5); }
 
 .browser-viewport {
   position: relative;
-  height: 560px;
+  /* 520 = 560 - 40 (the .browser-chrome bar): keeps the whole .browser-mock at its
+     original 560px so bottom-anchored elements (wordmark / CTA / download pill)
+     don't move; only the nav + strip shift down (compensated in each --dock-y). */
+  height: 520px;
   background: var(--site-bg);
   display: flex;
   flex-direction: column;
@@ -472,7 +503,9 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   z-index: 3;
   opacity: 0;
   transform: translateY(-22px);
-  animation: site-pop-down 380ms cubic-bezier(0.22, 1, 0.36, 1) 2000ms forwards;
+  /* Drops in LATER, after the store has settled (cards docked ~3300ms), as a
+     final "page loaded" beat rather than building with everything else. */
+  animation: site-pop-down 380ms cubic-bezier(0.22, 1, 0.36, 1) 3400ms forwards;
 }
 .site-nav-links {
   display: flex;
@@ -714,11 +747,9 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   position: relative;
   transform-origin: 50% 50%;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 22px rgba(0,0,0,0.18);
-  /* Pre-click pulse (3300ms → 3900ms) draws the eye to the button as the
-     cursor approaches, then cta-click takes over at 3900ms with a dramatic
-     compress + bounce + flash. */
-  animation: cta-pre-pulse 600ms ease-in-out 3300ms 1 both,
-             cta-click 720ms cubic-bezier(0.22, 1, 0.36, 1) 3900ms;
+  /* Toned-down tap (no cursor): a gentle press at 3900ms, paired with the
+     green pulse ring on ::after. No pre-pulse, no bounce, no green bg flash. */
+  animation: cta-click 340ms ease-out 3900ms;
 }
 @keyframes cta-pre-pulse {
   0%, 100% {
@@ -731,9 +762,30 @@ section[data-component-name="digital-products-still-image-hero"]::after {
     background: rgba(214, 244, 228, 0.72);
   }
 }
-/* Old cursor that was parented to .site-cta — moved out to .glass-frame's
-   .site-cta-cursor so it can start visibly outside the browser-mock's clip. */
-.site-cta::after { display: none; }
+/* Green tap pulse: a thin brand-green ring blooms outward from the button edge
+   at the tap (3900ms) — the visible trigger cue for the download that follows.
+   (This ::after previously held the old cursor, now removed.) */
+.site-cta::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  border: 2px solid rgba(74, 222, 137, 0.95);
+  /* Just a hair of blur so the stroke reads as a defined green line (not the
+     over-soft glow it had become), with a clean soft edge. */
+  filter: blur(1px);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  animation: cta-ring 760ms cubic-bezier(0.22, 1, 0.36, 1) 3900ms;
+}
+@keyframes cta-ring {
+  /* Barely expands (to 1.09x) so the ring stays tight to the button edge -- a
+     crisp green pulse, not a wide bloom. */
+  0%   { opacity: 0;    transform: scale(0.98); }
+  24%  { opacity: 0.95; transform: scale(1); }
+  100% { opacity: 0;    transform: scale(1.09); }
+}
 /* Cursor element parented to .glass-frame (sibling of .browser-mock) so it
    escapes browser-mock's overflow:hidden and can start far outside the
    website frame. Travels in toward the CTA, clicks it, then drifts off. */
@@ -799,14 +851,13 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   94%  { transform: translate(0.0px, 18.0px) scale(1.000); }
   100% { transform: translate(0.0px, 18.0px) scale(1.000); opacity: 0; }  /* faded, still on button */
 }
-/* The tap blooms GREEN — a bright brand-green ring + outer glow + green bg flash
-   at peak compression, easing back to the white resting button. Reads as a
-   satisfying "tapped" feedback in the brand colour. */
+/* The button presses in (a gentle "tap"); the green pulse ring (.site-cta::after)
+   blooms outward alongside it — together they read as a deliberate tap that
+   triggers the download pill springing out next. No cursor, no green bg flash. */
 @keyframes cta-click {
-  0%   { transform: scale(1); box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 22px rgba(0,0,0,0.18), 0 0 0 0 rgba(96,200,150,0); background: rgba(255, 255, 255, 0.58); }
-  30%  { transform: scale(0.82); box-shadow: 0 0 0 1px rgba(150,240,195,0.6), 0 4px 14px rgba(0,0,0,0.22), 0 0 0 14px rgba(96,188,148,0.32), 0 0 40px rgba(104,210,158,0.68); background: rgba(78, 192, 144, 0.9); }
-  60%  { transform: scale(1.12); box-shadow: 0 0 0 1px rgba(150,240,195,0.4), 0 8px 24px rgba(0,0,0,0.2), 0 0 0 8px rgba(96,188,148,0.18), 0 0 26px rgba(104,210,158,0.42); background: rgba(120, 212, 172, 0.72); }
-  100% { transform: scale(1); box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 22px rgba(0,0,0,0.18), 0 0 0 0 rgba(96,200,150,0); background: rgba(255, 255, 255, 0.58); }
+  0%   { transform: scale(1); }
+  38%  { transform: scale(0.92); }
+  100% { transform: scale(1); }
 }
 @keyframes cta-cursor {
   /* Starts far outside the website frame (lower-right), visible from frame 0
@@ -1263,12 +1314,11 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   padding: 0;
   pointer-events: none;
   opacity: 1;
-  /* The pill lives inside .glass-frame, which shrinks to scale(0.66) at 4300ms.
-     As a child it would inherit that shrink and render tiny. Counter-scale it
-     by ~1/0.66 about the top-left so the pill renders at full size (a system
-     notification shouldn't shrink with the website) while its off-frame-left
-     top anchor stays put — it just grows down-and-right to full size. */
-  transform: scale(1.05);
+  /* Scaled down to 0.85 (the pill read too large at 1.05). Scaling the WRAP
+     shrinks the pill and its glow together about the top-left anchor, so they
+     stay aligned. The birth offset below is recalibrated for this scale so the
+     pill still emerges from the Shop-templates CTA in screen space. */
+  transform: scale(0.85);
   transform-origin: 0 0;
 }
 @media (max-width: 1023px) {
@@ -1293,8 +1343,8 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   opacity: 0;
   pointer-events: none;
   animation:
-    dl-pill-glow-on 700ms cubic-bezier(0.22, 1, 0.36, 1) 6900ms forwards,
-    dl-pill-glow-off 300ms ease-in 7600ms forwards;
+    dl-pill-glow-on 700ms cubic-bezier(0.22, 1, 0.36, 1) 6300ms forwards,
+    dl-pill-glow-off 300ms ease-in 7000ms forwards;
 }
 @keyframes dl-pill-glow-on {
   to { opacity: 1; transform: scale(1.05); }
@@ -1325,28 +1375,33 @@ section[data-component-name="digital-products-still-image-hero"]::after {
     0 32px 20px rgba(0, 0, 0, 0.13),
     0 58px 24px rgba(0, 0, 0, 0.04);
   overflow: hidden;
-  /* Pill is born from the Shop templates CTA — starts as a tiny dot at the
-     button's position (bottom-center of the glass-frame, ~430px right and
-     ~410px down from the pill's resting top-left), then scales up and morphs
-     into the final pill while translating to its resting position. */
-  transform-origin: 50% 50%;
+  /* Pill is born from the Shop templates CTA as a tiny speck whose BOTTOM-CENTRE
+     sits exactly on the button centre, then it UNFOLDS UPWARD -- transform-origin
+     is the bottom edge, so the growth is anchored AT the button instead of
+     ballooning symmetrically around a moving centre point (which made the old
+     version expand down past the button and never look attached). It then rises
+     up-left into its resting notification slot. Reads as the pill coming OUT OF
+     the button. */
+  transform-origin: 50% 100%;
   opacity: 0;
-  /* Birth offsets are divided by the wrap's 1.05 counter-scale so the pill is
-     still born at the Shop-templates CTA in screen space. */
-  transform: translate(153px, 332px) scale(0.04);
+  /* Birth translate(240,354): with the bottom-centre origin this pins the speck's
+     bottom-centre dead on the measured CTA centre in screen space. Derived in
+     wrap-local units (wrap scale 0.85, pill renders ~432x156 so 50% 100% = the
+     point (216,156)); the CTA centre sits at wrap-local (456.5, 510). */
+  transform: translate(240px, 354px) scale(0.04);
   animation: dl-pill-morph 1000ms cubic-bezier(0.22, 1, 0.36, 1) 4400ms forwards;
 }
 @media (min-width: 641px) and (max-width: 1023px) {
   /* Tablet: birth offset recalibrated to the Shop-templates CTA at this width. */
   .dl-pill {
-    transform: translate(-3px, 368px) scale(0.04);
+    transform: translate(57px, 396px) scale(0.04);
     animation-name: dl-pill-morph-tablet;
   }
 }
 @media (max-width: 640px) {
   /* Phone: birth offset recalibrated to the Shop-templates CTA at this width. */
   .dl-pill {
-    transform: translate(68px, 362px) scale(0.04);
+    transform: translate(134px, 389px) scale(0.04);
     animation-name: dl-pill-morph-phone;
   }
 }
@@ -1444,7 +1499,26 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   font-weight: 400;
   line-height: 32px;
   color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  display: block;
+  height: 32px;
 }
+/* Two stacked labels cross-fade in place so the pill never resizes:
+   "Downloading" → "Downloaded" at download completion (~6450ms). */
+.dl-pill-status-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.dl-pill-status-label--done {
+  opacity: 0;
+  animation: dl-status-in 260ms ease-out 6450ms forwards;
+}
+.dl-pill-status-label--ing {
+  animation: dl-status-out 260ms ease-out 6450ms forwards;
+}
+@keyframes dl-status-in { to { opacity: 1; } }
+@keyframes dl-status-out { to { opacity: 0; } }
 
 .dl-pill-bar {
   position: relative;
@@ -1463,8 +1537,8 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   border-radius: 999px;
   box-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
   animation:
-    dl-pill-bar-fill 1500ms cubic-bezier(0.16, 1, 0.3, 1) 5500ms forwards,
-    dl-pill-bar-tint 400ms ease-out 7000ms forwards;
+    dl-pill-bar-fill 900ms cubic-bezier(0.16, 1, 0.3, 1) 5500ms forwards,
+    dl-pill-bar-tint 400ms ease-out 6400ms forwards;
 }
 
 .dl-pill-arrow {
@@ -1482,40 +1556,42 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   display: block;
 }
 .dl-pill-arrow-icon--download {
-  animation: dl-pill-arrow-fade-out 280ms ease-out 7000ms forwards;
+  animation: dl-pill-arrow-fade-out 280ms ease-out 6400ms forwards;
 }
 .dl-pill-arrow-icon--check {
   opacity: 0;
   transform: scale(0.55);
   color: #6ee7a8;
   filter: drop-shadow(0 0 6px rgba(110, 231, 168, 0.55));
-  animation: dl-pill-check-pop 380ms cubic-bezier(0.16, 1.1, 0.3, 1) 7100ms forwards;
+  animation: dl-pill-check-pop 380ms cubic-bezier(0.16, 1.1, 0.3, 1) 6500ms forwards;
 }
 .dl-pill-check-path {
   stroke-dasharray: 18;
   stroke-dashoffset: 18;
-  animation: dl-pill-check-draw 320ms ease-out 7300ms forwards;
+  animation: dl-pill-check-draw 320ms ease-out 6700ms forwards;
 }
 
 @keyframes dl-pill-morph {
-  /* Birth offset translate(153,332) is calibrated (empirically, against the
-     glass-shrink-scaled frame at 4400ms) so the tiny dot's screen-space centre
-     lands exactly on the Shop-templates CTA centre — the pill emerges FROM the
-     button, then grows and travels to its resting position. */
-  0%   { opacity: 0;   transform: translate(153px, 332px) scale(0.04); }
-  18%  { opacity: 0.7; transform: translate(150px, 327px) scale(0.18); }
+  /* Bottom-centre origin (set on .dl-pill): the speck's bottom-centre is pinned to
+     the CTA centre at birth, so as it grows it UNFOLDS UPWARD out of the button.
+     0->35% it swells on the button; then it rises up-left into its slot. */
+  0%   { opacity: 0;   transform: translate(240px, 354px) scale(0.04); }
+  12%  { opacity: 0.6; transform: translate(235px, 346px) scale(0.16); }
+  35%  { opacity: 1;   transform: translate(150px, 221px) scale(0.5); }
   100% { opacity: 1;   transform: translate(0, 0) scale(1); }
 }
 /* Tablet/phone variants: same morph, birth offset recalibrated to the CTA at
    each width (the button's horizontal position shifts with viewport width). */
 @keyframes dl-pill-morph-tablet {
-  0%   { opacity: 0;   transform: translate(-3px, 368px) scale(0.04); }
-  18%  { opacity: 0.7; transform: translate(-3px, 361px) scale(0.18); }
+  0%   { opacity: 0;   transform: translate(57px, 396px) scale(0.04); }
+  12%  { opacity: 0.6; transform: translate(56px, 387px) scale(0.16); }
+  35%  { opacity: 1;   transform: translate(36px, 248px) scale(0.5); }
   100% { opacity: 1;   transform: translate(0, 0) scale(1); }
 }
 @keyframes dl-pill-morph-phone {
-  0%   { opacity: 0;   transform: translate(68px, 362px) scale(0.04); }
-  18%  { opacity: 0.7; transform: translate(67px, 355px) scale(0.18); }
+  0%   { opacity: 0;   transform: translate(134px, 389px) scale(0.04); }
+  12%  { opacity: 0.6; transform: translate(131px, 380px) scale(0.16); }
+  35%  { opacity: 1;   transform: translate(84px, 243px) scale(0.5); }
   100% { opacity: 1;   transform: translate(0, 0) scale(1); }
 }
 @keyframes dl-pill-arrow-bob {
@@ -1589,7 +1665,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      solid line. */
   clip-path: inset(0 100% 0 0);
   /* easeInOutCubic — eases in, flows, and glides to a graceful stop as it draws. */
-  animation: wavy-deco-dots-reveal 3800ms cubic-bezier(0.65, 0, 0.35, 1) 7900ms forwards;
+  animation: wavy-deco-dots-reveal 3800ms cubic-bezier(0.65, 0, 0.35, 1) 6700ms forwards;
   /* Soft halo only — keep close to the dot radius so adjacent dots don't
      fuse into a continuous glow band that reads as a solid line. */
   filter: drop-shadow(0 0 2px rgba(142, 200, 243, 0.55));
@@ -1599,7 +1675,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   stroke-dashoffset: 2400;
   /* easeInOutCubic — a smooth, confident draw that accelerates then settles
      gently at the peak rather than the old shoot-fast-then-crawl. */
-  animation: wavy-deco-draw 3800ms cubic-bezier(0.65, 0, 0.35, 1) 7700ms forwards;
+  animation: wavy-deco-draw 3800ms cubic-bezier(0.65, 0, 0.35, 1) 6500ms forwards;
 }
 .wavy-deco--dots path {
   stroke-dasharray: 2.5 9;
@@ -1625,7 +1701,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .wavy-deco--solid .wavy-pulse {
   stroke: rgba(226, 242, 255, 0.85);
   stroke-width: 4.5;
-  animation: wavy-pulse-run 4200ms cubic-bezier(0.45, 0, 0.55, 1) 10600ms infinite;
+  animation: wavy-pulse-run 4200ms cubic-bezier(0.45, 0, 0.55, 1) 9400ms infinite;
 }
 /* Dotted line gets a shorter, dimmer, thinner pulse so it reads as a soft
    glint travelling through rather than a long bright streak. */
@@ -1634,7 +1710,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   stroke-width: 2.4;
   stroke-dasharray: 24 5000;
   filter: drop-shadow(0 0 1.5px rgba(206, 232, 255, 0.3));
-  animation: wavy-pulse-run 4200ms cubic-bezier(0.45, 0, 0.55, 1) 10900ms infinite;
+  animation: wavy-pulse-run 4200ms cubic-bezier(0.45, 0, 0.55, 1) 9700ms infinite;
 }
 @keyframes wavy-pulse-run {
   0%   { stroke-dashoffset: 46;    opacity: 0; }   /* tucked just before the left start */
@@ -1742,8 +1818,12 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --enter-rot: 5deg;
   transform: perspective(1200px) translate(var(--enter-x), var(--enter-y)) scale(0.94)
              rotateZ(calc(var(--tiltZ) + var(--enter-rot))) rotateY(var(--tiltY)) rotateX(var(--tiltX));
+  /* The screen slides in, then holds PERFECTLY STILL at its rest pose until the
+     dock takes over -- the earlier ambient float bob read as a small jitter just
+     before the screen settled, so it was removed. slide-in lands on the exact
+     rest pose and holds it (`forwards`); the dock's 0% pose is identical, so the
+     hand-off straight into the descent stays seamless -- no snap, no wobble. */
   animation: ipad-slide-in 1350ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-             ipad-float 7s ease-in-out infinite,
              ipad-dock 1150ms cubic-bezier(0.16, 1, 0.3, 1) 2050ms forwards;
 }
 /* All three are positioned in FIXED px inside the glass-frame content box (same
@@ -1768,10 +1848,12 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   /* Docks onto the LEFT strip card (card-1). Measured in glass-frame px space
      (viewport-independent — verified identical at 1280 & 1440). */
   --dock-x: -34px;
-  --dock-y: 21.54px;
+  /* +40px = the browser chrome bar height (see .browser-chrome): the strip sits
+     40px lower now, so the dock target follows it down. Base lock value was 21.54. */
+  --dock-y: 61.54px;
   /* Dip target = dock-y nudged ~11px further DOWN (its travel direction) — a small
-     momentum overshoot the snappy recoil pulls back up and locks. */
-  --dock-y-os: 32.5px;
+     momentum overshoot the snappy recoil pulls back up and locks. (Base 32.5 +40.) */
+  --dock-y-os: 72.5px;
   --dock-scale: 0.9149;
   --enter-x: -14px;
   --enter-y: -158%;
@@ -1779,8 +1861,12 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   /* Docks last of the three; dur 1300 so it fully fades out (~3780ms) before the
      strip starts scrolling at 3850ms — no card-slides-under-frozen-screen ghost. */
   --os-dir: 1;
-  animation-delay: 400ms, 1750ms, 2560ms;
-  animation-duration: 1350ms, 2.2s, 450ms;
+  /* Dock starts at 2480 and runs 540ms, so it LOCKS at 2480 + 0.88*540 = 2955ms --
+     exactly when strip slot 1 pops in (2955ms), keeping that pop hidden beneath the
+     locked screen. The longer 540ms (was 450) gives a gentler, slower descent. */
+  /* slide-in lands at 1750ms; holds still until the dock starts at 2480ms. */
+  animation-delay: 400ms, 2480ms;
+  animation-duration: 1350ms, 540ms;
 }
 /* Tips (card-4 art) — CENTRE of the cluster, back, smallest, highest. Near head-on. */
 .ipad-card--tips {
@@ -1795,9 +1881,10 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --tiltX: 5deg;
   /* Docks onto the MIDDLE strip card (card-4). Measured in glass-frame px space. */
   --dock-x: 0px;
-  --dock-y: 96.91px;
-  /* Dip target = dock-y nudged ~11px further DOWN before the snappy recoil. */
-  --dock-y-os: 107.9px;
+  /* +40px for the browser chrome bar (see .browser-chrome). Base lock value 96.91. */
+  --dock-y: 136.91px;
+  /* Dip target = dock-y nudged ~11px further DOWN before the snappy recoil. (Base 107.9 +40.) */
+  --dock-y-os: 147.9px;
   --dock-scale: 1.0886;
   --enter-x: -10px;
   --enter-y: -118%;
@@ -1805,8 +1892,11 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   /* Float starts after slide-in lands (200 + 1350 = 1550ms); docks first at 2400ms,
      fully gone (~3700ms) before the strip scroll at 3850ms. */
   --os-dir: 1;
-  animation-delay: 200ms, 1550ms, 2380ms;
-  animation-duration: 1350ms, 2.6s, 450ms;
+  /* Dock starts at 2300 and runs 540ms, so it LOCKS at 2300 + 0.88*540 = 2775ms --
+     exactly when strip slot 2 pops in (2775ms). Gentler 540ms descent. */
+  /* slide-in lands at 1550ms; holds still until the dock starts at 2300ms. */
+  animation-delay: 200ms, 2300ms;
+  animation-duration: 1350ms, 540ms;
 }
 /* Quote (card-5 art) — RIGHT of the cluster, lower. Faces inward (turned left). */
 .ipad-card--quote {
@@ -1821,18 +1911,23 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --tiltX: 5deg;
   /* Docks onto the RIGHT strip card (card-5). Measured in glass-frame px space. */
   --dock-x: 40px;
-  --dock-y: -61.11px;
+  /* +40px for the browser chrome bar (see .browser-chrome). Base lock value -61.11
+     (this screen still RISES into its slot, just 40px less far). */
+  --dock-y: -21.11px;
   /* This screen RISES into its slot, so its dip is ~11px further UP (its own travel
-     direction) — still a momentum-carried settle, just tighter. */
-  --dock-y-os: -72.1px;
+     direction) — still a momentum-carried settle, just tighter. (Base -72.1 +40.) */
+  --dock-y-os: -32.1px;
   --dock-scale: 0.9773;
   --enter-x: 8px;
   --enter-y: -90%;
   --enter-rot: 5deg;
   /* Docks mid; dur 1300 → fully gone (~3740ms) before the strip scroll at 3850ms. */
   --os-dir: -1;
-  animation-delay: 300ms, 1650ms, 2200ms;
-  animation-duration: 1350ms, 2.4s, 450ms;
+  /* Dock starts at 2120 and runs 540ms, so it LOCKS at 2120 + 0.88*540 = 2595ms --
+     exactly when strip slot 3 pops in (2595ms). Gentler 540ms descent. */
+  /* slide-in lands at 1650ms; holds still until the dock starts at 2120ms. */
+  animation-delay: 300ms, 2120ms;
+  animation-duration: 1350ms, 540ms;
 }
 
 @keyframes ipad-slide-in {
@@ -1892,7 +1987,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
       0 26px 44px rgba(0, 0, 0, 0.5);
     transform: perspective(1200px) translate(0, 0) scale(1)
                rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
-    animation-timing-function: cubic-bezier(0.34, 0.04, 0.2, 1);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.45, 1);
   }
   45% {
     /* Mid-glide: the bezel sheds to a bare 8px card and the heavy device shadow
@@ -1910,44 +2005,51 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   88% {
     /* LOCK: resolves onto the EXACT dock pose -- flat (all tilts 0), scaled to the
        172px card width, centred on the slot. Pixel-identical to the strip card that
-       is fading in beneath it right now. Its own shadow drops to 0 so the strip
-       card's identical shadow alone grounds it (no doubled shadow). The decelerating
-       ease means it arrives here with almost no velocity -- it settles, never slams. */
+       is fading in beneath it right now. Its own shadow now MATCHES the strip card's
+       resting shadow (0 12px 24px / 0.18) and HOLDS it through the fade, so the
+       grounding shadow stays perfectly continuous as the screen dissolves onto the
+       identical card beneath -- no dip-to-zero, no dark gradient popping back on.
+       Both elements carry the same shadow during the cross-fade, so the alphas blend
+       to ~0.18 (not 0.36) -- no visible doubling either. The decelerating ease means
+       it arrives here with almost no velocity -- it settles, never slams. */
     opacity: 1;
     border-radius: 8px;
     box-shadow:
       inset 0 0 0 0 rgba(0, 0, 0, 0),
       0 0 0 0 rgba(20, 21, 26, 0),
       0 0 0 0 rgba(94, 98, 110, 0),
-      0 12px 24px rgba(0, 0, 0, 0);
+      0 12px 24px rgba(0, 0, 0, 0.18);
     transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
                rotateZ(0deg) rotateY(0deg) rotateX(0deg);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
   }
-  95% {
-    /* SITS: a held, fully-opaque dwell on the locked pose (the screen visibly rests
-       in the row), then a QUICK snap (95->100% is ~27ms) hand-off instead of a long
-       blend, so the scaled screen never lingers half-lit over the native strip card
-       -- that lingering cross-fade was the flicker. Ease-in keeps it opaque to the
-       last instant, then drops fast. */
+  91% {
+    /* SITS: a brief, fully-opaque dwell on the locked pose (the screen visibly rests
+       in the row), then a GENTLE dissolve over the last ~9% (~49ms) instead of the
+       old hard ~27ms snap. The screen fades onto the pixel-identical strip card that
+       is already present beneath it (the strip slot pops in exactly at lock), so the
+       longer, smoother blend stays clean -- no half-lit flicker. */
     opacity: 1;
     border-radius: 8px;
     box-shadow:
       inset 0 0 0 0 rgba(0, 0, 0, 0),
       0 0 0 0 rgba(20, 21, 26, 0),
       0 0 0 0 rgba(94, 98, 110, 0),
-      0 12px 24px rgba(0, 0, 0, 0);
+      0 12px 24px rgba(0, 0, 0, 0.18);
     transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
                rotateZ(0deg) rotateY(0deg) rotateX(0deg);
-    animation-timing-function: cubic-bezier(0.7, 0, 0.9, 0.35);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
   }
   100% {
     opacity: 0;
     border-radius: 8px;
+    /* Shadow held at the strip card's 0.18 so it fades out purely WITH opacity as the
+       screen dissolves -- the identical strip card beneath keeps the slot grounded. */
     box-shadow:
       inset 0 0 0 0 rgba(0, 0, 0, 0),
       0 0 0 0 rgba(20, 21, 26, 0),
       0 0 0 0 rgba(94, 98, 110, 0),
-      0 12px 24px rgba(0, 0, 0, 0);
+      0 12px 24px rgba(0, 0, 0, 0.18);
     transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
                rotateZ(0deg) rotateY(0deg) rotateX(0deg);
   }
