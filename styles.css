@@ -496,16 +496,15 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   justify-content: space-between;
   padding: 22px 32px;
   font: 400 12px/1 "Inter", system-ui, sans-serif;
-  color: #fff;
+  color: #c9cdd2;
   letter-spacing: 0.2px;
   flex-shrink: 0;
   position: relative;
   z-index: 3;
   opacity: 0;
-  transform: translateY(-22px);
-  /* Drops in LATER, after the store has settled (cards docked ~3300ms), as a
-     final "page loaded" beat rather than building with everything else. */
-  animation: site-pop-down 304ms cubic-bezier(0.22, 1, 0.36, 1) 2720ms forwards;
+  /* Lightweight fade-in only (no slide) — settles in as a soft "page loaded"
+     beat after the store lands. */
+  animation: site-fade-in 480ms ease-out 2720ms forwards;
 }
 .site-nav-links {
   display: flex;
@@ -516,7 +515,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   display: flex;
   align-items: center;
   gap: 14px;
-  color: var(--site-fg);
+  color: #c9cdd2;
 }
 .site-icon {
   width: 14px;
@@ -747,9 +746,10 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   position: relative;
   transform-origin: 50% 50%;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 22px rgba(0,0,0,0.18);
-  /* Toned-down tap (no cursor): a gentle press at 3900ms, paired with the
-     green pulse ring on ::after. No pre-pulse, no bounce, no green bg flash. */
-  animation: cta-click 272ms ease-out 3120ms;
+  /* Sleek tap: a shallow press with a soft brightness lift as it recovers -- one
+     continuous easing curve so the button reads as a settled interaction rather
+     than a bounce. Paired with the green pulse ring on ::after. */
+  animation: cta-click 520ms cubic-bezier(0.33, 1, 0.68, 1) 3120ms;
 }
 @keyframes cta-pre-pulse {
   0%, 100% {
@@ -851,13 +851,14 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   94%  { transform: translate(0.0px, 18.0px) scale(1.000); }
   100% { transform: translate(0.0px, 18.0px) scale(1.000); opacity: 0; }  /* faded, still on button */
 }
-/* The button presses in (a gentle "tap"); the green pulse ring (.site-cta::after)
-   blooms outward alongside it — together they read as a deliberate tap that
-   triggers the download pill springing out next. No cursor, no green bg flash. */
+/* Sleek press: a shallow, well-eased dip that recovers with a subtle brightness
+   lift so the tap feels smooth rather than mechanical. Paired with the green
+   pulse ring on ::after. */
 @keyframes cta-click {
-  0%   { transform: scale(1); }
-  38%  { transform: scale(0.92); }
-  100% { transform: scale(1); }
+  0%   { transform: scale(1);    background: rgba(255, 255, 255, 0.58); box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 22px rgba(0,0,0,0.18); }
+  30%  { transform: scale(0.965); background: rgba(255, 255, 255, 0.52); box-shadow: 0 0 0 1px rgba(255,255,255,0.16), 0 3px 14px rgba(0,0,0,0.22); }
+  60%  { transform: scale(1.004); background: rgba(255, 255, 255, 0.66); box-shadow: 0 0 0 1px rgba(255,255,255,0.24), 0 8px 26px rgba(0,0,0,0.16); }
+  100% { transform: scale(1);    background: rgba(255, 255, 255, 0.58); box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 22px rgba(0,0,0,0.18); }
 }
 @keyframes cta-cursor {
   /* Starts far outside the website frame (lower-right), visible from frame 0
@@ -1756,39 +1757,9 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   pointer-events: none;
   z-index: 6;
 }
-/* Ambient green aura behind the floating cluster — grounds the device in the
-   brand light while it slides in and floats, then hands off to the store's green
-   halo as it docks. Centred on the cluster's visual mass (fixed-px, same space as
-   the cards) and sized a touch larger so it haloes around the screens. Sits behind
-   the cards (z 0 < card z 1-3) within .ipad-display, which itself sits above the
-   still-hidden store, so during the intro it reads as green light on the hero bg
-   behind the device. */
-.ipad-display::before {
-  content: "";
-  position: absolute;
-  left: 285px;
-  top: 200px;
-  width: 600px;
-  height: 540px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(
-    50% 50% at 50% 50%,
-    rgba(96, 188, 148, 0.22) 0%,
-    rgba(96, 188, 148, 0.09) 46%,
-    rgba(96, 188, 148, 0) 75%
-  );
-  filter: blur(20px);
-  opacity: 0;
-  z-index: 0;
-  pointer-events: none;
-  /* Fades in as the cluster arrives (~300-1500ms), holds while it floats, then
-     dissolves over 2600-3500ms as the store + its own green halo take over. */
-  animation: ipad-aura-in 960ms ease-out 240ms forwards,
-             ipad-aura-out 900ms ease 2300ms forwards;
-}
-@keyframes ipad-aura-in { to { opacity: 1; } }
-@keyframes ipad-aura-out { to { opacity: 0; } }
+/* Green aura removed — the floating cluster now reads cleanly against the hero bg
+   with no glow. */
+.ipad-display::before { display: none; }
 .ipad-card {
   position: absolute;
   display: block;
