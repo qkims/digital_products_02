@@ -386,7 +386,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   opacity: 0;
   transform: scale(0.96) translateY(20px);
   transform-origin: 50% 50%;
-  animation: browser-in 480ms cubic-bezier(0.22, 1, 0.36, 1) 1120ms forwards;
+  animation: browser-in 480ms cubic-bezier(0.22, 1, 0.36, 1) 720ms forwards;
 }
 
 @media (max-width: 767px) {
@@ -401,7 +401,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --card-w: 172px;
   --card-h: 268px;
   --card-gap: 10px;
-  --card-count: 7;
+  --card-count: 8;
   --strip-step: calc(var(--card-count) * (var(--card-w) + var(--card-gap)));
   --site-bg: #0c0c0a;
   --site-fg: #d8d2c5;
@@ -433,7 +433,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      debezel (~3000-3300ms) so the screens flatten onto a store that's already
      present, not onto green. */
   opacity: 0;
-  animation: browser-mock-reveal 400ms ease-out 1200ms forwards;
+  animation: browser-mock-reveal 400ms ease-out 800ms forwards;
 }
 
 @keyframes browser-mock-reveal {
@@ -606,7 +606,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      + subtly gentler ease (0.36→0.42 on the second control point). nth-14 now
      ends at 2116 + 680 = 2796ms — still lands before the cursor click at 2840ms
      with a 44ms buffer. */
-  animation: ebook-card-in 680ms cubic-bezier(0.22, 1, 0.42, 1) var(--card-delay, 2800ms) forwards;
+  animation: ebook-card-in 640ms cubic-bezier(0.22, 1, 0.36, 1) var(--card-delay, 2800ms) forwards;
 }
 .ebook-card-img {
   display: block;
@@ -653,17 +653,19 @@ section[data-component-name="digital-products-still-image-hero"]::after {
    (1876ms), nth(10) still at tips-LOCK (2020ms), nth(14) still 48ms before
    cover-LOCK (2116ms). With R26's 600ms slide-in, nth-14 ends at 2716ms --
    the tail closes cleanly BEFORE the cursor/CTA/pill sequence begins. */
-.ebook-card:nth-child(4)  { --card-delay: 1876ms; }  /* = quote-LOCK */
-.ebook-card:nth-child(5)  { --card-delay: 1900ms; }
-.ebook-card:nth-child(6)  { --card-delay: 1924ms; }
-.ebook-card:nth-child(7)  { --card-delay: 1948ms; }
-.ebook-card:nth-child(8)  { --card-delay: 1972ms; }
-.ebook-card:nth-child(9)  { --card-delay: 1996ms; }
-.ebook-card:nth-child(10) { --card-delay: 2020ms; }  /* = tips-LOCK */
-.ebook-card:nth-child(11) { --card-delay: 2044ms; }
-.ebook-card:nth-child(12) { --card-delay: 2068ms; }
-.ebook-card:nth-child(13) { --card-delay: 2092ms; }
-.ebook-card:nth-child(14) { --card-delay: 2116ms; }  /* 48ms before cover-LOCK; ends 2716ms */
+.ebook-card:nth-child(4)  { --card-delay: 1600ms; }  /* tail begins BEFORE quote-LOCK */
+.ebook-card:nth-child(5)  { --card-delay: 1612ms; }
+.ebook-card:nth-child(6)  { --card-delay: 1624ms; }
+.ebook-card:nth-child(7)  { --card-delay: 1636ms; }
+.ebook-card:nth-child(8)  { --card-delay: 1648ms; }
+.ebook-card:nth-child(9)  { --card-delay: 1660ms; }
+.ebook-card:nth-child(10) { --card-delay: 1672ms; }
+.ebook-card:nth-child(11) { --card-delay: 1684ms; }
+.ebook-card:nth-child(12) { --card-delay: 1696ms; }
+.ebook-card:nth-child(13) { --card-delay: 1708ms; }
+.ebook-card:nth-child(14) { --card-delay: 1720ms; }
+.ebook-card:nth-child(15) { --card-delay: 1732ms; }
+.ebook-card:nth-child(16) { --card-delay: 1744ms; }  /* ends ~2144ms — settles ~516ms before CTA tap */
 
 /* Tap sequence removed — the download moment is now told via the centered
    code-env card at the start of the sequence, so the strip just scrolls and
