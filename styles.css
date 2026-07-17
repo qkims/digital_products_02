@@ -279,10 +279,10 @@ body {
 
 /* Page background — dark green + soft green halo behind the browser mock */
 body.overscroll-y-none.bg-theme-bg {
-  background: #0c1f1a;
+  background: #0b0c0f;
 }
 section[data-component-name="digital-products-still-image-hero"] {
-  background: #0c1f1a;
+  background: #0b0c0f;
   position: relative;
 }
 @media (min-width: 768px) {
@@ -298,15 +298,9 @@ section[data-component-name="digital-products-still-image-hero"]::before {
   width: 65%;
   aspect-ratio: 1 / 1;
   transform: translate(0, -50%);
-  background: radial-gradient(
-    closest-side,
-    rgba(48, 132, 102, 0.18) 0%,
-    rgba(28, 84, 64, 0.1) 38%,
-    rgba(12, 31, 26, 0) 70%
-  );
+  background: none;
   pointer-events: none;
   z-index: 0;
-  filter: blur(24px);
 }
 section[data-component-name="digital-products-still-image-hero"]::after {
   content: "";
@@ -315,11 +309,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   left: 0;
   right: 0;
   height: 60%;
-  background: radial-gradient(
-    ellipse at 75% 30%,
-    rgba(72, 156, 122, 0.08) 0%,
-    rgba(12, 31, 26, 0) 60%
-  );
+  background: none;
   pointer-events: none;
   z-index: 0;
 }
@@ -343,6 +333,9 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 
 /* Frosted glass frame wrapping the browser mock */
 .glass-frame {
+  /* Container only — stays opacity:1 throughout. The glass visual lives on
+     ::before so .dl-pill-wrap (a child) is visible during the small-pill
+     phase (200-4500ms), before the glass card itself fades in. */
   --glass-pad: 16px;
   position: relative;
   width: 100%;
@@ -350,7 +343,32 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   margin-right: 8%;
   padding: var(--glass-pad);
   border-radius: 28px;
+  /* Sits above the wavy decoration so it can draw from behind. */
+  z-index: 2;
+  transform-origin: 50% 50%;
+  /* The website holds a fixed full size throughout. (It used to scale down to
+     0.66 to free room for the growth graph, but the graph was removed — and
+     that shrink also pulled the CTA button away mid-emergence, so the download
+     pill no longer read as springing FROM the button. Stable window = clear
+     emergence + a clean plain browser frame.) */
+}
+.glass-frame::before {
+  /* Glassy frame removed per feedback — the website now reads as a plain
+     browser window (grounding moved onto .browser-mock). Kept as a no-op
+     so the cascade and reduced-motion rules below stay valid. */
+  display: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
   background:
+    radial-gradient(
+      120% 60% at 50% 0%,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0) 60%
+    ),
     linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.12) 0%,
@@ -359,77 +377,18 @@ section[data-component-name="digital-products-still-image-hero"]::after {
     );
   backdrop-filter: blur(22px) saturate(1.4);
   -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  /* No border strokes — the website sits without an outline. Only ambient
+     grounding remains: a soft white glow, the green halo, and a drop shadow. */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 0 0 1px rgba(255, 255, 255, 0.06),
     0 0 24px rgba(255, 255, 255, 0.05),
-    0 0 80px rgba(96, 188, 148, 0.14),
+    0 0 80px rgba(124, 182, 154, 0.12),
     0 30px 80px rgba(0, 0, 0, 0.35);
   opacity: 0;
   transform: scale(0.96) translateY(20px);
-  animation: browser-in 650ms cubic-bezier(0.22, 1, 0.36, 1) 0ms forwards;
-}
-.glass-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      120% 60% at 50% 0%,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0) 60%
-    );
+  transform-origin: 50% 50%;
+  animation: browser-in 480ms cubic-bezier(0.22, 1, 0.36, 1) 1120ms forwards;
 }
 
-@property --glow-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-.glass-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-  pointer-events: none;
-  background: conic-gradient(
-    from var(--glow-angle),
-    rgba(255, 255, 255, 0) 0deg,
-    rgba(255, 255, 255, 0) 70deg,
-    rgba(180, 240, 210, 0.55) 95deg,
-    rgba(220, 255, 235, 0.95) 105deg,
-    rgba(180, 240, 210, 0.55) 115deg,
-    rgba(255, 255, 255, 0) 140deg,
-    rgba(255, 255, 255, 0) 360deg
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  filter: blur(0.4px) drop-shadow(0 0 6px rgba(180, 240, 210, 0.5));
-  animation: rotate-glow 7s linear infinite;
-}
-
-@keyframes rotate-glow {
-  to {
-    --glow-angle: 360deg;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glass-frame::after {
-    animation: none;
-  }
-}
 @media (max-width: 767px) {
   .glass-frame {
     --glass-pad: 10px;
@@ -452,13 +411,33 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   width: 100%;
   max-width: 900px;
   background: #1a1a1a;
-  border-radius: 16px;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
-  opacity: 1;
-  transform: none;
+  /* Plain browser-window grounding (replaces the removed frosted glass): a
+     soft neutral drop shadow + a bold white edge stroke, no blur/glow. */
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  border: 1.25px solid rgba(255, 255, 255, 0.24);
+  /* Promote to its own compositing layer so the rounded-corner clip is baked
+     into the raster. Without this the scrolling ebook strip is a separate
+     composited layer that Chrome re-clips against the rounded corners every
+     frame, which shimmers/flickers at the edges. will-change guarantees the
+     layer (translateZ(0) alone can be optimized to a no-op identity). */
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   position: relative;
   z-index: 1;
+  /* Stays hidden through the iPad phase so the dark hero bg shows through.
+     Reveals at 2600ms together with the glass frame — slightly ahead of the dock
+     debezel (~3000-3300ms) so the screens flatten onto a store that's already
+     present, not onto green. */
+  opacity: 0;
+  animation: browser-mock-reveal 400ms ease-out 1200ms forwards;
+}
+
+@keyframes browser-mock-reveal {
+  to { opacity: 1; }
 }
 
 @keyframes browser-in {
@@ -468,37 +447,16 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
 }
 
-.browser-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 18px;
-  background: #1a1a1a;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.browser-dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-}
-
-.browser-address {
-  margin-left: 14px;
-  padding: 5px 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 999px;
-  font: 500 12px/1 "Inter", system-ui, sans-serif;
-  color: rgba(255, 255, 255, 0.55);
-  letter-spacing: 0.2px;
-  user-select: none;
-}
+/* R28: chrome bar retired — the store reads cleaner without the extra dark band
+   above the nav. The .browser-chrome element still exists in markup but takes
+   no vertical space, so the viewport reclaims its full 560px and the nav + strip
+   snap back UP by 40px. Every iPad --dock-y below has been reduced by 40 in
+   lockstep to keep the LOCK targets pixel-perfect on the strip cards. */
+.browser-chrome { display: none; }
 
 .browser-viewport {
   position: relative;
-  height: 520px;
-  overflow: hidden;
+  height: 560px;
   background: var(--site-bg);
   display: flex;
   flex-direction: column;
@@ -509,21 +467,29 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 28px;
-  font: 500 12px/1 "Inter", system-ui, sans-serif;
-  color: var(--site-fg);
-  letter-spacing: 0.4px;
+  /* R28: horizontal padding lowered 32→24 so the nav shares the SAME content
+     edge as the strip (14 + 10 gap) and the footer (24) — everything hangs
+     off one vertical rule. */
+  padding: 22px 24px;
+  font: 400 12px/1 "Inter", system-ui, sans-serif;
+  /* Muted semi-transparent white — reads as chrome, not as content. Preloaded
+     (no fade-in) so the store already looks lived-in when the viewport appears. */
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.2px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 3;
 }
 .site-nav-links {
   display: flex;
-  gap: 22px;
+  gap: 24px;
+  text-transform: capitalize;
 }
 .site-nav-icons {
   display: flex;
   align-items: center;
   gap: 14px;
-  color: var(--site-fg);
+  color: rgba(255, 255, 255, 0.45);
 }
 .site-icon {
   width: 14px;
@@ -551,11 +517,17 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   justify-content: center;
 }
 
-/* Ebook strip */
+/* Ebook strip — clip the marquee horizontally + below, but let popped cards
+   escape upward through the browser frame. */
 .site-strip {
   position: relative;
   flex: 1 1 auto;
-  overflow: hidden;
+  clip-path: inset(-260px 0 0 0);
+  z-index: 2;
+  /* No own opacity gate: parent .browser-mock fades the whole store in (1700-2300ms),
+     and each card inside animates individually. A gate here would mask the dock-target
+     cards (which must be visible beneath the iPads at hand-off ~2650-3010ms). */
+  opacity: 1;
 }
 .site-strip::before,
 .site-strip::after {
@@ -579,21 +551,130 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .ebook-track {
   display: flex;
   gap: var(--card-gap);
-  padding: 6px 14px;
+  padding: 18px 14px;
   height: 100%;
   width: max-content;
+  /* Anchor cards to the top of the strip so the wordmark + Shop templates
+     CTA stay visible underneath. */
+  align-items: flex-start;
   will-change: transform;
-  transform: translateX(0);
-  animation: scroll-rtl 38s linear -4s infinite;
+  /* Scroll starts only AFTER the dock hand-off (~3.75s) so the 3 leftmost
+     target cards stay pinned at their measured positions while the iPads
+     cross-fade onto them; the ambient scroll then takes over. */
+  animation: scroll-rtl 60s linear 2800ms infinite;
 }
 
 .ebook-card {
+  position: relative;
+  display: block;
   width: var(--card-w);
   height: var(--card-h);
-  flex-shrink: 0;
+  /* R21: hard-lock the 172x268 box against every flex/align path. The intro used
+     to tween from scale(0.96)→1, which meant tail cards 4-14 were visibly ~5px
+     smaller than dock cards 1-3 during the 1672-2480ms assembly window — the "some
+     pages are different sizes" read. Scale is now removed from both endpoints. */
+  flex: none;
+  min-width: var(--card-w);
+  max-width: var(--card-w);
+  min-height: var(--card-h);
+  max-height: var(--card-h);
+  /* R28: cards now show new ebook page templates with light backgrounds. The
+     wrapper bg switches to white so `object-fit: contain` letterbox slivers
+     read as page whitespace, not a dark frame. */
+  background-color: #ffffff;
   border-radius: 8px;
-  object-fit: cover;
+  overflow: hidden;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  transform-origin: center center;
+  opacity: 0;
+  /* R29 TAIL-SMOOTHER: distance 360→220px. At 360 the cards flew in from well
+     off-canvas — visible "whip". 220 keeps the same directional motion cue but
+     the visible travel is shorter and reads as a slide-into-place, not a launch. */
+  transform: translateX(220px);
+  /* Tail cards (4-14) slide in from the right to assemble the rest of the row
+     after the dock hand-off. */
+  /* R26 TAIL-GLIDE: slide-in duration 300->600ms (doubled) so each card visibly
+     glides in rather than snapping into place. Ease softened from the aggressive
+     expo-out (0.16,1,0.3,1) to (0.22,1,0.36,1) — less whippy front-load, more
+     visible mid-motion deceleration, so the wave reads as a graceful settle
+     rather than a fast zip. Delays unchanged: nth-4 still starts at quote-LOCK
+     (2076ms), nth-10 at tips-LOCK (2220ms), nth-14 at 2316ms. Row now closes at
+     2916ms (552ms after cover-LOCK) — the tail keeps unrolling gently after the
+     last iPad has settled. Only affects nth-child(4..14) -- nth(1..3) is
+     overridden by the 40ms .ebook-card-fade-in rule below.
+     R29 TAIL-SMOOTHER: duration 600→680ms + shorter travel (see transform above)
+     + subtly gentler ease (0.36→0.42 on the second control point). nth-14 now
+     ends at 2116 + 680 = 2796ms — still lands before the cursor click at 2840ms
+     with a 44ms buffer. */
+  animation: ebook-card-in 680ms cubic-bezier(0.22, 1, 0.42, 1) var(--card-delay, 2800ms) forwards;
+}
+.ebook-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* R28b: new PNGs are 531x800 (aspect 0.664) vs card 172x268 (aspect 0.642) —
+     source is only marginally wider than the box, so `cover` crops just ~1.5px
+     off each side (invisible) and eliminates the top/bottom white letterbox
+     that `contain` produced. Old `inset(16px)` crop (for the previous baked
+     frames) stays retired. */
+  object-fit: cover;
+  transform-origin: center center;
+}
+
+@keyframes ebook-card-in {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* The 3 LEFTMOST cards are the floating screens' dock targets. The floating
+   screen now CARRIES THE TURN (it rotates flat and lands on the slot), so these
+   cards just need to be present, flat, beneath it. They fade in at their slot and
+   reach full opacity BEFORE the floating screen above them fades out — and since
+   the floating screen is the same image landed at the same box, the swap is
+   invisible. Delays place the fade just before each screen's dock-fade window. */
+.ebook-card:nth-child(1),
+.ebook-card:nth-child(2),
+.ebook-card:nth-child(3) {
+  transform: none;
+  animation: ebook-card-fade-in var(--card-fade-dur, 360ms) linear var(--card-delay) forwards;
+}
+@keyframes ebook-card-fade-in {
+  to { opacity: 1; }
+}
+
+/* Dock-target cards — present in place under the landing screens. */
+.ebook-card:nth-child(1)  { --card-delay: 2164ms; --card-fade-dur: 40ms; }  /* E-BOOK ← cover screen */
+.ebook-card:nth-child(2)  { --card-delay: 2020ms; --card-fade-dur: 40ms; }  /* Tips   ← tips screen  */
+.ebook-card:nth-child(3)  { --card-delay: 1876ms; --card-fade-dur: 40ms; }  /* "&"    ← quote screen */
+/* R24 UNIFIED-BEAT + R27 LAND-SOONER: whole tail cascade shifted -200ms in
+   lockstep with iPad LOCKs. Card 4 still starts EXACTLY at quote-LOCK
+   (1876ms), nth(10) still at tips-LOCK (2020ms), nth(14) still 48ms before
+   cover-LOCK (2116ms). With R26's 600ms slide-in, nth-14 ends at 2716ms --
+   the tail closes cleanly BEFORE the cursor/CTA/pill sequence begins. */
+.ebook-card:nth-child(4)  { --card-delay: 1876ms; }  /* = quote-LOCK */
+.ebook-card:nth-child(5)  { --card-delay: 1900ms; }
+.ebook-card:nth-child(6)  { --card-delay: 1924ms; }
+.ebook-card:nth-child(7)  { --card-delay: 1948ms; }
+.ebook-card:nth-child(8)  { --card-delay: 1972ms; }
+.ebook-card:nth-child(9)  { --card-delay: 1996ms; }
+.ebook-card:nth-child(10) { --card-delay: 2020ms; }  /* = tips-LOCK */
+.ebook-card:nth-child(11) { --card-delay: 2044ms; }
+.ebook-card:nth-child(12) { --card-delay: 2068ms; }
+.ebook-card:nth-child(13) { --card-delay: 2092ms; }
+.ebook-card:nth-child(14) { --card-delay: 2116ms; }  /* 48ms before cover-LOCK; ends 2716ms */
+
+/* Tap sequence removed — the download moment is now told via the centered
+   code-env card at the start of the sequence, so the strip just scrolls and
+   settles on the yellow Tips card as visual context. */
+
+@media (prefers-reduced-motion: reduce) {
+  .ebook-track > .ebook-card {
+    animation: none;
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes scroll-rtl {
@@ -605,59 +686,323 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
 }
 
-/* Byte Drop wordmark + Shop templates CTA */
+/* Strip animation starts at 4500ms (after code-env fades out and storefront
+   is revealed). Times below are wall-clock from page load.
+   - 0% → 4.17% (4500-6500ms): snappy decel from 0 → -270px (lands yellow card 4 near viewport center)
+   - 4.17% → 7.08% (6500-7900ms): held near-still at -278px (iPads start cascading in)
+   - 7.08% → 10% (7900-9300ms): accel back to full speed at -330px
+   - 10% → 100%: linear scroll out to -strip-step (covered by iPads by now) */
+@keyframes scroll-rtl-pause {
+  0%      { transform: translateX(0);     animation-timing-function: cubic-bezier(0.22, 0.6, 0.18, 1); }
+  4.17%   { transform: translateX(-270px); animation-timing-function: linear; }
+  7.08%   { transform: translateX(-278px); animation-timing-function: cubic-bezier(0.55, 0, 0.7, 0.55); }
+  10%     { transform: translateX(-330px); animation-timing-function: linear; }
+  100%    { transform: translateX(calc(-1 * var(--strip-step))); }
+}
+
+/* Byte Drop wordmark sits *behind* the cards, big and dark, per Figma 758:21401. */
+.site-wordmark-behind { display: none; }
+
+/* Shop templates CTA — filled translucent pill, bottom-centered. */
 .site-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4px 24px 20px;
+  /* R29: bottom pad 36→64 lifts the Shop-templates CTA 28px so it sits with more
+     breathing room off the mock's lower edge (was reading as bottom-glued). */
+  padding: 0 24px 64px;
   flex-shrink: 0;
-  gap: 12px;
+  position: relative;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: site-pop-up 304ms cubic-bezier(0.22, 1, 0.36, 1) 1440ms forwards;
+}
+
+@keyframes site-pop-down {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes site-pop-up {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes site-fade-in {
+  to { opacity: 1; }
 }
 .site-wordmark {
-  font-family: "Climate Crisis", "Inter", system-ui, sans-serif;
+  font-family: "Climate Crisis", "Inter Display", "Inter", system-ui, sans-serif;
   font-weight: 400;
-  font-size: 116px;
-  line-height: 0.88;
-  letter-spacing: 0.02em;
+  font-size: 112px;
+  line-height: 1;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--site-wordmark);
+  color: #262a29;
   margin: 0;
   text-align: center;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden;
+  white-space: pre;
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* R29: 96→140 raises BYTE DROP off the CTA (which itself moved up) so the two
+     don't crowd each other; the wordmark still reads as a bottom-set watermark. */
+  bottom: 140px;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  animation: site-fade-in 400ms ease-out 1440ms forwards;
 }
 .site-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 20px 12px 22px;
-  border-radius: 999px;
-  background: rgba(216, 210, 197, 0.12);
-  color: var(--site-fg);
-  font: 500 12px/1 "Inter", system-ui, sans-serif;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  padding: 14px 30px;
+  border-radius: 14px;
+  background: transparent;
+  color: #fff;
+  border: 1.25px solid rgba(255, 255, 255, 0.24);
+  font: 600 15px/1 "Inter", -apple-system, system-ui, sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
   text-decoration: none;
   white-space: nowrap;
   pointer-events: none;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 0 0 1px rgba(216, 210, 197, 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  transform-origin: 50% 50%;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.18);
+  /* R31: distinct slide-up + fade-in entrance so the button "loads in" as its
+     own beat -- starts 1600ms (after the wordmark fade begins at 1440ms) and
+     settles at 2100ms, exactly when the cursor begins its approach. The
+     translate here composes with the parent .site-footer's own pop-up (Y20)
+     for a compounded arrival while opacity is 0, so only the CTA's own
+     translate is visible. Two animations on transform: slide-in listed FIRST,
+     click LAST -- so during 2660-3480ms cta-click's scale transform overrides
+     the persisted translateY(0) from slide-in. cta-click keeps its 2660ms
+     start: press-then-bounce that FLASHES the button with brand green as it
+     rebounds, then fades back to rest; the green peak now sits ~2922ms with
+     the download pill emerging ~2900ms so the pill still visibly pops OUT
+     of a primed button. */
+  opacity: 0;
+  transform: translateY(24px);
+  animation:
+    cta-slide-in 500ms cubic-bezier(0.22, 1, 0.36, 1) 1600ms both,
+    cta-click 820ms cubic-bezier(0.33, 1, 0.68, 1) 2660ms;
 }
-.site-cta-arrow {
-  width: 12px;
-  height: 12px;
-  display: block;
-  flex-shrink: 0;
+@keyframes cta-slide-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Text sits above the ripple pseudo so the "Shop templates" label stays fully
+   readable while the tap wash blooms behind it. */
+.site-cta > span {
+  position: relative;
+  z-index: 1;
+}
+/* Radial ripple removed -- the tap moment now reads through the button's own
+   grow-then-press scale sequence (cta-click) paired with the green stroke
+   pulse on ::after. */
+@keyframes cta-pre-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 22px rgba(0,0,0,0.18), 0 0 0 0 rgba(124,182,154,0);
+    background: rgba(255, 255, 255, 0.58);
+  }
+  50% {
+    /* Faint muted-sage anticipation glow so the upcoming tap's green bloom feels of-a-piece. */
+    box-shadow: 0 0 0 1px rgba(168,206,186,0.28), 0 6px 22px rgba(0,0,0,0.18), 0 0 0 6px rgba(124,182,154,0.13), 0 0 24px rgba(124,182,154,0.20);
+    background: rgba(224, 236, 230, 0.72);
+  }
+}
+/* Scaling green ring removed -- the tap moment now reads through the button
+   itself FILLING with green (see @keyframes cta-click). No ::after decoration. */
+/* Cursor element parented to .glass-frame (sibling of .browser-mock) so it
+   escapes browser-mock's overflow:hidden and can start far outside the
+   website frame. Travels in toward the CTA, clicks it, then drifts off. */
+.site-cta-cursor {
+  position: absolute;
+  /* Landing anchor: cursor tip (3,3) lands on the visual center of the
+     "Shop templates" button. The button sits ~50px above glass-frame bottom
+     (36px footer pad + ~14px to button mid-height) and is centered. */
+  left: calc(50% - 3px);
+  bottom: 51px;
+  width: 38px;
+  height: 46px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='38' height='46' viewBox='0 0 38 46' fill='none'><path d='M3 3 L3 36 L11 28 L17 42 L23 40 L17 26 L29 26 Z' fill='%23ffffff' stroke='%23111' stroke-width='2.4' stroke-linejoin='round' stroke-linecap='round'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)) drop-shadow(0 0 8px rgba(255,255,255,0.35));
+  /* SMOOTH CURVED CLICK (no stop-start). Everything rides ONE `transform`-property
+     animation (cursor-go) under LINEAR master timing, with the motion shaped purely by
+     keyframe spacing -- so velocity is continuous and never eased to zero between
+     nodes. The (x,y) samples are arc-length spaced and the two axes follow different
+     curve shapes, so the path BOWS into a gentle arc (~30px deviation), not a straight
+     diagonal. The cursor sweeps in fast from the lower right and decelerates SMOOTHLY
+     THROUGH the button at 42% (it never halts), where the scale dips (the click press)
+     in sync with cta-click (R30: ~2734ms), then it glides on up-left and fades out by 66%.
+     Form is `translate(x,y) scale(s)`: because translate is applied AFTER scale, the
+     position stays unscaled/clean while transform-origin (3px 3px) pins the press to
+     the cursor tip so the click point never drifts. (Using the single `transform`
+     property -- rather than the independent translate/scale props -- keeps it rendering
+     in every engine, including headless capture.) The y start (116px) stays within the
+     900px viewport (button centre ~y=740). */
+  transform-origin: 3px 3px;
+  transform: translate(150px, 92px) scale(1.12);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 8;
+  animation: cursor-go 960ms linear 2100ms both;
+}
+/* SMOOTH CURVED CLICK that PARKS on the button, then taps. One transform track,
+   linear master timing, motion shaped by keyframe spacing. 0->56%: a gently bowed
+   arc (~12px deviation) sweeps in from the lower right and DECELERATES smoothly
+   (44->4 px/100ms, monotonic -- no stop-start) until the tip parks on the button
+   CENTRE (translate 0,18 -> tip lands on the button's measured middle 1017,759).
+   56->94%: position HOLDS dead-still on the button while the cursor TAPS -- scale
+   presses down to 0.80 (deepest ~2734ms, synced to cta-click's compress) then
+   BOUNCES back up past 1.0 (1.15 at ~2888ms, the button's bounce) and settles to
+   1.0. 90->100%: fades out (gone ~2964ms, right as the download pill emerges). The
+   tip never leaves the button -- no drift, no pass-through. transform-origin
+   (3px 3px) pins every scale to the tip so the click point stays glued. */
+@keyframes cursor-go {
+  0%   { transform: translate(150.0px, 92.0px) scale(1.120); opacity: 0; }
+  7%   { transform: translate(119.7px, 70.0px) scale(1.105); opacity: 1; }
+  14%  { transform: translate(92.2px, 51.8px) scale(1.090); }
+  21%  { transform: translate(67.5px, 37.4px) scale(1.075); }
+  28%  { transform: translate(45.7px, 26.9px) scale(1.060); }
+  35%  { transform: translate(27.4px, 20.3px) scale(1.045); }
+  42%  { transform: translate(13.0px, 17.5px) scale(1.030); }
+  49%  { transform: translate(3.6px, 17.5px) scale(1.015); }
+  56%  { transform: translate(0.0px, 18.0px) scale(1.000); }   /* PARKED on button centre */
+  66%  { transform: translate(0.0px, 18.0px) scale(0.800); }   /* press down (tap) */
+  79%  { transform: translate(0.0px, 18.0px) scale(1.150); }   /* bounce back up */
+  87%  { transform: translate(0.0px, 18.0px) scale(0.970); }   /* small settle under */
+  90%  { transform: translate(0.0px, 18.0px) scale(1.000); opacity: 1; }
+  94%  { transform: translate(0.0px, 18.0px) scale(1.000); }
+  100% { transform: translate(0.0px, 18.0px) scale(1.000); opacity: 0; }  /* faded, still on button */
+}
+/* Press-then-bounce + GREEN FLASH. Under the cursor tip the button presses down
+   (transparent, dim border), then as it bounces back it FILLS with brand green
+   (R30: peak ~32% = 2922ms). It holds the fill briefly while the download pill
+   begins emerging (pill starts at 2900ms so the button is still green at that
+   moment -- the pill visibly pops OUT of a primed button), then fades back to
+   the outlined resting state by 100% (~3480ms). Border and box-shadow track
+   the fill: dim white during press, green tint at peak, then back to white +
+   the standard dark shadow. Timed to sync with the cursor press (~2734ms) and
+   cursor bounce (~2888ms). */
+@keyframes cta-click {
+  /* Muted sage (#7cb69a = rgb 124,182,154) replaces the saturated emerald so the
+     click flash reads as an amplified beat of the page's existing warm-neutral
+     palette rather than a Slack-notification success chip. Peak alpha lowered
+     to 0.7 (lets the pill's white base warm through), glow alphas roughly halved
+     because desaturated greens muddy at high glow alpha. */
+  0%   { transform: scale(1);    background: rgba(124, 182, 154, 0);    border-color: rgba(255,255,255,0.24); box-shadow: 0 6px 22px rgba(0,0,0,0.18); }
+  10%  { transform: scale(0.94); background: rgba(124, 182, 154, 0.05); border-color: rgba(255,255,255,0.7);  box-shadow: 0 3px 12px rgba(0,0,0,0.24); }
+  22%  { transform: scale(1.02); background: rgba(124, 182, 154, 0.55); border-color: rgba(168, 206, 186, 0.9); box-shadow: 0 10px 30px rgba(124, 182, 154, 0.16), 0 6px 18px rgba(0,0,0,0.16); }
+  32%  { transform: scale(1.04); background: rgba(124, 182, 154, 0.7);  border-color: rgba(168, 206, 186, 1);    box-shadow: 0 12px 34px rgba(124, 182, 154, 0.22), 0 6px 18px rgba(0,0,0,0.14); }
+  55%  { transform: scale(1);    background: rgba(124, 182, 154, 0.65); border-color: rgba(168, 206, 186, 1);    box-shadow: 0 10px 30px rgba(124, 182, 154, 0.18), 0 6px 20px rgba(0,0,0,0.16); }
+  78%  { transform: scale(1);    background: rgba(124, 182, 154, 0.28); border-color: rgba(200, 220, 208, 0.9); box-shadow: 0 8px 26px rgba(124, 182, 154, 0.10), 0 6px 22px rgba(0,0,0,0.17); }
+  100% { transform: scale(1);    background: rgba(124, 182, 154, 0);    border-color: rgba(255,255,255,0.24); box-shadow: 0 6px 22px rgba(0,0,0,0.18); }
+}
+@keyframes cta-cursor {
+  /* Starts far outside the website frame (lower-right), visible from frame 0
+     so the slide-in is seen alongside the wrap's fade-in. */
+  0%   { opacity: 1; transform: translate(460px, 240px) scale(1.05); }
+  /* Lands on the button at 43% = 3900ms (sync'd with cta-click start). */
+  43%  { opacity: 1; transform: translate(4px, 4px) scale(1); }
+  /* Click compress — peak compression in sync with button's 35% compress. */
+  50%  { transform: translate(4px, 4px) scale(0.74); }
+  /* Release. */
+  62%  { transform: translate(4px, 4px) scale(1); }
+  85%  { opacity: 1; transform: translate(4px, 4px) scale(1); }
+  /* Exit up-left as the pill enters from the button — keep both readable. */
+  100% { opacity: 0; transform: translate(-18px, -12px) scale(1); }
+}
+.site-cta-arrow { display: none; }
+@media (max-width: 1023px) {
+  .site-wordmark { font-size: 80px; bottom: 116px; }
 }
 
-/* Download notification cards floating around the LEFT side of the browser */
+/* Code editor screen — slides in over the browser viewport after the ebook strip
+   has settled, reveals lines typewriter-style, then the iPads float in over it. */
+.code-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  /* Feathered dark wash: dim at center, fully transparent at the edges so the
+     underlying browser-mock (ebook strip + wordmark) stays partially visible
+     around the code. Text in .code-panel-inner sits above this and is
+     unaffected by the bg's alpha. */
+  background: radial-gradient(
+    ellipse 110% 95% at 50% 50%,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.72) 45%,
+    rgba(0, 0, 0, 0.4) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-radius: inherit;
+  overflow: hidden;
+  /* Code panel hidden in v6 (kept in markup for easy resurrection). */
+  opacity: 0;
+  visibility: hidden;
+}
+.code-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(80% 50% at 0% 100%, rgba(48, 222, 238, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.code-panel-inner {
+  position: absolute;
+  inset: 0;
+  padding: 32px 40px;
+  font-family: "Menlo", "SF Mono", "Monaco", Consolas, "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+  white-space: pre;
+  overflow: hidden;
+  letter-spacing: -0.005em;
+  font-feature-settings: "liga" 0;
+}
+.code-line {
+  opacity: 0;
+  /* Each line carries its own `--delay` inline so we can cluster lines into
+     3 sections that fire alongside the 3 iPads (7800ms / 8080ms / 8360ms). */
+  animation: code-line-in 192ms ease-out var(--delay, 4800ms) forwards;
+}
+.code-line .code-bright   { color: #ffffff; }
+.code-line .code-accent   { color: #30deee; }  /* highlighted class value */
+.code-line .code-bracket  { color: #8be9fd; }  /* < > / = punctuation */
+.code-line .code-tag      { color: #ff79c6; }  /* tag names */
+.code-line .code-attr     { color: #ffb86c; }  /* attribute names */
+.code-line .code-string   { color: #98e88e; }  /* quoted string values */
+.code-line .code-text     { color: rgba(255, 255, 255, 0.78); } /* inner text */
+.code-line .code-comment  { color: #6c7c92; font-style: italic; }
+.code-line .code-keyword  { color: #c792ea; }  /* async, await */
+.code-line .code-fn       { color: #f1fa8c; }  /* function names */
+.code-line .code-done     { color: #50fa7b; font-weight: 600; }  /* ✓ */
+.code-line .code-progress { color: #ffb86c; font-weight: 600; }  /* ↻ */
+
+@keyframes code-panel-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes code-line-in {
+  to { opacity: 1; }
+}
+
+@media (max-width: 1023px) {
+  .code-panel-inner {
+    padding: 22px 26px;
+    font-size: 11px;
+  }
+}
+
+/* Download notification card floating around the LEFT side of the browser */
 .download-stack {
   position: absolute;
   inset: 0;
@@ -692,50 +1037,19 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   opacity: 0;
   transform: translateY(24px);
   animation:
-    dl-card-slide-up 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-    dl-card-float 7s ease-in-out infinite,
-    dl-card-press 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    dl-card-slide-up 656ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    dl-card-float 7s ease-in-out infinite;
 }
 .dl-card--1 {
   top: 32%;
   right: calc(100% - 150px);
   --float-y: -4px;
   --float-x: 2px;
-  --press-rot: -3.2deg;
-  --press-y: 3px;
-  --press-x: -2px;
-  --press-scale: 0.962;
-  animation-delay: 1500ms, 2200ms, 2050ms;
-  animation-duration: 600ms, 7s, 360ms;
-}
-.dl-card--2 {
-  top: 50%;
-  right: calc(100% - 60px);
-  --float-y: -5px;
-  --float-x: -2px;
-  --press-rot: 2.6deg;
-  --press-y: 4px;
-  --press-x: 3px;
-  --press-scale: 0.95;
-  animation-delay: 1900ms, 2600ms, 2450ms;
-  animation-duration: 600ms, 8s, 380ms;
-}
-.dl-card--3 {
-  top: 68%;
-  right: calc(100% - 190px);
-  --float-y: -4px;
-  --float-x: 2px;
-  --press-rot: -1.8deg;
-  --press-y: 2.5px;
-  --press-x: 2px;
-  --press-scale: 0.97;
-  animation-delay: 2300ms, 3000ms, 2850ms;
-  animation-duration: 600ms, 6.5s, 340ms;
+  animation-delay: 3000ms, 3800ms;
+  animation-duration: 656ms, 7s;
 }
 @media (max-width: 1023px) {
   .dl-card--1 { top: 60px; right: auto; left: 12px; }
-  .dl-card--2 { top: 150px; right: auto; left: 28px; }
-  .dl-card--3 { top: 240px; right: auto; left: 8px; }
 }
 
 @keyframes dl-card-slide-up {
@@ -749,27 +1063,6 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
 }
 
-@keyframes dl-card-press {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-  }
-  38% {
-    transform:
-      translate(var(--press-x, 0px), var(--press-y, 3px))
-      rotate(var(--press-rot, 0deg))
-      scale(var(--press-scale, 0.965));
-  }
-  68% {
-    transform:
-      translate(calc(var(--press-x, 0px) * -0.25), -2px)
-      rotate(calc(var(--press-rot, 0deg) * -0.35))
-      scale(1.018);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-  }
-}
-
 @keyframes dl-card-float {
   0%, 100% {
     transform: translate(0, 0);
@@ -779,71 +1072,6 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
 }
 
-/* === Green particle burst behind each download card on press === */
-.dl-burst {
-  position: absolute;
-  width: 60px;
-  height: 82px;
-  pointer-events: none;
-}
-.dl-burst--1 { top: 32%; right: calc(100% - 150px); --burst-base: 2050ms; }
-.dl-burst--2 { top: 50%; right: calc(100% - 60px);  --burst-base: 2450ms; }
-.dl-burst--3 { top: 68%; right: calc(100% - 190px); --burst-base: 2850ms; }
-@media (max-width: 1023px) {
-  .dl-burst--1 { top: 60px;  right: auto; left: 272px; }
-  .dl-burst--2 { top: 150px; right: auto; left: 288px; }
-  .dl-burst--3 { top: 240px; right: auto; left: 268px; }
-}
-
-.dl-burst-particle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  margin: -2.5px 0 0 -2.5px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(220, 255, 235, 1) 0%,
-    rgba(110, 231, 168, 0.95) 55%,
-    rgba(74, 222, 128, 0) 100%
-  );
-  box-shadow: 0 0 6px rgba(110, 231, 168, 0.55);
-  opacity: 0;
-  transform: translate(0, 0) scale(0.3);
-  animation: dl-burst-pop 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(var(--burst-base, 0ms) + var(--burst-offset, 0ms));
-}
-.dl-burst-particle--1 { --dx:   0px; --dy: -40px; --burst-offset:  0ms; }
-.dl-burst-particle--2 { --dx:  28px; --dy: -28px; --burst-offset: 25ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
-.dl-burst-particle--3 { --dx:  40px; --dy:   0px; --burst-offset: 45ms; }
-.dl-burst-particle--4 { --dx:  28px; --dy:  28px; --burst-offset: 30ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
-.dl-burst-particle--5 { --dx:   0px; --dy:  40px; --burst-offset: 15ms; }
-.dl-burst-particle--6 { --dx: -28px; --dy:  28px; --burst-offset: 50ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
-.dl-burst-particle--7 { --dx: -40px; --dy:   0px; --burst-offset: 35ms; }
-.dl-burst-particle--8 { --dx: -28px; --dy: -28px; --burst-offset: 55ms; width: 4px; height: 4px; margin: -2px 0 0 -2px; }
-
-@keyframes dl-burst-pop {
-  0% {
-    transform: translate(0, 0) scale(0.3);
-    opacity: 0;
-  }
-  18% {
-    transform: translate(calc(var(--dx, 0px) * 0.25), calc(var(--dy, 0px) * 0.25)) scale(1.15);
-    opacity: 0.85;
-  }
-  100% {
-    transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(0.15);
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dl-burst-particle { animation: none; opacity: 0; }
-}
-
-
 .dl-thumb {
   flex-shrink: 0;
   width: 62px;
@@ -852,34 +1080,14 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   background: #fff;
   padding: 4px;
   box-sizing: border-box;
+  overflow: hidden;
 }
-.dl-thumb-inner {
+.dl-thumb-img {
   display: block;
   width: 100%;
   height: 100%;
   border-radius: 8px;
-  background-size: cover;
-  background-position: center;
-}
-.dl-thumb-inner--1 {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.22) 1px, transparent 1px) 0 0 / 100% 25%,
-    linear-gradient(90deg, rgba(0, 0, 0, 0.22) 1px, transparent 1px) 0 0 / 25% 100%,
-    #e53939;
-}
-.dl-thumb-inner--2 {
-  background:
-    radial-gradient(circle at 50% 70%, #d4732a 0 14%, transparent 15%),
-    radial-gradient(circle at 38% 38%, #ff6a3d 0 10%, transparent 11%),
-    radial-gradient(circle at 60% 36%, #ff5430 0 8%, transparent 9%),
-    radial-gradient(circle at 50% 84%, #ffffff 0 22%, transparent 23%),
-    #ffc73d;
-}
-.dl-thumb-inner--3 {
-  background:
-    radial-gradient(circle at 70% 30%, #a3c7a4 0 30%, transparent 31%),
-    linear-gradient(135deg, #d8442a 0 60%, transparent 60%) 0 50% / 80% 50% no-repeat,
-    #f0e6cf;
+  object-fit: cover;
 }
 
 .dl-text {
@@ -918,12 +1126,10 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   border-radius: 999px;
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.55);
   animation:
-    dl-progress-fill 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-    dl-progress-tint 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    dl-progress-fill 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    dl-progress-tint 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-.dl-card--1 .dl-progress-fill { animation-delay: 2200ms, 2200ms; }
-.dl-card--2 .dl-progress-fill { animation-delay: 2600ms, 2600ms; }
-.dl-card--3 .dl-progress-fill { animation-delay: 3000ms, 3000ms; }
+.dl-card--1 .dl-progress-fill { animation-delay: 3500ms, 3500ms; }
 
 @keyframes dl-progress-fill {
   0%   { width: 0%; }
@@ -935,8 +1141,8 @@ section[data-component-name="digital-products-still-image-hero"]::after {
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.55);
   }
   100% {
-    background-color: #34d399;
-    box-shadow: 0 0 12px rgba(52, 211, 153, 0.75);
+    background-color: #7cb69a;
+    box-shadow: 0 0 12px rgba(124, 182, 154, 0.45);
   }
 }
 
@@ -949,16 +1155,6 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  animation: dl-arrow-press 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.dl-card--1 .dl-arrow { animation-delay: 2050ms; }
-.dl-card--2 .dl-arrow { animation-delay: 2450ms; }
-.dl-card--3 .dl-arrow { animation-delay: 2850ms; }
-@keyframes dl-arrow-press {
-  0%   { transform: scale(1); filter: brightness(1); }
-  35%  { transform: scale(0.78); filter: brightness(1.35); }
-  65%  { transform: scale(1.08); filter: brightness(1.15); }
-  100% { transform: scale(1); filter: brightness(1); }
 }
 .dl-arrow-icon {
   position: absolute;
@@ -970,28 +1166,22 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .dl-arrow-icon--download {
   animation:
     dl-arrow-bob 1.2s ease-in-out infinite,
-    dl-arrow-fade-out 340ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    dl-arrow-fade-out 272ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .dl-arrow-icon--check {
   opacity: 0;
   transform: scale(0.55);
-  filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.55));
-  animation: dl-check-pop 480ms cubic-bezier(0.16, 1.1, 0.3, 1) forwards;
+  filter: drop-shadow(0 0 8px rgba(124, 182, 154, 0.35));
+  animation: dl-check-pop 384ms cubic-bezier(0.16, 1.1, 0.3, 1) forwards;
 }
 .dl-check-path {
   stroke-dasharray: 22;
   stroke-dashoffset: 22;
-  animation: dl-check-draw 380ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: dl-check-draw 304ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-.dl-card--1 .dl-arrow-icon--download { animation-delay: 2200ms, 2750ms; }
-.dl-card--1 .dl-arrow-icon--check    { animation-delay: 2880ms; }
-.dl-card--1 .dl-check-path           { animation-delay: 3080ms; }
-.dl-card--2 .dl-arrow-icon--download { animation-delay: 2600ms, 3150ms; }
-.dl-card--2 .dl-arrow-icon--check    { animation-delay: 3280ms; }
-.dl-card--2 .dl-check-path           { animation-delay: 3480ms; }
-.dl-card--3 .dl-arrow-icon--download { animation-delay: 3000ms, 3550ms; }
-.dl-card--3 .dl-arrow-icon--check    { animation-delay: 3680ms; }
-.dl-card--3 .dl-check-path           { animation-delay: 3880ms; }
+.dl-card--1 .dl-arrow-icon--download { animation-delay: 3500ms, 3940ms; }
+.dl-card--1 .dl-arrow-icon--check    { animation-delay: 4044ms; }
+.dl-card--1 .dl-check-path           { animation-delay: 4204ms; }
 
 @keyframes dl-arrow-bob {
   0%, 100% { transform: translateY(0); opacity: 0.7; }
@@ -1016,26 +1206,28 @@ section[data-component-name="digital-products-still-image-hero"]::after {
    "you can tell something digital is happening" rather than legible text. */
 .code-rain {
   position: absolute;
-  top: 6%;
-  bottom: 2%;
-  left: -25%;
-  width: 54%;
+  top: -4%;
+  bottom: -4%;
+  left: -32%;
+  right: -14%;
   z-index: 5;
   pointer-events: none;
   opacity: 0;
   font-family: "SF Mono", Menlo, "Roboto Mono", monospace;
-  font-size: 9px;
+  font-size: 9.5px;
   line-height: 1;
-  color: rgba(210, 215, 225, 0.32);
+  color: rgba(215, 220, 230, 0.58);
   letter-spacing: 0.05em;
-  animation: code-rain-in 900ms ease 1200ms forwards;
+  animation:
+    code-rain-in 720ms ease 4160ms forwards,
+    code-rain-out 720ms ease-in 6560ms forwards;
 }
 
 .code-frag {
   position: absolute;
   white-space: nowrap;
   opacity: 0;
-  filter: blur(0.55px);
+  filter: blur(0.3px);
   animation: code-frag-pulse var(--frag-dur, 6s) ease-in-out var(--frag-delay, 0s) infinite;
 }
 .code-frag--1  { top: 4%;  left: 32%; --frag-dur: 5.8s; --frag-delay: -0.4s; }
@@ -1048,16 +1240,24 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .code-frag--8  { top: 72%; left: 22%; --frag-dur: 6.8s; --frag-delay: -4.4s; }
 .code-frag--9  { top: 84%; left: 56%; --frag-dur: 5.2s; --frag-delay: -2s;   }
 .code-frag--10 { top: 94%; left: 10%; --frag-dur: 7.2s; --frag-delay: -3.6s; }
+.code-frag--11 { top: 8%;  left: 88%; --frag-dur: 6.2s; --frag-delay: -0.8s; }
+.code-frag--12 { top: 28%; left: 96%; --frag-dur: 7.8s; --frag-delay: -3s;   }
+.code-frag--13 { top: 48%; left: 82%; --frag-dur: 5.6s; --frag-delay: -1.4s; }
+.code-frag--14 { top: 68%; left: 92%; --frag-dur: 6.6s; --frag-delay: -4.2s; }
+.code-frag--15 { top: 88%; left: 78%; --frag-dur: 7s;   --frag-delay: -2.2s; }
+.code-frag--16 { top: 20%; left: 68%; --frag-dur: 5.4s; --frag-delay: -3.8s; }
+.code-frag--17 { top: 76%; left: 64%; --frag-dur: 6.8s; --frag-delay: -1s;   }
+.code-frag--18 { top: 38%; left: 74%; --frag-dur: 7.4s; --frag-delay: -4.6s; }
 
 /* Color variants — toned down to subtle neutral tints instead of full saturation. */
 .code-frag--cyan {
-  color: rgba(195, 215, 235, 0.32);
+  color: rgba(195, 215, 235, 0.6);
 }
 .code-frag--amber {
-  color: rgba(225, 215, 195, 0.32);
+  color: rgba(225, 215, 195, 0.6);
 }
 .code-frag--pink {
-  color: rgba(225, 200, 215, 0.32);
+  color: rgba(225, 200, 215, 0.6);
 }
 
 /* Typewriter reveal — chars appear left-to-right while the pulse fades it in. */
@@ -1099,15 +1299,22 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 .code-bar--2 { top: 37%; left: 56%; width: 92px; --bar-dur: 7s;   --bar-delay: -3.5s; }
 .code-bar--3 { top: 67%; left: 14%; width: 64px; --bar-dur: 5.4s; --bar-delay: -0.6s; }
 .code-bar--4 { top: 88%; left: 42%; width: 86px; --bar-dur: 6.6s; --bar-delay: -4s; }
+.code-bar--5 { top: 16%; left: 80%; width: 72px; --bar-dur: 6.4s; --bar-delay: -2.4s; }
+.code-bar--6 { top: 58%; left: 72%; width: 88px; --bar-dur: 7s;   --bar-delay: -4.6s; }
+.code-bar--7 { top: 82%; left: 90%; width: 60px; --bar-dur: 5.8s; --bar-delay: -1.2s; }
 
 @keyframes code-rain-in {
   0%   { opacity: 0; }
   100% { opacity: 1; }
 }
+@keyframes code-rain-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
 @keyframes code-frag-pulse {
   0%   { opacity: 0; }
-  20%  { opacity: 0.2; }
-  55%  { opacity: 0.2; }
+  20%  { opacity: 0.55; }
+  55%  { opacity: 0.55; }
   82%  { opacity: 0; }
   100% { opacity: 0; }
 }
@@ -1131,475 +1338,889 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   100%    { width: 100%; }
 }
 
-/* === Browser → coded environment transition ===
-   When the first download card slides in (~1500ms), the website content
-   inside the browser fades to a terminal-style download stream. */
-.site-nav,
-.site-strip,
-.site-footer {
-  animation: site-fade-to-code 700ms cubic-bezier(0.4, 0, 0.2, 1) 1500ms forwards;
+/* === Download pill — first beat of the hero sequence ===
+   Wide horizontal pill from Figma node 684:22159 (eGuide.zip + Downloading
+   label + arrow-down icon). Slides up at 200ms, sits with the arrow bobbing,
+   fades out at 4500ms as the browser glass frame fades in. */
+
+.dl-pill-wrap {
+  /* v8: pill bleeds outside the glass frame on the LEFT — top sits below the
+     frame's top edge and the left edge extends ~64px past the frame. Makes
+     the pill feel like a system notification, not part of the website. */
+  position: absolute;
+  top: 108px;
+  left: -84px;
+  right: auto;
+  bottom: auto;
+  z-index: 10;
+  display: block;
+  padding: 0;
+  pointer-events: none;
+  opacity: 1;
+  /* Scaled down to 0.68 (was 0.85 — still read too large). Scaling the WRAP
+     shrinks the pill and its glow together about the top-left anchor, so they
+     stay aligned. The birth offset below is recalibrated for this scale so the
+     pill still emerges from the Shop-templates CTA in screen space. */
+  transform: scale(0.68);
+  transform-origin: 0 0;
 }
-@keyframes site-fade-to-code {
-  to { opacity: 0; }
+@media (max-width: 1023px) {
+  .dl-pill-wrap { top: 100px; left: -48px; }
 }
 
-.code-env {
+/* Green outline stroke that draws around the pill while downloading. Replaces
+   the old radial glow. Sibling to .dl-pill (not a child) because .dl-pill has
+   overflow:hidden which would clip the stroke's outer edge. pathLength=100 on the
+   rect lets us reason about the draw progress as a simple percentage regardless
+   of the actual perimeter length. Draws from the top-left going clockwise, in
+   lockstep with the progress bar filling. */
+.dl-pill-outline {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 585px;
+  height: 156px;
+  max-width: calc(100% - 52px);
+  overflow: visible;
+  pointer-events: none;
+}
+.dl-pill-outline-rect {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(124, 182, 154, 0.35));
+  animation:
+    dl-pill-outline-in 200ms ease-out 3800ms forwards,
+    dl-pill-outline-draw 480ms cubic-bezier(0.16, 1, 0.3, 1) 3800ms forwards;
+}
+@keyframes dl-pill-outline-in {
+  to { opacity: 1; }
+}
+@keyframes dl-pill-outline-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.dl-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  max-width: 585px;
+  height: 156px;
+  padding: 22px 34px 22px 22px;
+  background: #202727;
+  border: 1.25px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color: #ffffff;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 20px 2px rgba(255, 255, 255, 0.10),
+    inset 0 0 0 1.5px rgba(0, 0, 0, 0.2),
+    0 0 2px rgba(255, 255, 255, 0.55),
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    0 14px 14px rgba(0, 0, 0, 0.21),
+    0 32px 20px rgba(0, 0, 0, 0.13),
+    0 58px 24px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  /* Pill is born from the Shop templates CTA as a tiny speck whose BOTTOM-CENTRE
+     sits exactly on the button centre, then it UNFOLDS UPWARD -- transform-origin
+     is the bottom edge, so the growth is anchored AT the button instead of
+     ballooning symmetrically around a moving centre point (which made the old
+     version expand down past the button and never look attached). It then rises
+     up-left into its resting notification slot. Reads as the pill coming OUT OF
+     the button. */
+  transform-origin: 50% 100%;
+  opacity: 0;
+  /* Birth translate(355,482): with the bottom-centre origin this pins the speck's
+     bottom-centre dead on the measured CTA centre in screen space. Re-derived for
+     wrap scale 0.68: tx = (CTA_cx − pill_rest_cx)/s, ty = (CTA_cy − pill_rest_bottom)/s
+     from measured rects (CTA centre 1017.4/759.5, pill rest centre 776.1, bottom 432.1). */
+  transform: translate(355px, 417px) scale(0.04);
+  will-change: transform, opacity;
+  /* Single continuous ease-out from birth to rest. Prior iterations chained multiple
+     cubic-beziers across 4 keyframes; even matching-family curves lose velocity at
+     each keyframe boundary because CSS animations do not preserve velocity across
+     them, and the old middle segment used an ease-in-out that STARTED slow -- the
+     perceived "hitch" the user hit three times. Now transform has exactly two
+     keyframes (birth and rest) so there is literally no interior boundary at which
+     motion can break; opacity is on its own opacity-only keyframe. Delay 2800ms
+     fires ~95ms after the CTA fills fully green so the pill pops OUT of the primed
+     button. */
+  animation: dl-pill-morph 820ms cubic-bezier(0.22, 1, 0.36, 1) 2900ms forwards;
+}
+@media (min-width: 641px) and (max-width: 1023px) {
+  /* Tablet: birth offset recalibrated to the Shop-templates CTA at this width. */
+  .dl-pill {
+    transform: translate(155px, 428px) scale(0.04);
+    animation-name: dl-pill-morph-tablet;
+  }
+}
+@media (max-width: 640px) {
+  /* Phone: birth offset recalibrated to the Shop-templates CTA at this width. */
+  .dl-pill {
+    transform: translate(237px, 420px) scale(0.04);
+    animation-name: dl-pill-morph-phone;
+  }
+}
+
+/* Light sweep that travels diagonally across the pill once on entry. */
+.dl-pill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 74%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 24%,
+    rgba(255, 255, 255, 0.12) 42%,
+    rgba(255, 255, 255, 0.12) 58%,
+    rgba(255, 255, 255, 0) 76%,
+    transparent 100%
+  );
+  pointer-events: none;
+  transform: translateX(-110%);
+  opacity: 0;
+  animation: dl-pill-sweep 1800ms cubic-bezier(0.32, 0, 0.24, 1) 3760ms forwards;
+  z-index: 2;
+}
+@keyframes dl-pill-sweep {
+  0%   { opacity: 0; transform: translateX(-110%); }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(260%); }
+}
+
+/* Green radial wash inside the pill — mimics Figma's gradient blob (bottom-left). */
+.dl-pill::before {
+  content: "";
   position: absolute;
   inset: 0;
-  z-index: 4;
-  padding: 26px 28px 22px;
-  background: linear-gradient(180deg, #14171c 0%, #0d1014 100%);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  color: rgba(232, 234, 240, 0.92);
-  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 65% 110% at 18% 100%,
+    rgba(125, 189, 172, 0.20) 0%,
+    rgba(95, 149, 135, 0.12) 25%,
+    rgba(65, 110, 98, 0.05) 50%,
+    transparent 75%
+  );
   pointer-events: none;
+}
+
+.dl-pill-thumb {
+  position: relative;
+  flex-shrink: 0;
+  width: 112px;
+  height: 112px;
+  border-radius: 12px;
+  background: #bfb6ae;
   overflow: hidden;
-  animation: code-env-in 700ms ease-out 1800ms forwards;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 2px rgba(255, 255, 255, 0.55),
+    0 3px 6px rgba(0, 0, 0, 0.25),
+    0 8px 10px rgba(0, 0, 0, 0.21);
 }
-.code-env::before {
-  content: "";
+.dl-pill-thumb img {
+  display: block;
   position: absolute;
-  inset: 16px 18px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  pointer-events: none;
+  top: 9.72%;
+  left: 9.72%;
+  width: 80.56%;
+  height: 80.56%;
+  object-fit: cover;
 }
-.code-env-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 22px;
-  padding: 4px 8px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-.code-env-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  color: rgba(245, 247, 250, 0.96);
-}
-.code-env-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.18);
-}
-.code-env-count {
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(180, 188, 200, 0.65);
-  letter-spacing: 0.01em;
-}
-.code-env-list {
+
+.dl-pill-text {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0 8px;
-}
-.code-env-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 8px 0;
-}
-.code-env-body {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  padding-top: 1px;
-}
-.code-env-meta {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-.code-env-stat {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  flex-shrink: 0;
-}
-.code-env-divider {
-  color: rgba(160, 168, 182, 0.4);
-  font-size: 10px;
-  opacity: 0;
-  animation: code-env-pct-in 200ms ease-out forwards;
-}
-.code-env-row:nth-child(1) .code-env-divider { animation-delay: 2200ms; }
-.code-env-row:nth-child(2) .code-env-divider { animation-delay: 2600ms; }
-.code-env-row:nth-child(3) .code-env-divider { animation-delay: 3000ms; }
-.code-env-icon {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(200, 208, 220, 0.8);
 }
-.code-env-icon::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 9px;
-  border: 1px solid rgba(110, 231, 168, 0.45);
-  opacity: 0;
-  animation: code-env-icon-pulse 1300ms ease-out infinite;
-}
-.code-env-row:nth-child(1) .code-env-icon::before { animation-delay: 2200ms; }
-.code-env-row:nth-child(2) .code-env-icon::before { animation-delay: 2600ms; }
-.code-env-row:nth-child(3) .code-env-icon::before { animation-delay: 3000ms; }
-.code-env-icon svg {
-  position: relative;
-  width: 13px;
-  height: 13px;
-}
-.code-env-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-}
-.code-env-name {
-  font-size: 12px;
+.dl-pill-name {
+  font-size: 24px;
   font-weight: 500;
-  color: rgba(238, 240, 245, 0.95);
-  letter-spacing: -0.005em;
+  line-height: 32px;
+  color: #ffffff;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.code-env-size {
-  font-size: 10px;
+.dl-pill-status {
+  font-size: 24px;
   font-weight: 400;
-  color: rgba(160, 168, 182, 0.62);
-  letter-spacing: 0.01em;
-}
-.code-env-meter {
+  line-height: 32px;
+  color: rgba(255, 255, 255, 0.7);
   position: relative;
   display: block;
-  width: 60%;
-  max-width: 180px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.06);
+  height: 32px;
+}
+/* Two stacked labels cross-fade in place so the pill never resizes:
+   "Downloading" → "Downloaded" at download completion (~6450ms). */
+.dl-pill-status-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.dl-pill-status-label--done {
+  opacity: 0;
+  animation: dl-status-in 208ms ease-out 4040ms forwards;
+}
+.dl-pill-status-label--ing {
+  animation: dl-status-out 208ms ease-out 4040ms forwards;
+}
+@keyframes dl-status-in { to { opacity: 1; } }
+@keyframes dl-status-out { to { opacity: 0; } }
+
+.dl-pill-bar {
+  position: relative;
+  margin-top: 14px;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.10);
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
-.code-env-meter-fill {
-  position: relative;
+.dl-pill-bar-fill {
   display: block;
-  height: 100%;
   width: 0%;
-  background: linear-gradient(
-    90deg,
-    rgba(110, 231, 168, 0.85) 0%,
-    rgba(165, 244, 200, 1) 60%,
-    rgba(220, 255, 235, 1) 100%
-  );
-  border-radius: 999px;
-  box-shadow:
-    0 0 6px rgba(110, 231, 168, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  animation: code-env-meter-fill 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-.code-env-meter-fill::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 100%;
-  width: 40%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.55) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: translateX(-100%);
-  animation: code-env-shimmer 1800ms ease-in-out infinite;
-}
-.code-env-meter-fill--1 { animation-delay: 2200ms; }
-.code-env-meter-fill--2 { animation-delay: 2600ms; }
-.code-env-meter-fill--3 { animation-delay: 3000ms; }
-.code-env-meter-fill--1::after { animation-delay: 2400ms; }
-.code-env-meter-fill--2::after { animation-delay: 2800ms; }
-.code-env-meter-fill--3::after { animation-delay: 3200ms; }
-@property --pct {
-  syntax: '<integer>';
-  inherits: false;
-  initial-value: 0;
-}
-.code-env-pct {
-  --pct: 0;
-  font-variant-numeric: tabular-nums;
-  font-size: 10.5px;
-  font-weight: 500;
-  color: rgba(200, 208, 220, 0.78);
-  letter-spacing: -0.005em;
-  opacity: 0;
-  counter-reset: progress var(--pct);
-  animation:
-    code-env-pct-in 200ms ease-out forwards,
-    code-env-pct-count 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-.code-env-pct::after {
-  content: counter(progress) "%";
-}
-.code-env-pct--1 { animation-delay: 2200ms, 2200ms; }
-.code-env-pct--2 { animation-delay: 2600ms, 2600ms; }
-.code-env-pct--3 { animation-delay: 3000ms, 3000ms; }
-
-/* Done state — small green check badge in the bottom-right corner of the file icon.
-   Appears when each row's bar finishes filling. */
-.code-env-icon::after {
-  content: "";
-  position: absolute;
-  right: -3px;
-  bottom: -3px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2.5 5.2 L4.2 6.9 L7.5 3.4' fill='none' stroke='white' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 8px 8px no-repeat,
-    #4ade80;
-  box-shadow: 0 0 0 1.5px #14171c;
-  opacity: 0;
-  transform: scale(0.5);
-  animation: code-env-check-in 320ms cubic-bezier(0.22, 1.4, 0.36, 1) forwards;
-}
-.code-env-row:nth-child(1) .code-env-icon::after { animation-delay: 3300ms; }
-.code-env-row:nth-child(2) .code-env-icon::after { animation-delay: 3700ms; }
-.code-env-row:nth-child(3) .code-env-icon::after { animation-delay: 4100ms; }
-/* Once the check appears, the pulsing ring should stop. We do that with a
-   second animation on ::before that overrides opacity at the same moment. */
-.code-env-row:nth-child(1) .code-env-icon::before { animation: code-env-icon-pulse 1300ms ease-out 2200ms infinite, code-env-icon-stop 200ms ease-out 3300ms forwards; }
-.code-env-row:nth-child(2) .code-env-icon::before { animation: code-env-icon-pulse 1300ms ease-out 2600ms infinite, code-env-icon-stop 200ms ease-out 3700ms forwards; }
-.code-env-row:nth-child(3) .code-env-icon::before { animation: code-env-icon-pulse 1300ms ease-out 3000ms infinite, code-env-icon-stop 200ms ease-out 4100ms forwards; }
-
-.code-env-status {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 18px 0 0 8px;
-  padding: 5px 10px 5px 8px;
+  background: #ffffff;
   border-radius: 999px;
-  background: rgba(74, 222, 128, 0.1);
-  color: #6ee7a8;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.005em;
-  opacity: 0;
-  animation: code-env-pct-in 400ms ease-out 4100ms forwards;
-}
-.code-env-status svg {
-  width: 12px;
-  height: 12px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
+  animation:
+    dl-pill-bar-fill 480ms cubic-bezier(0.16, 1, 0.3, 1) 3800ms forwards,
+    dl-pill-bar-tint 280ms ease-out 4280ms forwards;
 }
 
-@keyframes code-env-in {
-  to { opacity: 1; }
+.dl-pill-arrow {
+  position: relative;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  color: rgba(255, 255, 255, 0.96);
 }
-@keyframes code-env-meter-fill {
-  to { width: 100%; }
+.dl-pill-arrow-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
-@keyframes code-env-shimmer {
-  0%   { transform: translateX(-100%); }
-  60%  { transform: translateX(260%); }
-  100% { transform: translateX(260%); }
+.dl-pill-arrow-icon--download {
+  animation: dl-pill-arrow-fade-out 224ms ease-out 4000ms forwards;
 }
-@keyframes code-env-pct-in {
-  to { opacity: 1; }
+.dl-pill-arrow-icon--check {
+  opacity: 0;
+  transform: scale(0.55);
+  color: #7cb69a;
+  filter: drop-shadow(0 0 6px rgba(124, 182, 154, 0.35));
+  animation: dl-pill-check-pop 304ms cubic-bezier(0.16, 1.1, 0.3, 1) 4080ms forwards;
 }
-@keyframes code-env-pct-count {
-  to { --pct: 100; }
+.dl-pill-check-path {
+  stroke-dasharray: 18;
+  stroke-dashoffset: 18;
+  animation: dl-pill-check-draw 256ms ease-out 4240ms forwards;
 }
-@keyframes code-env-icon-pulse {
-  0%   { opacity: 0; transform: scale(0.9); }
-  35%  { opacity: 1; }
-  100% { opacity: 0; transform: scale(1.18); }
+/* Quick green fill inside the check circle -- flashes on as the check draws in
+   and fades away, emphasizing the completion moment. Timed to peak (~4180ms)
+   just as the check-path (starts 4140ms, 256ms draw) is finishing. */
+.dl-pill-check-fill {
+  fill-opacity: 0;
+  animation: dl-pill-check-fill 620ms cubic-bezier(0.16, 1, 0.3, 1) 4140ms forwards;
 }
-@keyframes code-env-icon-stop {
+/* Expanding shockwave ring around the circle -- a second, subtler pulse that
+   spreads outward at the same moment for a "success ping" read. transform-box:
+   fill-box + transform-origin: center is required for scaling SVG shapes about
+   their own centre in modern browsers. Parent SVG carries overflow="visible" so
+   the ring is not clipped by the 32x32 viewBox as it grows. */
+.dl-pill-check-burst {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: dl-pill-check-burst 640ms cubic-bezier(0.16, 1, 0.3, 1) 4140ms forwards;
+}
+
+@keyframes dl-pill-morph {
+  /* Two transform keyframes only (birth and rest). Opacity gets its own 8%
+     keyframe so it can finish quickly without dictating the transform curve;
+     because 8% defines opacity only, the transform interpolation is unaffected
+     and runs uninterrupted 0% -> 100% under a single ease-out. */
+  0%   { opacity: 0; transform: translate(355px, 417px) scale(0.04); }
+  8%   { opacity: 1; }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+/* Tablet/phone variants: identical two-keyframe shape, birth offset per width. */
+@keyframes dl-pill-morph-tablet {
+  0%   { opacity: 0; transform: translate(155px, 428px) scale(0.04); }
+  8%   { opacity: 1; }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+@keyframes dl-pill-morph-phone {
+  0%   { opacity: 0; transform: translate(237px, 420px) scale(0.04); }
+  8%   { opacity: 1; }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+@keyframes dl-pill-arrow-bob {
+  0%, 100% { transform: translateY(-1.5px); }
+  50%      { transform: translateY(2.5px); }
+}
+@keyframes dl-pill-arrow-fade-out {
   to { opacity: 0; }
 }
-@keyframes code-env-check-in {
-  0%   { opacity: 0; transform: scale(0.4); }
-  100% { opacity: 1; transform: scale(1); }
+@keyframes dl-pill-check-pop {
+  to { opacity: 1; transform: scale(1); }
 }
-
-/* === Center the code-env download manager content === */
-.code-env-header {
-  justify-content: center;
-  gap: 18px;
+@keyframes dl-pill-check-draw {
+  to { stroke-dashoffset: 0; }
 }
-.code-env-list {
-  align-items: center;
+@keyframes dl-pill-check-fill {
+  0%   { fill-opacity: 0; }
+  22%  { fill-opacity: 0.6; }
+  100% { fill-opacity: 0; }
 }
-.code-env-row {
-  width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
-  align-items: center;
+@keyframes dl-pill-check-burst {
+  0%   { opacity: 0;    transform: scale(0.9);  stroke-width: 1.5; }
+  25%  { opacity: 0.75; transform: scale(1.05); stroke-width: 1.25; }
+  100% { opacity: 0;    transform: scale(1.55); stroke-width: 0.5; }
 }
-.code-env-body {
-  align-items: center;
+@keyframes dl-pill-bar-fill {
+  to { width: 100%; }
 }
-.code-env-meta {
-  justify-content: center;
-  flex-wrap: wrap;
-  row-gap: 4px;
-  width: 100%;
-}
-.code-env-meter {
-  margin: 0 auto;
-}
-.code-env-status {
-  display: flex;
-  margin: 18px auto 0;
-  width: fit-content;
-}
-
-/* === Glass frame fade-out before iPads arrive === */
-@keyframes glass-fade-out {
+@keyframes dl-pill-bar-tint {
   to {
-    opacity: 0;
-    transform: scale(0.94) translateY(-12px);
+    background: #7cb69a;
+    box-shadow: 0 0 10px rgba(124, 182, 154, 0.38);
   }
 }
 
-/* === 3 iPads stacked vertically on the right === */
-.ipad-display {
+/* === Phase 3: Climax decoration — wavy blue lines around the glass frame.
+   Sits at z:1 so the glass frame (z:2) covers it, making the strokes appear
+   to draw out from behind the website. === */
+.wavy-deco {
   position: absolute;
-  top: -8%;
-  right: 10%;
-  bottom: -4%;
-  width: 50%;
-  max-width: 620px;
   pointer-events: none;
-  z-index: 4;
+  /* Sits behind the website frame — graph draws in as a background flourish. */
+  z-index: 1;
+  overflow: visible;
+  opacity: 0;
+  filter: drop-shadow(0 0 14px rgba(126, 192, 255, 0.5));
+}
+/* Solid line — the "growth graph". Sits at chart-like proportions (not
+   stretched), positioned top-right of the glass-frame so its trajectory
+   reads as a chart rising up + to the right behind the UI. Draws purely
+   via stroke-dashoffset — strictly left-to-right, no scaleX. */
+.wavy-deco--solid {
+  /* Profit chart trending up-and-right. Small in scale so it reads as a
+     decorative chart sitting in the back, not a giant sweeping streak.
+     Centered horizontally over the website with a modest peek on both
+     sides; height kept low so the wave amplitude is chart-like. */
+  left: 8%;
+  top: 8%;
+  width: 102%;
+  max-width: none;
+  height: 150px;
+  transform: rotate(-14deg) scale(1.1);
+  transform-origin: 50% 50%;
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(86, 156, 232, 0.45));
+}
+/* Dotted complementary curve — runs parallel to the solid line, slightly
+   offset below so both read as the same upward chart with the dotted as a
+   trailing companion. */
+.wavy-deco--dots {
+  left: -2%;
+  top: 20%;
+  width: 102%;
+  max-width: none;
+  height: 150px;
+  transform: rotate(-14deg) scale(1.1);
+  transform-origin: 50% 50%;
+  opacity: 1;
+  /* L→R clip-path reveal — matches the path's natural left-to-right
+     reading direction so the dots draw outward up-and-right alongside the
+     solid line. */
+  clip-path: inset(0 100% 0 0);
+  /* easeInOutCubic — eases in, flows, and glides to a graceful stop as it draws. */
+  animation: wavy-deco-dots-reveal 2000ms cubic-bezier(0.5, 0, 0.25, 1) 4140ms forwards;
+  /* Soft halo only — keep close to the dot radius so adjacent dots don't
+     fuse into a continuous glow band that reads as a solid line. */
+  filter: drop-shadow(0 0 2px rgba(142, 200, 243, 0.55));
+}
+.wavy-deco--solid path:not(.wavy-pulse) {
+  stroke-dasharray: 2400;
+  stroke-dashoffset: 2400;
+  /* easeInOutCubic — a smooth, confident draw that accelerates then settles
+     gently at the peak rather than the old shoot-fast-then-crawl. */
+  animation: wavy-deco-draw 2000ms cubic-bezier(0.5, 0, 0.25, 1) 3980ms forwards;
+}
+.wavy-deco--dots path {
+  stroke-dasharray: 2.5 9;
+  stroke-dashoffset: 0;
+}
+@keyframes wavy-deco-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes wavy-deco-dots-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+/* Travelling light pulse — a short bright segment that runs along each line
+   left→right once the graph has finished drawing, then loops. pathLength is
+   normalized to 1000 so the dash math is independent of the real path length. */
+.wavy-pulse {
+  stroke-dasharray: 46 5000;   /* one bright segment, the rest a long gap */
+  stroke-dashoffset: 52;
+  opacity: 0;
+  filter: drop-shadow(0 0 2.5px rgba(206, 232, 255, 0.45));
+}
+.wavy-deco--solid .wavy-pulse {
+  stroke: rgba(226, 242, 255, 0.85);
+  stroke-width: 4.5;
+  animation: wavy-pulse-run 4200ms cubic-bezier(0.45, 0, 0.55, 1) 5200ms infinite;
+}
+/* Dotted line gets a shorter, dimmer, thinner pulse so it reads as a soft
+   glint travelling through rather than a long bright streak. */
+.wavy-deco--dots .wavy-pulse {
+  stroke: rgba(220, 239, 255, 0.5);
+  stroke-width: 2.4;
+  stroke-dasharray: 24 5000;
+  filter: drop-shadow(0 0 1.5px rgba(206, 232, 255, 0.3));
+  animation: wavy-pulse-run 4200ms cubic-bezier(0.45, 0, 0.55, 1) 5440ms infinite;
+}
+@keyframes wavy-pulse-run {
+  0%   { stroke-dashoffset: 46;    opacity: 0; }   /* tucked just before the left start */
+  6%   { opacity: 1; }
+  58%  { stroke-dashoffset: -1080; opacity: 1; }   /* swept off the right end */
+  66%  { opacity: 0; }
+  100% { stroke-dashoffset: -1080; opacity: 0; }   /* brief idle before the next pass */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wavy-pulse { animation: none; opacity: 0; }
 }
 @media (max-width: 1023px) {
-  .ipad-display {
-    right: 6%;
-    width: 48%;
-    max-width: 420px;
-  }
+  .wavy-deco--solid { left: 8%; width: 100%; height: 115px; }
+  .wavy-deco--dots { left: -2%; width: 100%; height: 115px; }
 }
+
+/* === 3 floating page-screens in a diagonal cluster ===
+   These are the FLAT store page art (no iPad device frame) — pixel-identical to
+   the 3 leftmost strip cards (E-BOOK card-1, Tips card-4, "&" card-5). They float
+   tilted in 3D, then rotate flat and land exactly on their strip slot; because each
+   is the same image as the card beneath, the hand-off (fade-out) is invisible. */
+.ipad-display {
+  /* Anchored to the glass-frame's content box — the SAME coordinate space as the
+     strip cards — so the floating screens and their dock targets are both in fixed
+     px and the hand-off lands pixel-perfect at ANY viewport width. (It lives inside
+     .glass-frame in the markup; glass-shrink at 4300ms doesn't reach it because the
+     screens have fully faded by ~3760ms.) */
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+/* Green aura removed — the floating cluster now reads cleanly against the hero bg
+   with no glow. */
+.ipad-display::before { display: none; }
 .ipad-card {
   position: absolute;
   display: block;
   height: auto;
   opacity: 0;
-  transform: translateX(140%) scale(0.94);
-  animation: ipad-slide-in 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-             ipad-float 7s ease-in-out infinite;
+  /* Render with the SAME crop/aspect as a strip card so the eventual hand-off is
+     pixel-identical. While floating it wears an iPad-ish device read: a dark bezel
+     ring + a thin aluminium rim + a soft drop shadow, all drawn with BOX-SHADOW so
+     they add no layout footprint (the dock math stays exact). The dock collapses
+     the rings to 0 and the radius from 18px → the card's 8px, so it lands as a
+     bare strip card and the cross-fade onto the matching card beneath is invisible. */
+  aspect-ratio: 172 / 268;
+  overflow: hidden;
+  border-radius: 18px;
+  /* R28: matches .ebook-card white bg so any letterbox from `contain` reads as
+     page whitespace and the cross-fade onto the strip card is pixel-identical. */
+  background-color: #ffffff;
+  /* Layered device edge (not a flat black mat): the screen is recessed by a thin
+     inset, wrapped in a matte black bezel, then a lighter aluminium rim that catches
+     light, over a soft drop shadow. All box-shadow so there's no layout footprint;
+     the dock collapses every ring to 0 and the radius to the card's 8px.
+     R28b: bezel trimmed from 7px+2px (9px total device edge) → 3px+1px (4px) so
+     the floating pages read as slim devices, not chunky iPads. Inset rim + drop
+     shadow unchanged. */
+  box-shadow:
+    inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
+    0 0 0 3px #14151a,
+    0 0 0 4px #5e626e,
+    0 18px 34px rgba(0, 0, 0, 0.32);
+  /* 3D float pose — a per-card lean (Z) plus a 3/4 turn (Y) and slight pitch (X).
+     The dock flattens all three rotations to 0 as the screen settles into the row. */
+  --tiltZ: 0deg;
+  --tiltY: 0deg;
+  --tiltX: 0deg;
+  /* DOCK target — measured per variant so the flattened screen lands exactly on
+     its strip card (same centre, same width). The screen de-rotates to flat,
+     translates into the row, and scales so its width == card width, then fades
+     out onto the identical card beneath it. */
+  --dock-x: 0px;
+  --dock-y: 0px;
+  --dock-scale: 0.6;
+  /* Scroll-in entrance vector (depth parallax) + a little extra lean on the way in. */
+  --enter-x: 0px;
+  --enter-y: -120%;
+  --enter-rot: 5deg;
+  transform: perspective(1200px) translate(var(--enter-x), var(--enter-y)) scale(0.94)
+             rotateZ(calc(var(--tiltZ) + var(--enter-rot))) rotateY(var(--tiltY)) rotateX(var(--tiltX));
+  /* The screen slides in, then holds PERFECTLY STILL at its rest pose until the
+     dock takes over -- the earlier ambient float bob read as a small jitter just
+     before the screen settled, so it was removed. slide-in lands on the exact
+     rest pose and holds it (`forwards`); the dock's 0% pose is identical, so the
+     hand-off straight into the descent stays seamless -- no snap, no wobble. */
+  animation: ipad-slide-in 1080ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+             ipad-dock 1150ms cubic-bezier(0.16, 1, 0.3, 1) 2050ms forwards;
 }
-.ipad-card--quote {
-  top: 8%;
-  right: 24%;
-  width: 52%;
-  z-index: 3;
-  --float-y: -12px;
-  --float-x: 3px;
-  filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.5));
-  animation-delay: 4100ms, 5200ms;
-  animation-duration: 1100ms, 7s;
-}
-.ipad-card--tips {
-  top: 26%;
-  right: 16%;
-  width: 70%;
-  z-index: 2;
-  --float-y: -16px;
-  --float-x: -5px;
-  filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.58));
-  animation-delay: 4300ms, 5400ms;
-  animation-duration: 1100ms, 8.5s;
-}
+/* All three are positioned in FIXED px inside the glass-frame content box (same
+   space as the strip cards), so the dock deltas below are viewport-independent.
+   Sizes are deliberately modest — a touch larger than the 172px card so they
+   gently settle in, not loom over the layout. */
+/* Cluster is laid out LEFT→RIGHT in the same order as the slots it docks into
+   (cover→left slot, tips→centre slot, quote→right slot) so each screen drops
+   straight down into place — no path-crossing during the dock. A gentle vertical
+   wave (low / high / low) keeps it from looking like a flat row. */
+/* Cover (card-1 art) — LEFT of the cluster, forward, LARGEST. Faces inward. */
 .ipad-card--cover {
-  top: 50%;
-  right: 18%;
-  width: 82%;
-  z-index: 1;
+  top: 50px;
+  left: 64px;
+  width: 172px;
+  z-index: 3;
   --float-y: -10px;
-  --float-x: 5px;
-  filter: drop-shadow(0 30px 56px rgba(0, 0, 0, 0.62));
-  animation-delay: 4500ms, 5600ms;
-  animation-duration: 1100ms, 6.5s;
+  --float-x: 3px;
+  --tiltZ: -5deg;
+  --tiltY: -10deg;
+  --tiltX: 5deg;
+  /* Docks onto the LEFT strip card (card-1). Measured in glass-frame px space
+     (viewport-independent — verified identical at 1280 & 1440).
+     All three floaters now share a unified 172×268 footprint (matching the strip
+     card exactly), top-aligned at 50px, with left edges spaced 150px apart.
+     dock-x pulls the cluster outward to the strip's 182px pitch, and dock-scale
+     stays 1.0 since rest width already equals card width. */
+  --dock-x: -31px;
+  /* R28 CHROME-OFF: strip moved UP 40px (chrome bar removed), so dock target
+     Y_center is now 229.01 (was 269.01). rest_Y_center = 50 + 134 = 184 →
+     dock-y = 45.01. */
+  --dock-y: 45.01px;
+  /* Dip target = dock-y nudged ~11px further DOWN — a small momentum overshoot
+     the snappy recoil pulls back up and locks. */
+  --dock-y-os: 56.01px;
+  --dock-scale: 1.0;
+  --enter-x: -14px;
+  --enter-y: -158%;
+  --enter-rot: 6deg;
+  --os-dir: 1;
+  /* R24 UNIFIED-BEAT: dock duration 1500ms (down from the prior 1700ms with 5px
+     pre-lock creep). LOCK stop moved 88%->82% inside the 1500ms envelope so
+     transform interp is 1230ms AND post-LOCK dwell+fade grows to 270ms
+     (was 162ms) -- more breathing room for the cross-fade. Combined with the
+     reshaped 30% TF (see @keyframes ipad-dock) whose endpoint velocity is now
+     ~0.5x avg (was ~0.05x with expo-out), the last ~230ms of descent carries
+     visible motion instead of dying to static ~200ms before LOCK. The prior
+     5px pre-lock creep is retired -- with the new curve carrying real velocity
+     into the LOCK stop, an explicit intermediate anchor is no longer needed.
+     Wall-clock LOCK stays pinned via delay compensation.
+     R26 IPAD-SPEEDUP: dock duration 1500->1200ms (20% faster descent).
+     R27 LAND-SOONER: LOCK shifted -200ms (2364->2164ms). Delay 1380->1180ms.
+     Cover: delay 1180 + 0.82 * 1200 = 1180 + 984 = 2164ms ✓
+     R29 SMOOTHER-DOCK: dock 1200→1300ms (+100ms). Delay shifted -82ms so LOCK
+     stays pinned at 2164ms (tail cascade nth-1 anchor unchanged).
+     Cover: delay 1098 + 0.82 * 1300 = 1098 + 1066 = 2164ms ✓ */
+  animation-delay: 320ms, 1098ms;
+  animation-duration: 1080ms, 1300ms;
+}
+/* Tips (card-4 art) — CENTRE of the cluster, back, smallest, highest. Near head-on. */
+.ipad-card--tips {
+  top: 50px;
+  left: 214px;
+  width: 172px;
+  z-index: 2;
+  --float-y: -7px;
+  --float-x: 2px;
+  --tiltZ: -5deg;
+  --tiltY: 6deg;
+  --tiltX: 5deg;
+  /* Docks onto the MIDDLE strip card (card-4). Measured in glass-frame px space.
+     Unified 172×268 footprint, top: 50px, same as siblings. rest_X_center = 300,
+     strip slot 2 center = 301, so dock-x = 1. */
+  --dock-x: 1px;
+  /* R28 CHROME-OFF: strip moved UP 40px, so dock target Y_center = 229.01 →
+     dock-y = 45.01 (was 85.01). */
+  --dock-y: 45.01px;
+  /* Dip target = dock-y nudged ~11px further DOWN before the snappy recoil. */
+  --dock-y-os: 56.01px;
+  --dock-scale: 1.0;
+  --enter-x: -10px;
+  --enter-y: -118%;
+  --enter-rot: 4deg;
+  --os-dir: 1;
+  /* R25 TIPS-SMOOTHER + R26 IPAD-SPEEDUP + R27 LAND-SOONER: Tips still glides
+     ~20% longer than siblings (preserves R25 "unhurried" character). LOCK
+     shifted -200ms (2220->2020ms). Delay 1039->839ms so LOCK stays pinned.
+     Tips descent 1181ms; still ~197ms longer than siblings' 984ms descent.
+     LOCK math: 839 + 0.82 * 1440 = 839 + 1180.8 ≈ 2020ms ✓
+     R29 SMOOTHER-DOCK: dock 1440→1540ms (+100ms). Delay 839→757 so LOCK stays
+     pinned at 2020ms (tail cascade nth-10 anchor unchanged).
+     Tips: delay 757 + 0.82 * 1540 = 757 + 1262.8 ≈ 2020ms ✓ */
+  animation-delay: 160ms, 757ms;
+  animation-duration: 1080ms, 1540ms;
+}
+/* Quote (card-5 art) — RIGHT of the cluster, lower. Faces inward (turned left). */
+.ipad-card--quote {
+  top: 50px;
+  left: 364px;
+  width: 172px;
+  z-index: 1;
+  --float-y: -9px;
+  --float-x: -3px;
+  --tiltZ: 5deg;
+  --tiltY: 10deg;
+  --tiltX: 5deg;
+  /* Docks onto the RIGHT strip card (card-5). Measured in glass-frame px space.
+     Unified 172×268 footprint, top: 50px, same as siblings. rest_X_center = 450,
+     strip slot 3 center = 483, so dock-x = 33. Now that this screen sits at the
+     same top as its siblings, it descends INTO its slot (matching the others)
+     instead of rising up — dock-y is positive and os-dir flips to +1. */
+  --dock-x: 33px;
+  /* R28 CHROME-OFF: strip moved UP 40px, so dock target Y_center = 229.01 →
+     dock-y = 45.01 (was 85.01). */
+  --dock-y: 45.01px;
+  /* Dip target = dock-y nudged ~11px further DOWN (its travel direction is now DOWN
+     with the unified top: 50px, matching the siblings). */
+  --dock-y-os: 56.01px;
+  --dock-scale: 1.0;
+  --enter-x: 8px;
+  --enter-y: -90%;
+  --enter-rot: 5deg;
+  --os-dir: 1;
+  /* R24 UNIFIED-BEAT + R26 IPAD-SPEEDUP + R27 LAND-SOONER: dock 1200ms.
+     LOCK shifted -200ms (2076->1876ms). Delay 1092->892ms so LOCK stays
+     pinned (tail-cascade anchor; nth-4 still fires exactly at Quote LOCK).
+     Quote: delay 892 + 0.82 * 1200 = 892 + 984 = 1876ms ✓
+     R29 SMOOTHER-DOCK: dock 1200→1300ms (+100ms). Delay 892→810 so LOCK
+     stays pinned at 1876ms (tail cascade nth-4 anchor unchanged).
+     Quote: delay 810 + 0.82 * 1300 = 810 + 1066 = 1876ms ✓ */
+  animation-delay: 240ms, 810ms;
+  animation-duration: 1080ms, 1300ms;
+}
+
+/* Inner image inside each floating iPad wrapper — mirrors the strip's
+   .ebook-card / .ebook-card-img split so the same tight-modifier can
+   scale the visible page area consistently across strip cards and
+   docking screens. */
+.ipad-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* R28b: mirrors .ebook-card-img — `cover` keeps the floating page filling its
+     bezel edge-to-edge with only ~1.5px of side crop, so the cross-fade onto
+     the strip card beneath is pixel-identical. Old `inset(16px)` retired. */
+  object-fit: cover;
+  transform-origin: center center;
 }
 
 @keyframes ipad-slide-in {
   0% {
     opacity: 0;
-    transform: translateY(-110%) scale(0.94);
+    transform: perspective(1200px) translate(var(--enter-x, 0px), var(--enter-y, -120%)) scale(0.94)
+               rotateZ(calc(var(--tiltZ, 0deg) + var(--enter-rot, 5deg))) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
   }
   60% {
     opacity: 1;
   }
   100% {
+    /* Decelerate straight into the resting 3D float pose — no overshoot. */
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: perspective(1200px) translate(0, 0) scale(1)
+               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
   }
 }
 
 @keyframes ipad-float {
-  0%, 100% { transform: translate(0, 0); }
-  50%      { transform: translate(var(--float-x, 0px), var(--float-y, -10px)); }
+  0%, 100% {
+    transform: perspective(1200px) translate(0, 0) scale(1)
+               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
+  }
+  50% {
+    transform: perspective(1200px) translate(var(--float-x, 0px), var(--float-y, -10px)) scale(1)
+               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
+  }
+}
+
+/* DOCK: rotate the floating screen flat (all three tilts → 0), travel into the
+   strip row, and scale so its width == card width — staying fully opaque until it
+   has LOCKED (0→82% under R24 UNIFIED-BEAT; was 0→88%) so you watch it land — then
+   fade out in place over the remaining 18% (a longer 270ms breathing room, was ~162ms)
+   onto the pixel-identical card already present beneath it. Because the two images
+   are the same, the cross-fade is invisible: the screen simply becomes the strip card.
+
+   The iPad bezel is shed EARLY (0→30%) -- it reads as a device just long enough to
+   sell the "screen flying in" beat, then becomes a bare flat card for the rest of
+   the (slow) glide, so no heavy dark-bezeled device lingers over the lit store. The
+   30% stop intentionally mentions ONLY the bezel props (radius + box-shadow), so
+   transform/opacity keep interpolating smoothly across the 0%/82%/85%/100% stops
+   while the bezel dissolves. Shadow lists keep the same 4-entry shape at every stop
+   so each ring interpolates cleanly to 0. */
+@keyframes ipad-dock {
+  0% {
+    /* Float rest pose, bezel on. From here the screen makes ONE smooth, monotonic
+       glide down into its slot -- no wind-up, no overshoot, no rebound. A single
+       decelerating ease (gentle lift-off, soft landing) carries transform all the
+       way from this rest pose to the exact lock pose at 82% (R24 UNIFIED-BEAT). */
+    opacity: 1;
+    border-radius: 18px;
+    /* R28b: matches the thinned .ipad-card rest bezel (3px+1px) so t=2050ms
+       doesn't snap from 4px total edge back to 9px. */
+    box-shadow:
+      inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
+      0 0 0 3px #14151a,
+      0 0 0 4px #5e626e,
+      0 18px 34px rgba(0, 0, 0, 0.32);
+    transform: perspective(1200px) translate(0, 0) scale(1)
+               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
+    animation-timing-function: cubic-bezier(0.42, 0, 0.45, 1);
+  }
+  30% {
+    /* EARLY shed: the bezel collapses to a bare 8px card and the drop shadow relaxes
+       straight to the resting flat-card shadow (0 12px 24px / 0.18) -- done by 30%
+       (~early in the long glide) so the heavy dark-bezeled "device" read clears while
+       the store is still revealing/dim, NOT lingering as a dark gradient over the
+       fully-lit store. The rest of the descent is a light flat card. NO transform is
+       set here, so position/scale/tilt interpolate straight through on the single
+       0%->82% ease (R24 UNIFIED-BEAT; was 0%->88%) -- this point only governs the bezel dissolve, path unbroken. */
+    border-radius: 8px;
+    box-shadow:
+      inset 0 0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 0 rgba(20, 21, 26, 0),
+      0 0 0 0 rgba(94, 98, 110, 0),
+      0 12px 24px rgba(0, 0, 0, 0.18);
+    /* R24 UNIFIED-BEAT: descent TF reshaped from (0.22, 1, 0.36, 1) to (0.22, 1, 0.42, 1).
+       Diagnosis: expo-out variants back-loaded so hard that endpoint velocity approached
+       zero ~200ms before LOCK -- the eye read "motion then LOCK" not "motion settling
+       into LOCK". Pushing the second control point from x=0.36 out to x=0.42 lifts
+       endpoint velocity to ~0.5x segment-average and shifts ~14% more of the spatial
+       distance into the last quarter of the segment. Combined with moving LOCK from
+       88% to 82% inside the 1500ms envelope, the last ~230ms of transit now carries
+       visible motion all the way through the last frame.
+       R29 SMOOTHER-DOCK: with the +100ms extension per variant giving the descent
+       more room, x2 relaxes 0.42→0.48 for a subtler tail — endpoint velocity still
+       reads as "settling" (not stopping) but the last 30% eases in with less
+       remaining acceleration, so the landing looks like a soft touchdown rather
+       than a firm click. */
+    animation-timing-function: cubic-bezier(0.22, 1, 0.48, 1);
+  }
+  82% {
+    /* R24 UNIFIED-BEAT LOCK moved 88%->82% inside the 1500ms dock so transform interp
+       is 1230ms and 270ms remains for dwell+fade (was 162ms; +108ms MORE cross-fade
+       breathing room). Wall-clock LOCK stays pinned via per-floater delay compensation
+       so quote/tips/cover still lock at 2076/2220/2364ms exactly.
+       Pixel-identical to the strip card fading in beneath. Shadow matches the strip's
+       resting shadow (0 12px 24px / 0.18) and HOLDS through the fade so grounding
+       stays continuous -- no dip-to-zero, no doubling. With the reshaped 30% TF
+       (endpoint velocity ~0.5x avg vs old ~0.05x), the iPad arrives with meaningful
+       residual velocity -- settles into place, doesn't stop-and-hold. */
+    opacity: 1;
+    border-radius: 8px;
+    box-shadow:
+      inset 0 0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 0 rgba(20, 21, 26, 0),
+      0 0 0 0 rgba(94, 98, 110, 0),
+      0 12px 24px rgba(0, 0, 0, 0.18);
+    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
+               rotateZ(0deg) rotateY(0deg) rotateX(0deg);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  85% {
+    /* R24 UNIFIED-BEAT SIT moved 91%->85% inside the 1500ms dock. Fully-opaque
+       dwell of 3% x 1500ms = 45ms on the locked pose, then a 15% x 1500ms = 225ms
+       fade to 100% (was 121.5ms -- nearly doubled). The strip nth(1..3) card fades
+       in at LOCK with a 40ms opacity ramp; the extended 225ms floater fade now
+       overlaps the strip's fade WHILE the strip is already fully opaque -- a
+       longer, gentler dissolve with no half-lit flicker window. The arrival
+       LINGERS on the locked pose for 45ms before the dissolve begins -- the
+       'landed' moment registers before the cross-fade takes over. */
+    opacity: 1;
+    border-radius: 8px;
+    box-shadow:
+      inset 0 0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 0 rgba(20, 21, 26, 0),
+      0 0 0 0 rgba(94, 98, 110, 0),
+      0 12px 24px rgba(0, 0, 0, 0.18);
+    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
+               rotateZ(0deg) rotateY(0deg) rotateX(0deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  100% {
+    opacity: 0;
+    border-radius: 8px;
+    /* Shadow held at the strip card's 0.18 so it fades out purely WITH opacity as the
+       screen dissolves -- the identical strip card beneath keeps the slot grounded. */
+    box-shadow:
+      inset 0 0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 0 rgba(20, 21, 26, 0),
+      0 0 0 0 rgba(94, 98, 110, 0),
+      0 12px 24px rgba(0, 0, 0, 0.18);
+    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
+               rotateZ(0deg) rotateY(0deg) rotateX(0deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .glass-frame,
+  .glass-frame::before,
+  .browser-mock,
   .ebook-track,
-  .dl-card,
-  .dl-progress-fill,
-  .dl-arrow-icon,
-  .dl-check-path,
-  .code-rain,
-  .code-frag,
-  .code-bar,
-  .code-bar::after,
   .site-nav,
   .site-strip,
   .site-footer,
-  .code-env,
-  .code-env-cursor,
-  .code-env-meter-fill,
-  .code-env-pct,
-  .code-env-status,
-  .ipad-card {
+  .site-wordmark,
+  .dl-pill-wrap,
+  .dl-pill,
+  .dl-pill-arrow svg,
+  .ipad-card,
+  .wavy-deco,
+  .wavy-deco path {
     animation: none;
   }
-  .code-rain { opacity: 0; }
-  .code-env { opacity: 0; }
-  .ipad-card { opacity: 1; transform: none; }
-  .glass-frame,
-  .dl-card {
+  .ipad-card { opacity: 0; transform: none; }
+  .ipad-display::before { animation: none; opacity: 0; }
+  .glass-frame::before {
     opacity: 1;
     transform: none;
   }
-  .dl-progress-fill {
-    width: 100%;
-    background-color: #34d399;
-    box-shadow: 0 0 12px rgba(52, 211, 153, 0.75);
+  .browser-mock {
+    opacity: 1;
+    transform: none;
   }
-  .dl-arrow-icon--download { opacity: 0; }
-  .dl-arrow-icon--check { opacity: 1; transform: scale(1); }
-  .dl-check-path { stroke-dashoffset: 0; }
   .ebook-track {
     transform: translateX(calc(-1 * var(--strip-step) / 2));
+  }
+  .site-wordmark {
+    opacity: 1;
+  }
+  .dl-pill {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .wavy-deco {
+    opacity: 1;
+    transform: none;
+  }
+  .wavy-deco path {
+    stroke-dashoffset: 0;
   }
 }
