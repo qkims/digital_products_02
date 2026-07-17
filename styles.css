@@ -770,14 +770,27 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   position: relative;
   transform-origin: 50% 50%;
   box-shadow: 0 6px 22px rgba(0,0,0,0.18);
-  /* Press-then-bounce that FLASHES the button with brand green as it rebounds,
-     then fades back to the outlined resting state. R30: click pulled 180ms
-     earlier (2840 -> 2660) so the tap fires as the tail cascade closes; the
-     green peak now sits ~2922ms with the download pill emerging ~2900ms so
-     the pill still visibly pops OUT of a primed button. Then the button
-     releases the green as the pill takes over. No `forwards` -- animation
-     ends at the resting state naturally. */
-  animation: cta-click 820ms cubic-bezier(0.33, 1, 0.68, 1) 2660ms;
+  /* R31: distinct slide-up + fade-in entrance so the button "loads in" as its
+     own beat -- starts 1600ms (after the wordmark fade begins at 1440ms) and
+     settles at 2100ms, exactly when the cursor begins its approach. The
+     translate here composes with the parent .site-footer's own pop-up (Y20)
+     for a compounded arrival while opacity is 0, so only the CTA's own
+     translate is visible. Two animations on transform: slide-in listed FIRST,
+     click LAST -- so during 2660-3480ms cta-click's scale transform overrides
+     the persisted translateY(0) from slide-in. cta-click keeps its 2660ms
+     start: press-then-bounce that FLASHES the button with brand green as it
+     rebounds, then fades back to rest; the green peak now sits ~2922ms with
+     the download pill emerging ~2900ms so the pill still visibly pops OUT
+     of a primed button. */
+  opacity: 0;
+  transform: translateY(24px);
+  animation:
+    cta-slide-in 500ms cubic-bezier(0.22, 1, 0.36, 1) 1600ms both,
+    cta-click 820ms cubic-bezier(0.33, 1, 0.68, 1) 2660ms;
+}
+@keyframes cta-slide-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 /* Text sits above the ripple pseudo so the "Shop templates" label stays fully
    readable while the tap wash blooms behind it. */
