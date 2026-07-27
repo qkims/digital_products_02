@@ -644,10 +644,13 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   to { opacity: 1; }
 }
 
-/* Dock-target cards — present in place under the landing screens. */
-.ebook-card:nth-child(1)  { --card-delay: 2164ms; --card-fade-dur: 40ms; }  /* E-BOOK ← cover screen */
-.ebook-card:nth-child(2)  { --card-delay: 2020ms; --card-fade-dur: 40ms; }  /* Tips   ← tips screen  */
-.ebook-card:nth-child(3)  { --card-delay: 1876ms; --card-fade-dur: 40ms; }  /* "&"    ← quote screen */
+/* Dock-target cards — present in place under the landing screens.
+   R30 SIT-SOONER: delays follow the -200ms LOCK pull so each strip card is
+   opaque exactly as its floater begins to dissolve (invisible-handoff invariant:
+   strip fade delay == floater LOCK). Cover 2164→1964, tips 2020→1820, quote 1876→1676. */
+.ebook-card:nth-child(1)  { --card-delay: 1964ms; --card-fade-dur: 40ms; }  /* E-BOOK ← cover screen */
+.ebook-card:nth-child(2)  { --card-delay: 1820ms; --card-fade-dur: 40ms; }  /* Tips   ← tips screen  */
+.ebook-card:nth-child(3)  { --card-delay: 1676ms; --card-fade-dur: 40ms; }  /* "&"    ← quote screen */
 /* R24 UNIFIED-BEAT + R27 LAND-SOONER: whole tail cascade shifted -200ms in
    lockstep with iPad LOCKs. Card 4 still starts EXACTLY at quote-LOCK
    (1876ms), nth(10) still at tips-LOCK (2020ms), nth(14) still 48ms before
@@ -1941,8 +1944,11 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      Cover: delay 1180 + 0.82 * 1200 = 1180 + 984 = 2164ms ✓
      R29 SMOOTHER-DOCK: dock 1200→1300ms (+100ms). Delay shifted -82ms so LOCK
      stays pinned at 2164ms (tail cascade nth-1 anchor unchanged).
-     Cover: delay 1098 + 0.82 * 1300 = 1098 + 1066 = 2164ms ✓ */
-  animation-delay: 320ms, 1098ms;
+     Cover: delay 1098 + 0.82 * 1300 = 1098 + 1066 = 2164ms ✓
+     R30 SIT-SOONER: LOCK pulled -200ms (2164→1964ms) so the screen settles a
+     tad faster. Descent duration/curve UNCHANGED (same eased landing), only the
+     delay drops: 1098→898. Cover: 898 + 0.82 * 1300 = 898 + 1066 = 1964ms ✓ */
+  animation-delay: 320ms, 898ms;
   animation-duration: 1080ms, 1300ms;
 }
 /* Tips (card-4 art) — CENTRE of the cluster, back, smallest, highest. Near head-on. */
@@ -1977,8 +1983,10 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      LOCK math: 839 + 0.82 * 1440 = 839 + 1180.8 ≈ 2020ms ✓
      R29 SMOOTHER-DOCK: dock 1440→1540ms (+100ms). Delay 839→757 so LOCK stays
      pinned at 2020ms (tail cascade nth-10 anchor unchanged).
-     Tips: delay 757 + 0.82 * 1540 = 757 + 1262.8 ≈ 2020ms ✓ */
-  animation-delay: 160ms, 757ms;
+     Tips: delay 757 + 0.82 * 1540 = 757 + 1262.8 ≈ 2020ms ✓
+     R30 SIT-SOONER: LOCK pulled -200ms (2020→1820ms). Descent duration/curve
+     UNCHANGED, delay drops 757→557. Tips: 557 + 0.82 * 1540 ≈ 1820ms ✓ */
+  animation-delay: 160ms, 557ms;
   animation-duration: 1080ms, 1540ms;
 }
 /* Quote (card-5 art) — RIGHT of the cluster, lower. Faces inward (turned left). */
@@ -2015,8 +2023,10 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      Quote: delay 892 + 0.82 * 1200 = 892 + 984 = 1876ms ✓
      R29 SMOOTHER-DOCK: dock 1200→1300ms (+100ms). Delay 892→810 so LOCK
      stays pinned at 1876ms (tail cascade nth-4 anchor unchanged).
-     Quote: delay 810 + 0.82 * 1300 = 810 + 1066 = 1876ms ✓ */
-  animation-delay: 240ms, 810ms;
+     Quote: delay 810 + 0.82 * 1300 = 810 + 1066 = 1876ms ✓
+     R30 SIT-SOONER: LOCK pulled -200ms (1876→1676ms). Descent duration/curve
+     UNCHANGED, delay drops 810→610. Quote: 610 + 0.82 * 1300 = 1676ms ✓ */
+  animation-delay: 240ms, 610ms;
   animation-duration: 1080ms, 1300ms;
 }
 
