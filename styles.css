@@ -605,8 +605,27 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      R29 TAIL-SMOOTHER: duration 600→680ms + shorter travel (see transform above)
      + subtly gentler ease (0.36→0.42 on the second control point). nth-14 now
      ends at 2116 + 680 = 2796ms — still lands before the cursor click at 2840ms
-     with a 44ms buffer. */
-  animation: ebook-card-in 640ms cubic-bezier(0.22, 1, 0.36, 1) var(--card-delay, 2800ms) forwards;
+     with a 44ms buffer.
+
+     R33 NATURAL TAIL SLIDE: curve cubic-bezier(0.22, 1, 0.36, 1) →
+     cubic-bezier(0.32, 0.4, 0.3, 1) — the same fix, and the same reason, as the
+     iPad entrance in @keyframes ipad-fly.
+
+     Why it mattered most for nth-child(4): the strip viewport measures 574px, so
+     cards 1-3 fill it and card 4 is only ~14px visible at the right edge (and that
+     sliver sits inside the 48px edge-fade). Since the card travels 220px, it does
+     not enter the viewport at all until the final ~6% of its travel — so the ONLY
+     part of this animation anyone sees is its tail. The old expo-out reaches ~94%
+     of travel in under half its duration, which stretched that last 6% across
+     ~350ms: a thin sliver smearing slowly into the faded edge. The new curve spreads
+     travel evenly (measured 33/77/95% at the time quarters), so the sliver sweeps in
+     over ~160ms and reads as a settle instead of a smear.
+
+     Applies to nth-child(4..16); nth(1..3) are overridden by the 40ms
+     .ebook-card-fade-in rule below. Cards 5+ animate while fully off-viewport, so
+     the curve is only ever visible on card 4. Delays and duration unchanged, so the
+     row still closes at 2384ms, well before the marquee scroll at 2800ms. */
+  animation: ebook-card-in 640ms cubic-bezier(0.32, 0.4, 0.3, 1) var(--card-delay, 2800ms) forwards;
 }
 .ebook-card-img {
   display: block;
@@ -1883,13 +1902,26 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   --enter-rot: 5deg;
   transform: perspective(1200px) translate(var(--enter-x), var(--enter-y)) scale(0.94)
              rotateZ(calc(var(--tiltZ) + var(--enter-rot))) rotateY(var(--tiltY)) rotateX(var(--tiltX));
-  /* The screen slides in, then holds PERFECTLY STILL at its rest pose until the
-     dock takes over -- the earlier ambient float bob read as a small jitter just
-     before the screen settled, so it was removed. slide-in lands on the exact
-     rest pose and holds it (`forwards`); the dock's 0% pose is identical, so the
-     hand-off straight into the descent stays seamless -- no snap, no wobble. */
-  animation: ipad-slide-in 1080ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-             ipad-dock 1150ms cubic-bezier(0.16, 1, 0.3, 1) 2050ms forwards;
+  /* R31 MERGE — ONE animation for the whole flight (entrance → float hold →
+     descent → lock → dissolve).
+
+     Why: this used to be TWO animations (`ipad-slide-in` + `ipad-dock`) whose
+     windows OVERLAPPED, and both animate `transform`. The later one in the list
+     wins, so the moment the dock's delay elapsed it seized transform mid-flight
+     and SNAPPED the card back to its rest pose. Measured (getComputedStyle matrix,
+     20ms samples): tips 36.6px @600ms, quote 30.6px @680ms, cover 12.9px @960ms —
+     each a single-frame yank. The old comment claimed the hand-off was seamless
+     because "the dock's 0% pose is identical" to the slide-in's endpoint; true only
+     if the slide-in has FINISHED, which it hadn't.
+
+     A single animation cannot overlap itself, so the snap is structurally gone —
+     and every transform stop now carries its own timing function that actually
+     applies (see the dead-TF note in @keyframes ipad-fly).
+
+     Shared 2000ms envelope; per-variant `animation-delay` staggers the cluster and
+     pins each LOCK. LOCK sits at 79% → 1580ms in, so delay = LOCK - 1580ms.
+     (R32 grew the envelope 1900→2000ms to lengthen the entrance; see below.) */
+  animation: ipad-fly 2000ms linear var(--fly-delay, 0ms) forwards;
 }
 /* All three are positioned in FIXED px inside the glass-frame content box (same
    space as the strip cards), so the dock deltas below are viewport-independent.
@@ -1916,11 +1948,16 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      card exactly), top-aligned at 50px, with left edges spaced 150px apart.
      dock-x pulls the cluster outward to the strip's 182px pitch, and dock-scale
      stays 1.0 since rest width already equals card width. */
-  --dock-x: -31px;
+  /* R31 ALIGN-FIX: measured getBoundingClientRect at LOCK showed the floater
+     settling exactly +2.00px right / +2.01px below its target strip card (sizes
+     identical, dW/dH = 0). That 2px diagonal offset was the visible "jump" as the
+     floater cross-faded onto the card. Both axes corrected by -2 on all three
+     variants: dock-x -31 → -33, dock-y 45.01 → 43.00. */
+  --dock-x: -33px;
   /* R28 CHROME-OFF: strip moved UP 40px (chrome bar removed), so dock target
      Y_center is now 229.01 (was 269.01). rest_Y_center = 50 + 134 = 184 →
-     dock-y = 45.01. */
-  --dock-y: 45.01px;
+     dock-y = 45.01. R31: -2.01 alignment correction → 43.00. */
+  --dock-y: 43px;
   /* Dip target = dock-y nudged ~11px further DOWN — a small momentum overshoot
      the snappy recoil pulls back up and locks. */
   --dock-y-os: 56.01px;
@@ -1947,9 +1984,13 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      Cover: delay 1098 + 0.82 * 1300 = 1098 + 1066 = 2164ms ✓
      R30 SIT-SOONER: LOCK pulled -200ms (2164→1964ms) so the screen settles a
      tad faster. Descent duration/curve UNCHANGED (same eased landing), only the
-     delay drops: 1098→898. Cover: 898 + 0.82 * 1300 = 898 + 1066 = 1964ms ✓ */
-  animation-delay: 320ms, 898ms;
-  animation-duration: 1080ms, 1300ms;
+     delay drops: 1098→898. Cover: 898 + 0.82 * 1300 = 898 + 1066 = 1964ms ✓
+     R31 MERGE: single `ipad-fly` animation, so one delay instead of a pair.
+     LOCK stays pinned at 1964ms: delay = 1964 - 0.81 * 1900 = 1964 - 1539 = 425ms.
+     R32 SLOWER-FLY-IN: LOCK still pinned at 1964ms on the 2000ms envelope:
+     delay = 1964 - 0.79 * 2000 = 1964 - 1580 = 384ms.
+     Entrance runs 384→1234ms, floats 1234→1334ms, descends 1334→1964ms. */
+  --fly-delay: 384ms;
 }
 /* Tips (card-4 art) — CENTRE of the cluster, back, smallest, highest. Near head-on. */
 .ipad-card--tips {
@@ -1965,10 +2006,11 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   /* Docks onto the MIDDLE strip card (card-4). Measured in glass-frame px space.
      Unified 172×268 footprint, top: 50px, same as siblings. rest_X_center = 300,
      strip slot 2 center = 301, so dock-x = 1. */
-  --dock-x: 1px;
+  /* R31 ALIGN-FIX: -2px both axes (see .ipad-card--cover). 1 → -1. */
+  --dock-x: -1px;
   /* R28 CHROME-OFF: strip moved UP 40px, so dock target Y_center = 229.01 →
-     dock-y = 45.01 (was 85.01). */
-  --dock-y: 45.01px;
+     dock-y = 45.01 (was 85.01). R31: -2.01 alignment correction → 43.00. */
+  --dock-y: 43px;
   /* Dip target = dock-y nudged ~11px further DOWN before the snappy recoil. */
   --dock-y-os: 56.01px;
   --dock-scale: 1.0;
@@ -1985,9 +2027,14 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      pinned at 2020ms (tail cascade nth-10 anchor unchanged).
      Tips: delay 757 + 0.82 * 1540 = 757 + 1262.8 ≈ 2020ms ✓
      R30 SIT-SOONER: LOCK pulled -200ms (2020→1820ms). Descent duration/curve
-     UNCHANGED, delay drops 757→557. Tips: 557 + 0.82 * 1540 ≈ 1820ms ✓ */
-  animation-delay: 160ms, 557ms;
-  animation-duration: 1080ms, 1540ms;
+     UNCHANGED, delay drops 757→557. Tips: 557 + 0.82 * 1540 ≈ 1820ms ✓
+     R31 MERGE: single `ipad-fly`. LOCK pinned at 1820ms:
+     delay = 1820 - 0.81 * 1900 = 1820 - 1539 = 281ms. Tips no longer glides 20%
+     longer than its siblings (all three share the envelope) — restore that by
+     giving this variant its own animation-duration D plus delay = 1820 - 0.79*D.
+     R32 SLOWER-FLY-IN: delay = 1820 - 0.79 * 2000 = 1820 - 1580 = 240ms.
+     Entrance runs 240→1090ms, floats 1090→1190ms, descends 1190→1820ms. */
+  --fly-delay: 240ms;
 }
 /* Quote (card-5 art) — RIGHT of the cluster, lower. Faces inward (turned left). */
 .ipad-card--quote {
@@ -2005,10 +2052,11 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      strip slot 3 center = 483, so dock-x = 33. Now that this screen sits at the
      same top as its siblings, it descends INTO its slot (matching the others)
      instead of rising up — dock-y is positive and os-dir flips to +1. */
-  --dock-x: 33px;
+  /* R31 ALIGN-FIX: -2px both axes (see .ipad-card--cover). 33 → 31. */
+  --dock-x: 31px;
   /* R28 CHROME-OFF: strip moved UP 40px, so dock target Y_center = 229.01 →
-     dock-y = 45.01 (was 85.01). */
-  --dock-y: 45.01px;
+     dock-y = 45.01 (was 85.01). R31: -2.01 alignment correction → 43.00. */
+  --dock-y: 43px;
   /* Dip target = dock-y nudged ~11px further DOWN (its travel direction is now DOWN
      with the unified top: 50px, matching the siblings). */
   --dock-y-os: 56.01px;
@@ -2025,9 +2073,16 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      stays pinned at 1876ms (tail cascade nth-4 anchor unchanged).
      Quote: delay 810 + 0.82 * 1300 = 810 + 1066 = 1876ms ✓
      R30 SIT-SOONER: LOCK pulled -200ms (1876→1676ms). Descent duration/curve
-     UNCHANGED, delay drops 810→610. Quote: 610 + 0.82 * 1300 = 1676ms ✓ */
-  animation-delay: 240ms, 610ms;
-  animation-duration: 1080ms, 1300ms;
+     UNCHANGED, delay drops 810→610. Quote: 610 + 0.82 * 1300 = 1676ms ✓
+     R31 MERGE: single `ipad-fly`. LOCK pinned at 1676ms:
+     delay = 1676 - 0.81 * 1900 = 1676 - 1539 = 137ms. Leads the cluster in and
+     lands first, matching the right→middle→left dock order.
+     R32 SLOWER-FLY-IN: delay = 1676 - 0.79 * 2000 = 1676 - 1580 = 96ms. Quote is
+     the BINDING CONSTRAINT on how slow the entrance can get — it locks first, so
+     its whole flight must fit in 1676ms. At 96ms of head start there is only ~96ms
+     of slack left; a longer entrance from here has to come out of the hold or the
+     descent, or LOCK has to move later. */
+  --fly-delay: 96ms;
 }
 
 /* Inner image inside each floating iPad wrapper — mirrors the strip's
@@ -2045,58 +2100,83 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   transform-origin: center center;
 }
 
-@keyframes ipad-slide-in {
+/* ============================================================================
+   R31 — ONE CONTINUOUS FLIGHT: entrance → float hold → descent → lock → dissolve
+
+   Replaces `ipad-slide-in` + `ipad-float` + `ipad-dock`. The first two of those
+   overlapped in time while both animated `transform`, which produced a
+   single-frame snap back to the rest pose (measured: tips 36.6px, quote 30.6px,
+   cover 12.9px). `ipad-float` was already dead code. One animation can't overlap
+   itself, so that whole failure mode is gone.
+
+   ⚠️  THE DEAD-TF TRAP (this cost the previous passes their tuning):
+   a keyframe's `animation-timing-function` only governs the properties THAT
+   KEYFRAME ACTUALLY SETS. The old 30% stop set only border-radius/box-shadow, so
+   its carefully-reshaped descent curve never touched `transform` at all —
+   transform silently ran 0%→82% on the *0%* keyframe's ease-in-out
+   cubic-bezier(0.42, 0, 0.45, 1), which arrives at ZERO velocity. That is why the
+   landing read as static. Rule: the curve for a stretch of motion must live on the
+   keyframe that sets `transform` at the START of that stretch. Here the descent
+   curve lives on 47%, which does set transform. The 62% stop is bezel-only, so its
+   TF is deliberately inert — keep it that way, and never move the descent curve
+   there.
+
+   Wall-clock map at the shared 2000ms duration (delay pins each LOCK):
+     0%     entrance pose, transparent
+     6%     opaque (120ms)
+     42.5%  arrived at the tilted float pose (850ms)
+     47.5%  float hold ends (950ms) — 100ms of stillness so the cluster reads
+     62%    bezel fully shed (1240ms) — bezel-only stop, transform glides through
+     79%    LOCK: flat, exact slot, pixel-identical to the card beneath (1580ms)
+     81.5%  dwell on the landed pose (1630ms) — the arrival registers
+     93%    dissolved onto the strip card (1860ms)
+   Descent is 47.5%→79% = 630ms (was ~1066ms pre-R31), so peak speed roughly doubles.
+
+   R32 SLOWER FLY-IN: the entrance grew 741→850ms (envelope 1900→2000ms, hold
+   trimmed 152→100ms) and — the bigger lever — its curve was un-front-loaded. The
+   old expo-out cubic-bezier(0.22, 1, 0.36, 1) has a START SLOPE of 4.55x its own
+   average speed, so it hurled the card most of the way in the first ~250ms and then
+   crept; lengthening that curve mostly lengthens the creep, which is why it read as
+   abrupt rather than slow. The replacement spreads travel far more evenly (see the
+   0% stop). Descent and LOCK times are untouched. */
+@keyframes ipad-fly {
   0% {
+    /* Off-screen above, scaled down, wearing the extra entrance lean. */
     opacity: 0;
+    border-radius: 18px;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
+      0 0 0 3px #14151a,
+      0 0 0 4px #5e626e,
+      0 18px 34px rgba(0, 0, 0, 0.32);
     transform: perspective(1200px) translate(var(--enter-x, 0px), var(--enter-y, -120%)) scale(0.94)
                rotateZ(calc(var(--tiltZ, 0deg) + var(--enter-rot, 5deg))) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
+    /* Governs transform 0→42.5% (the entrance) and opacity 0→6% (the fade-up).
+
+       R32: cubic-bezier(0.32, 0.4, 0.3, 1), replacing the expo-out
+       cubic-bezier(0.22, 1, 0.36, 1).
+         · start slope 0.4/0.32 = 1.25 vs the old 1/0.22 = 4.55 — a 3.6x gentler
+           launch. The card enters already moving, but no longer bursts: the old
+           curve put ~90% of the travel in the first third of the entrance, so the
+           motion was over before the eye could follow it.
+         · end slope (1-1)/(1-0.3) = 0 — still decelerates to rest, arriving at the
+           float pose with no jerk into the hold.
+         · travel is spread across the whole 850ms instead of front-loaded, which is
+           what actually makes it read as a slow, eased glide.
+       To slow it further, prefer growing the envelope (and re-deriving each
+       --fly-delay) over flattening this curve any more — start slope below ~1.0
+       starts to look like the card hesitates before committing. */
+    animation-timing-function: cubic-bezier(0.32, 0.4, 0.3, 1);
   }
-  60% {
+  6% {
+    /* Opacity only — deliberately sets NO transform so the entrance keeps
+       interpolating 0%→39% as one unbroken eased path. */
     opacity: 1;
   }
-  100% {
-    /* Decelerate straight into the resting 3D float pose — no overshoot. */
-    opacity: 1;
-    transform: perspective(1200px) translate(0, 0) scale(1)
-               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
-  }
-}
-
-@keyframes ipad-float {
-  0%, 100% {
-    transform: perspective(1200px) translate(0, 0) scale(1)
-               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
-  }
-  50% {
-    transform: perspective(1200px) translate(var(--float-x, 0px), var(--float-y, -10px)) scale(1)
-               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
-  }
-}
-
-/* DOCK: rotate the floating screen flat (all three tilts → 0), travel into the
-   strip row, and scale so its width == card width — staying fully opaque until it
-   has LOCKED (0→82% under R24 UNIFIED-BEAT; was 0→88%) so you watch it land — then
-   fade out in place over the remaining 18% (a longer 270ms breathing room, was ~162ms)
-   onto the pixel-identical card already present beneath it. Because the two images
-   are the same, the cross-fade is invisible: the screen simply becomes the strip card.
-
-   The iPad bezel is shed EARLY (0→30%) -- it reads as a device just long enough to
-   sell the "screen flying in" beat, then becomes a bare flat card for the rest of
-   the (slow) glide, so no heavy dark-bezeled device lingers over the lit store. The
-   30% stop intentionally mentions ONLY the bezel props (radius + box-shadow), so
-   transform/opacity keep interpolating smoothly across the 0%/82%/85%/100% stops
-   while the bezel dissolves. Shadow lists keep the same 4-entry shape at every stop
-   so each ring interpolates cleanly to 0. */
-@keyframes ipad-dock {
-  0% {
-    /* Float rest pose, bezel on. From here the screen makes ONE smooth, monotonic
-       glide down into its slot -- no wind-up, no overshoot, no rebound. A single
-       decelerating ease (gentle lift-off, soft landing) carries transform all the
-       way from this rest pose to the exact lock pose at 82% (R24 UNIFIED-BEAT). */
+  42.5% {
+    /* Arrived: the tilted 3D float pose, bezel still on — reads as a device. */
     opacity: 1;
     border-radius: 18px;
-    /* R28b: matches the thinned .ipad-card rest bezel (3px+1px) so t=2050ms
-       doesn't snap from 4px total edge back to 9px. */
     box-shadow:
       inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
       0 0 0 3px #14151a,
@@ -2104,47 +2184,55 @@ section[data-component-name="digital-products-still-image-hero"]::after {
       0 18px 34px rgba(0, 0, 0, 0.32);
     transform: perspective(1200px) translate(0, 0) scale(1)
                rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
-    animation-timing-function: cubic-bezier(0.42, 0, 0.45, 1);
+    /* Hold: nothing moves 39→47%, so the curve is irrelevant. */
+    animation-timing-function: linear;
   }
-  30% {
-    /* EARLY shed: the bezel collapses to a bare 8px card and the drop shadow relaxes
-       straight to the resting flat-card shadow (0 12px 24px / 0.18) -- done by 30%
-       (~early in the long glide) so the heavy dark-bezeled "device" read clears while
-       the store is still revealing/dim, NOT lingering as a dark gradient over the
-       fully-lit store. The rest of the descent is a light flat card. NO transform is
-       set here, so position/scale/tilt interpolate straight through on the single
-       0%->82% ease (R24 UNIFIED-BEAT; was 0%->88%) -- this point only governs the bezel dissolve, path unbroken. */
+  47.5% {
+    /* Same pose — the second half of the hold. This is the keyframe that owns the
+       DESCENT CURVE, because it is the transform-bearing stop where the descent
+       begins (see the dead-TF trap above).
+
+       cubic-bezier(0.4, 0.05, 0.45, 0.85):
+         · start slope 0.05/0.4 ≈ 0.12 — eases out of the hold with no jerk
+         · end slope (1-0.85)/(1-0.45) ≈ 0.27 — still visibly moving as it seats,
+           ~4.5x the old arrival velocity, so it settles instead of crawling to a
+           halt ~200ms early
+         · control-point y values 0 → 0.05 → 0.85 → 1 are monotonic, so it CANNOT
+           overshoot: it lands exactly on the slot, which is the established
+           preference (no dip, no bounce, no rebound). */
+    opacity: 1;
+    border-radius: 18px;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
+      0 0 0 3px #14151a,
+      0 0 0 4px #5e626e,
+      0 18px 34px rgba(0, 0, 0, 0.32);
+    transform: perspective(1200px) translate(0, 0) scale(1)
+               rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
+    animation-timing-function: cubic-bezier(0.4, 0.05, 0.45, 0.85);
+  }
+  62% {
+    /* Bezel sheds to a bare 8px card and the drop shadow relaxes to the strip
+       card's resting shadow — done early in the descent so no heavy dark-bezeled
+       device lingers over the lit store. BEZEL-ONLY BY DESIGN: no transform here,
+       so position/scale/tilt glide straight through on the 47%→81% curve. Shadow
+       lists keep the same 4-entry shape at every stop so each ring interpolates
+       cleanly to zero. */
     border-radius: 8px;
     box-shadow:
       inset 0 0 0 0 rgba(0, 0, 0, 0),
       0 0 0 0 rgba(20, 21, 26, 0),
       0 0 0 0 rgba(94, 98, 110, 0),
       0 12px 24px rgba(0, 0, 0, 0.18);
-    /* R24 UNIFIED-BEAT: descent TF reshaped from (0.22, 1, 0.36, 1) to (0.22, 1, 0.42, 1).
-       Diagnosis: expo-out variants back-loaded so hard that endpoint velocity approached
-       zero ~200ms before LOCK -- the eye read "motion then LOCK" not "motion settling
-       into LOCK". Pushing the second control point from x=0.36 out to x=0.42 lifts
-       endpoint velocity to ~0.5x segment-average and shifts ~14% more of the spatial
-       distance into the last quarter of the segment. Combined with moving LOCK from
-       88% to 82% inside the 1500ms envelope, the last ~230ms of transit now carries
-       visible motion all the way through the last frame.
-       R29 SMOOTHER-DOCK: with the +100ms extension per variant giving the descent
-       more room, x2 relaxes 0.42→0.48 for a subtler tail — endpoint velocity still
-       reads as "settling" (not stopping) but the last 30% eases in with less
-       remaining acceleration, so the landing looks like a soft touchdown rather
-       than a firm click. */
-    animation-timing-function: cubic-bezier(0.22, 1, 0.48, 1);
+    animation-timing-function: linear;
   }
-  82% {
-    /* R24 UNIFIED-BEAT LOCK moved 88%->82% inside the 1500ms dock so transform interp
-       is 1230ms and 270ms remains for dwell+fade (was 162ms; +108ms MORE cross-fade
-       breathing room). Wall-clock LOCK stays pinned via per-floater delay compensation
-       so quote/tips/cover still lock at 2076/2220/2364ms exactly.
-       Pixel-identical to the strip card fading in beneath. Shadow matches the strip's
-       resting shadow (0 12px 24px / 0.18) and HOLDS through the fade so grounding
-       stays continuous -- no dip-to-zero, no doubling. With the reshaped 30% TF
-       (endpoint velocity ~0.5x avg vs old ~0.05x), the iPad arrives with meaningful
-       residual velocity -- settles into place, doesn't stop-and-hold. */
+  79% {
+    /* LOCK — flat (all tilts 0), exact measured slot offset, card width. R31 also
+       corrected --dock-x/--dock-y by -2px on both axes; before that the floater
+       settled 2.00px right / 2.01px below the card beneath, and the cross-fade
+       shifted the image by that much. Now pixel-identical, so the dissolve is
+       genuinely invisible. Shadow matches the strip's and HOLDS through the fade,
+       so grounding stays continuous — no dip to zero, no doubling. */
     opacity: 1;
     border-radius: 8px;
     box-shadow:
@@ -2152,41 +2240,29 @@ section[data-component-name="digital-products-still-image-hero"]::after {
       0 0 0 0 rgba(20, 21, 26, 0),
       0 0 0 0 rgba(94, 98, 110, 0),
       0 12px 24px rgba(0, 0, 0, 0.18);
-    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
+    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 1))
                rotateZ(0deg) rotateY(0deg) rotateX(0deg);
-    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+    animation-timing-function: linear;
   }
-  85% {
-    /* R24 UNIFIED-BEAT SIT moved 91%->85% inside the 1500ms dock. Fully-opaque
-       dwell of 3% x 1500ms = 45ms on the locked pose, then a 15% x 1500ms = 225ms
-       fade to 100% (was 121.5ms -- nearly doubled). The strip nth(1..3) card fades
-       in at LOCK with a 40ms opacity ramp; the extended 225ms floater fade now
-       overlaps the strip's fade WHILE the strip is already fully opaque -- a
-       longer, gentler dissolve with no half-lit flicker window. The arrival
-       LINGERS on the locked pose for 45ms before the dissolve begins -- the
-       'landed' moment registers before the cross-fade takes over. */
+  81.5% {
+    /* Dwell on the landed pose — the arrival registers before the dissolve. */
     opacity: 1;
-    border-radius: 8px;
-    box-shadow:
-      inset 0 0 0 0 rgba(0, 0, 0, 0),
-      0 0 0 0 rgba(20, 21, 26, 0),
-      0 0 0 0 rgba(94, 98, 110, 0),
-      0 12px 24px rgba(0, 0, 0, 0.18);
-    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
-               rotateZ(0deg) rotateY(0deg) rotateX(0deg);
-    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    animation-timing-function: linear;
+  }
+  93% {
+    /* Dissolved onto the pixel-identical strip card beneath. */
+    opacity: 0;
   }
   100% {
     opacity: 0;
     border-radius: 8px;
-    /* Shadow held at the strip card's 0.18 so it fades out purely WITH opacity as the
-       screen dissolves -- the identical strip card beneath keeps the slot grounded. */
     box-shadow:
       inset 0 0 0 0 rgba(0, 0, 0, 0),
       0 0 0 0 rgba(20, 21, 26, 0),
       0 0 0 0 rgba(94, 98, 110, 0),
       0 12px 24px rgba(0, 0, 0, 0.18);
-    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 0.6))
+    /* Restated so `forwards` fill parks on the LOCK pose unambiguously. */
+    transform: perspective(1200px) translate(var(--dock-x, 0px), var(--dock-y, 0px)) scale(var(--dock-scale, 1))
                rotateZ(0deg) rotateY(0deg) rotateX(0deg);
   }
 }
