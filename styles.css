@@ -727,7 +727,9 @@ section[data-component-name="digital-products-still-image-hero"]::after {
 /* Byte Drop wordmark sits *behind* the cards, big and dark, per Figma 758:21401. */
 .site-wordmark-behind { display: none; }
 
-/* Shop templates CTA — filled translucent pill, bottom-centered. */
+/* Shop templates CTA — outlined pill, bottom-centered. Deliberately kept BELOW
+   the hero's "Start for free" button in the visual hierarchy (see R37 on
+   .site-cta): it is storefront set dressing, not a competing call to action. */
 .site-footer {
   display: flex;
   flex-direction: column;
@@ -783,9 +785,22 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   padding: 14px 30px;
   border-radius: 14px;
   background: transparent;
-  color: #fff;
-  border: 1.25px solid rgba(255, 255, 255, 0.24);
-  font: 600 15px/1 "Inter", -apple-system, system-ui, sans-serif;
+  /* R37 SUBDUED REST STATE — this is the in-mock storefront's CTA, and the frame
+     everyone actually stares at is the one AFTER the animation settles. At full
+     #fff / 600 weight it was reading as a second call-to-action competing with the
+     hero's real "Start for free" button. It only needs to be legible set dressing,
+     so it now rests one clear step down the hierarchy:
+       color  #fff        → rgba(255,255,255,0.62)
+       weight 600         → 500
+       border 0.24 white  → 0.15 white
+       shadow 6/22 @0.18  → 4/16 @0.14  (less lift off the mock)
+     The TAP BEAT IS UNTOUCHED: cta-click still brightens the label to full white
+     and flashes the sage fill at ~2922ms, because that moment is the narrative
+     (it's what makes the download pill pop out of a primed button). The button is
+     quiet, gets loud for the click, then returns to quiet. */
+  color: rgba(255, 255, 255, 0.62);
+  border: 1.25px solid rgba(255, 255, 255, 0.15);
+  font: 500 15px/1 "Inter", -apple-system, system-ui, sans-serif;
   letter-spacing: 0;
   text-transform: none;
   text-decoration: none;
@@ -793,7 +808,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   pointer-events: none;
   position: relative;
   transform-origin: 50% 50%;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
   /* R31: distinct slide-up + fade-in entrance so the button "loads in" as its
      own beat -- starts 1600ms (after the wordmark fade begins at 1440ms) and
      settles at 2100ms, exactly when the cursor begins its approach. The
@@ -918,13 +933,21 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      palette rather than a Slack-notification success chip. Peak alpha lowered
      to 0.7 (lets the pill's white base warm through), glow alphas roughly halved
      because desaturated greens muddy at high glow alpha. */
-  0%   { transform: scale(1);    background: rgba(124, 182, 154, 0);    border-color: rgba(255,255,255,0.24); box-shadow: 0 6px 22px rgba(0,0,0,0.18); }
-  10%  { transform: scale(0.94); background: rgba(124, 182, 154, 0.05); border-color: rgba(255,255,255,0.7);  box-shadow: 0 3px 12px rgba(0,0,0,0.24); }
-  22%  { transform: scale(1.02); background: rgba(124, 182, 154, 0.55); border-color: rgba(168, 206, 186, 0.9); box-shadow: 0 10px 30px rgba(124, 182, 154, 0.16), 0 6px 18px rgba(0,0,0,0.16); }
-  32%  { transform: scale(1.04); background: rgba(124, 182, 154, 0.7);  border-color: rgba(168, 206, 186, 1);    box-shadow: 0 12px 34px rgba(124, 182, 154, 0.22), 0 6px 18px rgba(0,0,0,0.14); }
-  55%  { transform: scale(1);    background: rgba(124, 182, 154, 0.65); border-color: rgba(168, 206, 186, 1);    box-shadow: 0 10px 30px rgba(124, 182, 154, 0.18), 0 6px 20px rgba(0,0,0,0.16); }
-  78%  { transform: scale(1);    background: rgba(124, 182, 154, 0.28); border-color: rgba(200, 220, 208, 0.9); box-shadow: 0 8px 26px rgba(124, 182, 154, 0.10), 0 6px 22px rgba(0,0,0,0.17); }
-  100% { transform: scale(1);    background: rgba(124, 182, 154, 0);    border-color: rgba(255,255,255,0.24); box-shadow: 0 6px 22px rgba(0,0,0,0.18); }
+     R37: cta-click has NO fill-mode, so its 0% and 100% stops are the ONLY thing
+     standing between the base rule and a visible pop at 2660ms (animation start)
+     and 3480ms (revert to base). They must restate the subdued base EXACTLY —
+     border 0.15 white, shadow 0 4px 16px @0.14, label 0.62 white. If the resting
+     look is ever retuned again, retune these two stops in the same pass.
+     R37 also adds a `color` track: the label rides up to full white for the press
+     (it has to — it sits on a 0.7-alpha sage fill at the peak) and eases back down
+     to the subdued rest value, so the copy is quiet before and after the tap. */
+  0%   { transform: scale(1);    background: rgba(124, 182, 154, 0);    border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.62); box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
+  10%  { transform: scale(0.94); background: rgba(124, 182, 154, 0.05); border-color: rgba(255,255,255,0.7);  color: rgba(255,255,255,0.95); box-shadow: 0 3px 12px rgba(0,0,0,0.24); }
+  22%  { transform: scale(1.02); background: rgba(124, 182, 154, 0.55); border-color: rgba(168, 206, 186, 0.9); color: #fff; box-shadow: 0 10px 30px rgba(124, 182, 154, 0.16), 0 6px 18px rgba(0,0,0,0.16); }
+  32%  { transform: scale(1.04); background: rgba(124, 182, 154, 0.7);  border-color: rgba(168, 206, 186, 1);    color: #fff; box-shadow: 0 12px 34px rgba(124, 182, 154, 0.22), 0 6px 18px rgba(0,0,0,0.14); }
+  55%  { transform: scale(1);    background: rgba(124, 182, 154, 0.65); border-color: rgba(168, 206, 186, 1);    color: #fff; box-shadow: 0 10px 30px rgba(124, 182, 154, 0.18), 0 6px 20px rgba(0,0,0,0.16); }
+  78%  { transform: scale(1);    background: rgba(124, 182, 154, 0.28); border-color: rgba(200, 220, 208, 0.9); color: rgba(255,255,255,0.9); box-shadow: 0 8px 26px rgba(124, 182, 154, 0.10), 0 6px 22px rgba(0,0,0,0.17); }
+  100% { transform: scale(1);    background: rgba(124, 182, 154, 0);    border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.62); box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
 }
 @keyframes cta-cursor {
   /* Starts far outside the website frame (lower-right), visible from frame 0
@@ -2117,7 +2140,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
    cubic-bezier(0.42, 0, 0.45, 1), which arrives at ZERO velocity. That is why the
    landing read as static. Rule: the curve for a stretch of motion must live on the
    keyframe that sets `transform` at the START of that stretch. Here the descent
-   curve lives on 47%, which does set transform. The 62% stop is bezel-only, so its
+   curve lives on 59%, which does set transform. The 66.5% stop is bezel-only, so its
    TF is deliberately inert — keep it that way, and never move the descent curve
    there.
 
@@ -2125,12 +2148,14 @@ section[data-component-name="digital-products-still-image-hero"]::after {
      0%     entrance pose, transparent
      6%     opaque (120ms)
      42.5%  arrived at the tilted float pose (850ms)
-     47.5%  float hold ends (950ms) — 100ms of stillness so the cluster reads
-     62%    bezel fully shed (1240ms) — bezel-only stop, transform glides through
+     59%    float hold ends (1180ms) — 330ms of stillness before the drop
+     66.5%  bezel fully shed (1330ms) — bezel-only stop, transform glides through
      79%    LOCK: flat, exact slot, pixel-identical to the card beneath (1580ms)
      81.5%  dwell on the landed pose (1630ms) — the arrival registers
      93%    dissolved onto the strip card (1860ms)
-   Descent is 47.5%→79% = 630ms (was ~1066ms pre-R31), so peak speed roughly doubles.
+   Descent is 59%→79% = 400ms (340 in R35, 460 in R34, 630 in R32, ~1066 pre-R31).
+   LOCK stays pinned at 79%, so --fly-delay and the nth-child(1..3) strip-card
+   fade delays never move when the descent is retuned — only the hold absorbs it.
 
    R32 SLOWER FLY-IN: the entrance grew 741→850ms (envelope 1900→2000ms, hold
    trimmed 152→100ms) and — the bigger lever — its curve was un-front-loaded. The
@@ -2170,7 +2195,7 @@ section[data-component-name="digital-products-still-image-hero"]::after {
   }
   6% {
     /* Opacity only — deliberately sets NO transform so the entrance keeps
-       interpolating 0%→39% as one unbroken eased path. */
+       interpolating 0%→42.5% as one unbroken eased path. */
     opacity: 1;
   }
   42.5% {
@@ -2184,22 +2209,37 @@ section[data-component-name="digital-products-still-image-hero"]::after {
       0 18px 34px rgba(0, 0, 0, 0.32);
     transform: perspective(1200px) translate(0, 0) scale(1)
                rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
-    /* Hold: nothing moves 39→47%, so the curve is irrelevant. */
+    /* Hold: nothing moves 42.5→59%, so the curve is irrelevant. */
     animation-timing-function: linear;
   }
-  47.5% {
-    /* Same pose — the second half of the hold. This is the keyframe that owns the
+  59% {
+    /* Same pose — the end of the hold. This is the keyframe that owns the
        DESCENT CURVE, because it is the transform-bearing stop where the descent
        begins (see the dead-TF trap above).
 
-       cubic-bezier(0.4, 0.05, 0.45, 0.85):
-         · start slope 0.05/0.4 ≈ 0.12 — eases out of the hold with no jerk
-         · end slope (1-0.85)/(1-0.45) ≈ 0.27 — still visibly moving as it seats,
-           ~4.5x the old arrival velocity, so it settles instead of crawling to a
-           halt ~200ms early
-         · control-point y values 0 → 0.05 → 0.85 → 1 are monotonic, so it CANNOT
-           overshoot: it lands exactly on the slot, which is the established
-           preference (no dip, no bounce, no rebound). */
+       R36 SETTLED SEAT — cubic-bezier(0.22, 0.42, 0.44, 0.88), descent 400ms.
+       Lineage: 1066ms (pre-R31, dead-TF) → 630ms (R32) → 460ms (R34) → 340ms
+       (R35, TOO snappy) → 400ms (R36). R35 overshot the brief: 340ms at start
+       slope 2.5 put a ~7.5px jump in the first 60fps frame out of the hold, which
+       read as a flick rather than a seat. R36 backs off BOTH levers a notch and
+       lands between R34 (which read well but a touch soft) and R35.
+         · start slope 0.42/0.22 = 1.91 — between R34's 1.8 and R35's 2.5. First
+           frame out of the hold is ~5px, vs 3.8 (R34) and 7.5 (R35).
+         · end slope (1-0.88)/(1-0.44) ≈ 0.214, held level with both. Because the
+           duration is still shorter than R34's, arrival is ~26-35px/s — faster
+           than R34's ~23, so nothing crawls.
+         · THE TRAP, restated because every pass here is tempted by it: do not buy
+           snap with a hard front-load and a zero-velocity ending (an expo-out,
+           e.g. 0.22/1/0.36/1). That yields a fast first third and then a long dead
+           crawl — the exact failure that made the pre-R31 landing read static and
+           the pre-R32 entrance read abrupt. Tune snap with the DURATION first;
+           the start slope has a narrow usable band, empirically ~1.8-2.0 here.
+         · control-point y values 0 → 0.42 → 0.88 → 1 are monotonic, so it still
+           CANNOT overshoot: it lands exactly on the slot, which is the standing
+           preference (no dip, no bounce, no rebound).
+       The hold is 330ms (42.5%→59%). That is not dead air: the cards arrive
+       staggered 144ms apart, so while any one card holds, a sibling is still
+       flying in. The stillness is what gives the drop its contrast. */
     opacity: 1;
     border-radius: 18px;
     box-shadow:
@@ -2209,13 +2249,17 @@ section[data-component-name="digital-products-still-image-hero"]::after {
       0 18px 34px rgba(0, 0, 0, 0.32);
     transform: perspective(1200px) translate(0, 0) scale(1)
                rotateZ(var(--tiltZ, 0deg)) rotateY(var(--tiltY, 0deg)) rotateX(var(--tiltX, 0deg));
-    animation-timing-function: cubic-bezier(0.4, 0.05, 0.45, 0.85);
+    animation-timing-function: cubic-bezier(0.22, 0.42, 0.44, 0.88);
   }
-  62% {
+  66.5% {
     /* Bezel sheds to a bare 8px card and the drop shadow relaxes to the strip
        card's resting shadow — done early in the descent so no heavy dark-bezeled
-       device lingers over the lit store. BEZEL-ONLY BY DESIGN: no transform here,
-       so position/scale/tilt glide straight through on the 47%→81% curve. Shadow
+       device lingers over the lit store. THIS STOP MUST MOVE WITH THE DESCENT: it
+       is a percentage, so retuning the descent length silently recompresses the
+       shed. Keep it at ~38% of the descent (here 150ms of 400ms). At 65% under
+       R35's 340ms descent it would have been 60ms, which reads as a pop.
+       BEZEL-ONLY BY DESIGN: no transform here,
+       so position/scale/tilt glide straight through on the 59%→79% curve. Shadow
        lists keep the same 4-entry shape at every stop so each ring interpolates
        cleanly to zero. */
     border-radius: 8px;
